@@ -47,7 +47,26 @@ The following wireframes were created to map out the user flow and ensure a cons
 
 ***
 
-## 3. Features (User Stories)
+## 3. Data Schema (Entity Relationship Diagram)
+
+### 3.1 Core Entities & Relationships
+The application is built on a relational structure designed to manage premium content access and track fitness/nutrition data over time.
+
+| Entity | Description | Key Relationships |
+| :--- | :--- | :--- |
+| **CustomUser** | Extends Django's `AbstractUser`. | 1:1 with `Subscription`, 1:N with `WorkoutLog`, `MealLog`, `UserProgress` |
+| **Subscription** | Tracks Stripe payment and status. | 1:1 with `CustomUser`, 1:N with `PlanTier` |
+| **WorkoutPlan** | A collection of exercises. | M:N with `Exercise` (via `PlanItem`) |
+| **Exercise** | Individual movement details. | M:N with `WorkoutPlan` |
+| **MealPlan** | A collection of specific meals. | 1:N with `Meal` |
+| **Meal** | Individual food items/recipes. | 1:N with `MealPlan`, 1:N with `MealLog` |
+| **UserProgress** | Metrics for interactive charts. | 1:N with `CustomUser` |
+
+![ERD Schema](docs/img/ERD-Schema.png)
+
+***
+
+## 4. Features (User Stories)
 
 ### 3.1 New User (Visitor)
 - **Story 1.1:** As a new user, I want to clearly understand the value proposition of FitTrack Pro on the homepage, so I can decide if it's the right fitness platform for me.
