@@ -1,3 +1,11 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+class CustomUser(AbstractUser):
+    """
+    Custom user model for FitTrack Pro.
+    Allows for future expansion while maintaining compatibility with Django's authentication.
+    """
+
+    def __str__(self):
+        return self.username
