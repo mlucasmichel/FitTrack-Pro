@@ -1,0 +1,42 @@
+{% extends "account_base.html" %}
+
+{% block title %}Sign Out{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper container-fluid p-0">
+    <div class="row g-0">
+        <!-- confirmation column -->
+        <div class="col-lg-5 col-xl-4 auth-form-column vh-100 d-flex align-items-center justify-content-center">
+            <div class="w-100 px-4 px-md-5">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden p-4 p-md-5 text-center">
+                    <div class="card-body">
+                        <a href="/" class="auth-brand mb-4 d-block text-decoration-none">FitTrack Pro</a>
+                        <h1 class="h3 fw-bold mb-3">Sign Out?</h1>
+                        <p class="text-muted mb-5">Are you sure you want to sign out of your premium dashboard?</p>
+                        <form method="POST" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                            {% endif %}
+                            <div class="d-grid gap-3">
+                                <button class="btn btn-primary btn-lg py-3 rounded-pill shadow" type="submit">
+                                    Yes, Sign Me Out
+                                </button>
+                                <a href="/" class="btn btn-outline-secondary btn-lg py-3 rounded-pill">
+                                    No, Take Me Back
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Brand Column -->
+        <div class="col-lg-7 col-xl-8 auth-info-column d-none d-lg-flex align-items-center">
+            <div class="max-w-xl mx-auto text-white p-5">
+                <h2 class="display-2 fw-bold mb-4">See You Soon!</h2>
+                <p class="fs-3 mb-5 opacity-75">Your progress is saved. Come back soon to continue your elite fitness journey.</p>
+            </div>
+        </div>
+    </div>
+</div>

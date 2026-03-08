@@ -58,12 +58,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <form action="{% url 'account_logout' %}" method="POST" class="nav-link p-0 m-0">
+                                <form method="POST" action="{% url 'account_logout' %}" id="logout-form" class="d-none">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-link nav-link text-white border-0 w-100 text-start">
-                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                    </button>
                                 </form>
+                                <a class="nav-link text-white" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </a>
                             </li>
                         {% else %}
                             <li class="nav-item">
