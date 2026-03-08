@@ -139,10 +139,9 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Allauth settings
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
