@@ -1,0 +1,71 @@
+{% extends "account_base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper container-fluid p-0">
+    <div class="row g-0">
+        <!-- form column -->
+        <div class="col-lg-5 col-xl-4 auth-form-column min-vh-100 d-flex align-items-center justify-content-center py-5">
+            <div class="w-100 px-2 px-md-5">
+                <!-- Signup card -->
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden p-3 p-md-5">
+                    <div class="card-body">
+                        <a href="/" class="auth-brand mb-4 d-block text-decoration-none">FitTrack Pro</a>
+                        <h1 class="h3 fw-bold mb-2">Create Account</h1>
+                        <p class="text-muted mb-5">Join the premium community of fitness experts today.</p>
+                        <form method="POST" action="{% url 'account_signup' %}" class="signup">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold text-uppercase text-muted">{{ field.label }}</label>
+                                    <div class="auth-input-wrapper">
+                                        {{ field }}
+                                    </div>
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">{{ field.errors.0 }}</div>
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                        <div class="text-muted extra-small mt-1 opacity-75" style="font-size: 0.75rem;">
+                                            {{ field.help_text|safe }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <div class="d-grid mt-5">
+                                <button class="btn btn-primary btn-lg py-3 rounded-pill shadow" type="submit">
+                                    Create My Account
+                                </button>
+                            </div>
+                        </form>
+                        <p class="mt-5 text-center text-muted small">
+                            Already have an account? <a href="{% url 'account_login' %}" class="fw-bold text-primary text-decoration-none">Sign In</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- brand column -->
+        <div class="col-lg-7 col-xl-8 auth-info-column d-none d-lg-flex align-items-center">
+            <div class="max-w-xl mx-auto text-white p-5">
+                <h2 class="display-2 fw-bold mb-4">Master Your Goals</h2>
+                <p class="fs-3 mb-5 opacity-75">Start your 30-day transformation with professional tools and expert-level guidance.</p>
+                <div class="row g-4 mt-5">
+                    <div class="col-md-6">
+                        <div class="p-4 rounded-4 backdrop-blur">
+                            <h4 class="fw-bold">Track Your Macros</h4>
+                            <p class="mb-0 opacity-75">Science-backed meal planning at your fingertips.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-4 rounded-4 backdrop-blur">
+                            <h4 class="fw-bold">Elite Programs</h4>
+                            <p class="mb-0 opacity-75">Workout plans built for performance and results.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
