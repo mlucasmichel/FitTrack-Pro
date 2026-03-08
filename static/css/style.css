@@ -228,7 +228,23 @@ form.signup label {
 }
 
 .backdrop-blur i {
-    filter: drop-shadow(0 0 8px rgba(235, 156, 100, 0.4));
+  filter: drop-shadow(0 0 8px rgba(235, 156, 100, 0.4));
+}
+
+/* --- Toast styling --- */
+.toast.bg-success {
+  background-color: var(--accent-200) !important;
+}
+.toast.bg-info {
+  background-color: var(--primary-100) !important;
+}
+.toast.bg-error,
+.toast.bg-danger {
+  background-color: var(--primary-200) !important;
+}
+.toast-body {
+  font-family: var(--font-primary);
+  font-weight: 500;
 }
 
 /* --- Media queries --- */
