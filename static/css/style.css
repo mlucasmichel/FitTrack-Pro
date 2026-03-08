@@ -62,8 +62,7 @@ h6,
   background-color: var(--primary-300);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   color: var(--bg-100);
   box-shadow: var(--float-shadow);
   z-index: 1051;
@@ -88,6 +87,15 @@ h6,
   box-shadow: var(--float-shadow);
   transition: all 0.3s ease-in-out;
 }
+.sidebar-sticky {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.bg-primary.bg-gradient {
+  background: linear-gradient(135deg, var(--primary-100), var(--primary-200)) !important;
+}
 
 .nav-link {
   color: var(--bg-100) !important;
@@ -102,8 +110,13 @@ h6,
 }
 
 .nav-link.active {
-  background-color: var(--accent-200);
-  color: white !important;
+  border-left: 4px solid var(--primary-100);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.text-muted {
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 /* --- Main Content --- */
@@ -160,7 +173,7 @@ main {
 .auth-brand {
   font-family: var(--font-primary);
   color: var(--primary-100);
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
   letter-spacing: -1px;
 }
@@ -251,11 +264,13 @@ form.signup label {
 @media screen and (min-width: 768px) {
   main {
     margin-left: var(--sidebar-width);
+    margin-right: auto;
   }
 }
 
 @media screen and (max-width: 767.98px) {
   .sidebar {
     top: var(--mobile-header-height) !important;
+    width: calc(var(--sidebar-width) - 50px) !important;
   }
 }

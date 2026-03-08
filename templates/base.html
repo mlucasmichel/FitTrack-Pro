@@ -15,45 +15,67 @@
 <body>
 
     <!-- Mobile Header (only visible on mobile) -->
-    <header id="mobile-header" class="navbar navbar-dark sticky-top bg-dark p-0 shadow d-md-none">
+    <header id="mobile-header" class="navbar navbar-dark sticky-top bg-dark shadow d-md-none">
         <button class="navbar-toggler position-absolute d-md-none collapsed border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="text-white navbar-brand col-md-3 col-lg-2 me-0 px-5 fs-6" href="/">FitTrack Pro</a>
+        <p class="text-white navbar-brand col-md-3 col-lg-2 my-0 mx-4 px-5 fs-6">FitTrack Pro</p>
     </header>
 
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse offcanvas-md offcanvas-start" tabindex="-1">
-                <div class="position-sticky pt-3 sidebar-sticky h-100 d-flex flex-column">
-                    <a href="/dashboard/" class="d-none d-md-block text-center mb-4 text-decoration-none">
-                        <h4 class="text-white fw-bold">FitTrack Pro</h4>
-                    </a>
+                <div class="sidebar-sticky d-flex flex-column h-100 p-3">
+                    <!-- Brand logo -->
+                    <div class="px-3 py-4 d-none d-md-block text-center">
+                        <h3 class="auth-brand mb-0 text-white">FitTrack Pro</h3>
+                    </div>
+
+                    <!-- Main Nav -->
                     <ul class="nav flex-column mb-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-white active" href="/dashboard/">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
                                 <i class="fas fa-home me-2"></i> Home
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#">
-                                <i class="fas fa-dumbbell me-2"></i> Workouts
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-running me-2"></i> Routines
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#">
-                                <i class="fas fa-utensils me-2"></i> Nutrition
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-dumbbell me-2"></i> Exercises
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-apple-alt me-2"></i> Nutrition
+                            </a>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link text-muted small" href="#">
+                                <i class="fas fa-cog me-2"></i> Settings
                             </a>
                         </li>
                     </ul>
 
-                    <hr class="text-secondary">
-
-                    <ul class="nav flex-column mb-3">
-                        {% if user.is_authenticated %}
+                    <!-- Bottom Nav -->
+                    <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
+                        
+                        <!-- Unlock Pro CTA -->
+                        {% if not user.is_subscriber %} <!-- We'll implement this logic in Sprint 3 -->
+                            <div class="px-3 mb-4">
+                                <div class="card bg-primary bg-gradient border-0 p-3 shadow-sm rounded-4">
+                                    <a href="#" class="btn btn-light btn-sm fw-bold rounded-pill w-100">Unlock Pro</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link text-white {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
+                                <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
                                     <i class="fas fa-user-circle me-2"></i> Profile
                                 </a>
                             </li>
@@ -61,28 +83,17 @@
                                 <form method="POST" action="{% url 'account_logout' %}" id="logout-form" class="d-none">
                                     {% csrf_token %}
                                 </form>
-                                <a class="nav-link text-white" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                                <a class="nav-link opacity-75" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
                                     <i class="fas fa-sign-out-alt me-2"></i> Logout
                                 </a>
                             </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="{% url 'account_login' %}">
-                                    <i class="fas fa-sign-in-alt me-2"></i> Login
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="{% url 'account_signup' %}">
-                                    <i class="fas fa-user-plus me-2"></i> Register
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <main class="col-md-8 col-lg-10 py-4">
                 {% block content %}
                 {% endblock %}
             </main>
