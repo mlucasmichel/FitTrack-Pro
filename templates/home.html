@@ -18,12 +18,18 @@
                             Start your transformation today.
                         </p>
                         <div class="d-grid gap-3">
-                            <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg py-3 rounded-pill shadow">
-                                Get Started Now
-                            </a>
-                            <a href="{% url 'account_login' %}" class="btn btn-outline-secondary btn-lg py-3 rounded-pill">
-                                Sign In to Dashboard
-                            </a>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg py-3 rounded-pill shadow">
+                                    Go to My Dashboard
+                                </a>
+                            {% else %}
+                                <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg py-3 rounded-pill shadow">
+                                    Get Started Now
+                                </a>
+                                <a href="{% url 'account_login' %}" class="btn btn-outline-secondary btn-lg py-3 rounded-pill">
+                                    Sign In to Dashboard
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="mt-5 pt-4 border-top">
                             <p class="small text-muted mb-0">Trusted by over 10,000+ athletes worldwide.</p>
