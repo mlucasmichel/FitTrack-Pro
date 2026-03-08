@@ -53,7 +53,7 @@
                     <ul class="nav flex-column mb-3">
                         {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#">
+                                <a class="nav-link text-white {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
                                     <i class="fas fa-user-circle me-2"></i> Profile
                                 </a>
                             </li>

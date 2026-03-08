@@ -28,4 +28,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     # Dashboard and internal pages
     path('dashboard/', dashboard, name='dashboard'),
+    path('accounts/', include('accounts.urls')),
 ]
