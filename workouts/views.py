@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Exercise
 from django.db.models import Q
+
 
 def exercise_list(request):
     """
@@ -28,3 +29,20 @@ def exercise_list(request):
         'current_body_part': body_part,
     }
     return render(request, 'workouts/exercise_list.html', context)
+
+
+def exercise_detail(request, exercise_id):
+    """
+    Displays the detailed 'How-To' page for a specific exercise.
+    Includes instructions and a placeholder for progress charts.
+    """
+    exercise = get_object_or_404(Exercise, id=exercise_id)
+
+    # User's progress data needed here later for Chart.js
+    # progress_data = SetLog.objects.filter(user=request.user, exercise=exercise).order_by('workout_log__logged_at')
+
+    context = {
+        'exercise': exercise,
+        # 'progress_data': progress_data,
+    }
+    return render(request, 'workouts/exercise_detail.html', context)

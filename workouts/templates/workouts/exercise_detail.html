@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ exercise.name|title }}{% endblock %}
+
+{% block content %}
+<div class="row mb-5 align-items-center">
+    <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="{% url 'exercise_list' %}" class="text-decoration-none">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ exercise.body_part|title }}</li>
+            </ol>
+        </nav>
+        <h1 class="display-5 fw-bold">{{ exercise.name|title }}</h1>
+        <div class="d-flex gap-2 mt-3">
+            <span class="badge bg-primary rounded-pill px-3 py-2 shadow-sm">{{ exercise.target_muscle|title }}</span>
+            <span class="badge bg-outline-secondary border text-muted rounded-pill px-3 py-2">{{ exercise.equipment|title }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-5">
+    <!-- Instructions and GIF column -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+            {% if exercise.local_gif %}
+                <img src="{{ exercise.local_gif.url }}" class="img-fluid p-4 bg-light" alt="{{ exercise.name }}">
+            {% endif %}
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+            <h4 class="fw-bold mb-4"><i class="fas fa-list-ol text-primary me-2"></i> How to Perform</h4>
+            <ol class="list-group list-group-flush list-group-numbered">
+                {% for step in exercise.instructions %}
+                    <li class="list-group-item border-0 px-0 py-3 text-muted fs-5">
+                        {{ step }}
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+
+    <!-- Stats and Charts column -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4" style="min-height: 400px;">
+            <h4 class="fw-bold mb-4"><i class="fas fa-chart-line text-success me-2"></i> Your Progress</h4>
+            <div class="text-center py-5">
+                <!-- Placeholder for Chart.js -->
+                <i class="fas fa-lock fa-3x text-light mb-3"></i>
+                <p class="text-muted">Start logging workouts to see your performance history and interactive charts here.</p>
+                <a href="#" class="btn btn-outline-success rounded-pill px-4 mt-3">Log First Session</a>
+            </div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-primary bg-opacity-10">
+            <h6 class="fw-bold text-primary text-uppercase small mb-3">Pro Tip</h6>
+            <p class="mb-0 text-dark opacity-75">
+                Consistency is key! Focus on proper form as described in the instructions before increasing weight.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
