@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Exercise Library{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-5">
+    <div class="col-md-6">
+        <h1 class="h2 fw-bold">Exercise Library</h1>
+        <p class="text-muted">Explore our comprehensive database of professional movements.</p>
+    </div>
+
+    <!-- Search and Filter Bar -->
+    <div class="col-md-6">
+        <form method="GET" class="row g-2 justify-content-md-end">
+            <div class="col-auto">
+                <select name="body_part" class="form-select border-0 shadow-sm rounded-pill px-4" onchange="this.form.submit()">
+                    <option value="">All Body Parts</option>
+                    {% for part in body_parts %}
+                        <option value="{{ part }}" {% if current_body_part == part %}selected{% endif %}>{{ part|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-auto">
+                <input type="text" name="q" class="form-control border-0 shadow-sm rounded-pill px-4" placeholder="Search exercises..."value="{{ request.GET.q }}">
+            </div>
+        </form>
+    </div>
+    
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    {% for exercise in exercises %}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden exercise-card">
+                <div class="position-relative">
+                    <img src="{{ exercise.gif_url }}" class="card-img-top p-3 bg-light" alt="{{ exercise.name }}" loading="lazy">
+                    <span class="badge bg-primary bg-opacity-10 text-primary position-absolute bottom-0 start-0 m-3 rounded-pill px-3">
+                        {{ exercise.target_muscle|title }}
+                    </span>
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold mb-1">{{ exercise.name|title }}</h5>
+                    <p class="small text-muted mb-0">Equipment: {{ exercise.equipment|title }}</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4 pt-0 text-end">
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">View Details</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-search fa-3x text-light mb-3"></i>
+            <p class="text-muted">No exercises found matching your search.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

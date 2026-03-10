@@ -261,6 +261,25 @@ form.signup label {
   font-weight: 500;
 }
 
+/* --- Exercise Cards --- */
+.exercise-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exercise-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--float-shadow) !important;
+}
+
+.exercise-card img {
+    height: 200px;
+    object-fit: contain;
+}
+
+.extra-small {
+    font-size: 0.75rem;
+}
+
 /* --- Media queries --- */
 @media screen and (min-width: 768px) {
   main {
