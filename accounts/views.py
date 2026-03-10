@@ -7,7 +7,7 @@ def dashboard(request):
     The main internal hub for logged-in users.
     displays quick stats and navigation to workouts/nutrition/subscriptions.
     """
-    return render(request, 'dashboard.html')
+    return render(request, 'accounts/dashboard.html')
 
 
 @login_required
@@ -15,4 +15,4 @@ def profile(request):
     """
     User profile page where they can view and edit their personal information.
     """
-    return render(request, 'profile.html')
+    return render(request, 'accounts/profile.html')
