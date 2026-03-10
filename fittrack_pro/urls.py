@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from accounts.views import dashboard
 
@@ -30,4 +32,4 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('accounts/', include('accounts.urls')),
     path('workouts/', include('workouts.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

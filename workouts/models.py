@@ -16,6 +16,7 @@ class Exercise(models.Model):
     gif_url = models.URLField(max_length=500, null=True, blank=True)
     instructions = models.JSONField(
         default=list, help_text="Step-by-step guide from API")
+    local_gif = models.ImageField(upload_to='exercises/', null=True, blank=True)
 
     def __str__(self):
         return self.name.title()

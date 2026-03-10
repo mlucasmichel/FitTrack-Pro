@@ -25,7 +25,7 @@
             </div>
         </form>
     </div>
-    
+
 </div>
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
@@ -33,7 +33,14 @@
         <div class="col">
             <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden exercise-card">
                 <div class="position-relative">
-                    <img src="{{ exercise.gif_url }}" class="card-img-top p-3 bg-light" alt="{{ exercise.name }}" loading="lazy">
+                    {% if exercise.local_gif %}
+                        <img src="{{ exercise.local_gif.url }}" class="card-img-top p-3 bg-light" alt="{{ exercise.name }}">
+                    {% else %}
+                        <!-- Placeholder image -->
+                        <div class="p-5 text-center bg-light text-muted">
+                            <i class="fas fa-image fa-3x"></i>
+                        </div>
+                    {% endif %}
                     <span class="badge bg-primary bg-opacity-10 text-primary position-absolute bottom-0 start-0 m-3 rounded-pill px-3">
                         {{ exercise.target_muscle|title }}
                     </span>
