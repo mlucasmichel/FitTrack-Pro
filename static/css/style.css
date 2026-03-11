@@ -261,6 +261,22 @@ form.signup label {
   font-weight: 500;
 }
 
+/* --- Search Group --- */
+.search-group .input-group-text {
+    border-top-left-radius: 50rem !important;
+    border-bottom-left-radius: 50rem !important;
+}
+
+.search-group .form-control {
+    border-top-right-radius: 50rem !important;
+    border-bottom-right-radius: 50rem !important;
+}
+
+.search-group .form-control:focus {
+    outline: none;
+}
+
+
 /* --- Exercise Cards --- */
 .exercise-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -274,6 +290,7 @@ form.signup label {
 .exercise-card img {
     height: 200px;
     object-fit: contain;
+    background-color: white;
 }
 
 .extra-small {

@@ -12,6 +12,16 @@
     <!-- Search and Filter Bar -->
     <div class="col-md-6">
         <form method="GET" class="row g-2 justify-content-md-end">
+
+            <div class="col-auto">
+                <div class="input-group search-group">
+                    <span class="input-group-text border-0 bg-white ps-4 pe-0 rounded-start-pill shadow-sm">
+                        <i class="fas fa-search text-muted"></i>
+                    </span>
+                    <input type="text" name="q" class="form-control border-0 shadow-sm rounded-end-pill pe-4" placeholder="Search exercises"value="{{ request.GET.q }}">
+                </div>
+            </div>
+
             <div class="col-auto">
                 <select name="body_part" class="form-select border-0 shadow-sm rounded-pill px-4" onchange="this.form.submit()">
                     <option value="">All Body Parts</option>
@@ -20,9 +30,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-auto">
-                <input type="text" name="q" class="form-control border-0 shadow-sm rounded-pill px-4" placeholder="Search exercises..."value="{{ request.GET.q }}">
-            </div>
+            
         </form>
     </div>
 
@@ -34,7 +42,7 @@
             <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden exercise-card">
                 <div class="position-relative">
                     {% if exercise.local_gif %}
-                        <img src="{{ exercise.local_gif.url }}" class="card-img-top p-3 bg-light" alt="{{ exercise.name }}">
+                        <img src="{{ exercise.local_gif.url }}" class="card-img-top p-3" alt="{{ exercise.name }}">
                     {% else %}
                         <!-- Placeholder image -->
                         <div class="p-5 text-center bg-light text-muted">
