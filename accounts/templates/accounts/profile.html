@@ -40,8 +40,8 @@
         </div>
     </div>
     
-    <!-- Subscription Status Card -->
     <div class="col-lg-4">
+        <!-- Subscription Status Card -->
         <div class="card border-0 shadow-sm p-4">
             <h5 class="fw-bold mb-4">Subscription</h5>
             <div class="text-center py-4">
@@ -55,6 +55,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- Meals Management Card -->
+        <div class="card border-0 shadow-sm p-4 mt-4">
+            <h5 class="fw-bold mb-4">My Custom Foods</h5>
+   
+            <div class="list-group list-group-flush">
+                {% for meal in custom_meals %}
+                    <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom border-light">
+                        <div>
+                            <h6 class="mb-0 fw-bold">{{ meal.name }}</h6>
+                            <span class="small text-muted">{{ meal.calories }} kcal</span>
+                        </div>
+                        <!-- Link to Edit View -->
+                        <a href="{% url 'edit_custom_meal' meal.id %}" class="btn btn-sm btn-light rounded-circle text-primary">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                    </div>
+                {% empty %}
+                    <p class="text-muted small mb-0"><i class="fas fa-info-circle me-1"></i>
+                        You haven't created any custom meals yet. Create them from the Nutrition Hub!
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}

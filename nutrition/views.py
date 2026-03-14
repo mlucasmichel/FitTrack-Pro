@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
@@ -64,3 +64,26 @@ def nutrition_hub(request):
         'custom_form': custom_form,
     }
     return render(request, 'nutrition/hub.html', context)
+
+
+@login_required
+def edit_custom_meal(request, meal_id):
+    """
+    Allows a user to edit a meal they created.
+    """
+    meal = get_object_or_404(Meal, id=meal_id, created_by=request.user)
+
+    if request.method == 'POST':
+        form = CustomMealForm(request.POST, instance=meal)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"'{meal.name}' updated successfully.")
+            return redirect('profile')
+    else:
+        form = CustomMealForm(instance=meal)
+
+    context = {
+        'form': form,
+        'meal': meal
+    }
+    return render(request, 'nutrition/edit_meal.html', context)

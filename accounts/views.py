@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from nutrition.models import Meal
+
 
 @login_required
 def dashboard(request):
@@ -13,6 +15,11 @@ def dashboard(request):
 @login_required
 def profile(request):
     """
-    User profile page where they can view and edit their personal information.
+    Displays the user's profile details and their custom data.
     """
-    return render(request, 'accounts/profile.html')
+    custom_meals = Meal.objects.filter(created_by=request.user).order_by('-id')
+
+    context = {
+        'custom_meals': custom_meals,
+    }
+    return render(request, 'accounts/profile.html', context)

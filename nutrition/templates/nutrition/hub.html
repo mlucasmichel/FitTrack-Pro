@@ -77,7 +77,103 @@
             </div>
 
             <div class="mt-auto pt-4 text-end">
-                <button class="btn btn-outline-primary rounded-pill px-4" disabled>+ Log Meal</button>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#logMealModal">
+                    <i class="fas fa-plus me-2"></i> Log Meal
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Today's Logged Meals -->
+<div class="row mt-4">
+    <div class="col-12">
+        <h5 class="fw-bold mb-4">Today's Log</h5>
+        {% for log in todays_logs %}
+            <div class="card border-0 shadow-sm rounded-4 p-3 mb-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="fw-bold mb-0">{{ log.meal.name }}</h6>
+                        <span class="small text-muted">{{ log.servings }} serving(s) &bull; {{ log.total_calories }} kcal</span>
+                    </div>
+                    <div class="text-end small">
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill me-1">{{ log.total_protein }}g P</span>
+                        <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill me-1">{{ log.total_carbs }}g C</span>
+                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill">{{ log.total_fat }}g F</span>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="text-center text-muted p-4">
+                <i class="fas fa-utensils fa-2x mb-2 opacity-50"></i>
+                <p>No meals logged yet today.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Log Meal Modal -->
+<div class="modal fade" id="logMealModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg p-3">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Log a Meal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Nav Tabs -->
+                <ul class="nav nav-pills nav-fill mb-4" id="mealTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active rounded-pill" id="log-tab" data-bs-toggle="tab" data-bs-target="#log-pane" type="button"role="tab">
+                            Choose Existing
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill" id="create-tab" data-bs-toggle="tab" data-bs-target="#create-pane" type="button"role="tab">
+                            Create Custom
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="mealTabContent">
+                    <!-- Choose Existing Pane -->
+                    <div class="tab-pane fade show active" id="log-pane" role="tabpanel">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="log_meal" value="1">
+                            <label class="form-label small fw-bold text-muted">Select Meal</label>
+                            {{ log_form.meal }}
+                            <label class="form-label small fw-bold text-muted">Servings</label>
+                            {{ log_form.servings }}
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary rounded-pill py-2 shadow-sm">Save Log</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Create Custom Pane -->
+                    <div class="tab-pane fade" id="create-pane" role="tabpanel">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="create_meal" value="1">
+
+                            <label class="form-label small fw-bold text-muted">Meal Name</label>
+                            {{ custom_form.name }}
+
+                            <label class="form-label small fw-bold text-muted">Nutritional Info (per serving)</label>
+                            {{ custom_form.calories }}
+                            <div class="row g-2">
+                                <div class="col-4">{{ custom_form.protein_grams }}</div>
+                                <div class="col-4">{{ custom_form.carbs_grams }}</div>
+                                <div class="col-4">{{ custom_form.fat_grams }}</div>
+                            </div>
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-success rounded-pill py-2 shadow-sm">Create & Log Meal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
