@@ -50,7 +50,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'nutrition_hub' %}active{% endif %}" href="{% url 'nutrition_hub' %}">
                                 <i class="fas fa-apple-alt me-2"></i> Nutrition
                             </a>
                         </li>
