@@ -1,4 +1,3 @@
-import json
 from django.db.models import Q, Sum, F
 from django.db.models.functions import TruncDate
 from django.shortcuts import redirect, render, get_object_or_404
@@ -39,7 +38,7 @@ def exercise_list(request):
 def exercise_detail(request, exercise_id):
     """
     Displays the detailed 'How-To' page for a specific exercise.
-    Includes instructions and a placeholder for progress charts.
+    Includes instructions and data for progress charts.
     """
     exercise = get_object_or_404(Exercise, id=exercise_id)
 
@@ -48,7 +47,7 @@ def exercise_detail(request, exercise_id):
 
     if request.user.is_authenticated:
         progress = SetLog.objects.filter(
-            user=request.user,
+            workout_log__user=request.user,
             exercise=exercise
         ).annotate(
             date=TruncDate('workout_log__logged_at')
@@ -56,14 +55,17 @@ def exercise_detail(request, exercise_id):
             total_volume=Sum(F('weight_kg') * F('reps_completed'))
         ).order_by('date')
 
-    for entry in progress:
-        chart_labels.append(entry['date'].strftime('%b %d'))
-        chart_data.append(float(entry['total_volume']))
+        # Format data for Chart.js
+        for entry in progress:
+            # Check if there is data before appending
+            if entry['total_volume'] is not None:
+                chart_labels.append(entry['date'].strftime('%b %d'))
+                chart_data.append(round(float(entry['total_volume']), 1))
 
     context = {
         'exercise': exercise,
-        'chart_labels': json.dumps(chart_labels),
-        'chart_data': json.dumps(chart_data),
+        'chart_labels': chart_labels,
+        'chart_data': chart_data,
     }
     return render(request, 'workouts/exercise_detail.html', context)
 

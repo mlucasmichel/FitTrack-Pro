@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ exercise.name|title }}{% endblock %}
 
@@ -43,13 +44,28 @@
     <!-- Stats and Charts column -->
     <div class="col-lg-6">
         <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4" style="min-height: 400px;">
-            <h4 class="fw-bold mb-4"><i class="fas fa-chart-line text-success me-2"></i> Your Progress</h4>
-            <div class="text-center py-5">
-                <!-- Placeholder for Chart.js -->
-                <i class="fas fa-lock fa-3x text-light mb-3"></i>
-                <p class="text-muted">Start logging workouts to see your performance history and interactive charts here.</p>
-                <a href="#" class="btn btn-outline-success rounded-pill px-4 mt-3">Log First Session</a>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold mb-0"><i class="fas fa-chart-line text-success me-2"></i> Volume History</h4>
             </div>
+
+            {% if user.is_authenticated %}
+                <!-- The Canvas element where Chart.js will draw -->
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="progressChart"></canvas>
+                </div>
+
+                <!-- Securely pass data to the external JS -->
+                {{ chart_labels|json_script:"labels-data" }}
+                {{ chart_data|json_script:"volume-data" }}
+
+            {% else %}
+                <!-- Logged out state -->
+                <div class="text-center py-5">
+                    <i class="fas fa-lock fa-3x text-light mb-3"></i>
+                    <p class="text-muted">Log in to track your progress and view interactive history charts.</p>
+                    <a href="{% url 'account_login' %}" class="btn btn-outline-primary rounded-pill px-4 mt-2">Log In</a>
+                </div>
+            {% endif %}
         </div>
 
         <!-- Info Card -->
@@ -60,5 +76,8 @@
             </p>
         </div>
     </div>
-</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/charts.js' %}"></script>
 {% endblock %}
