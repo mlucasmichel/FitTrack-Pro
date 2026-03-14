@@ -7,6 +7,19 @@ from nutrition.models import MealLog
 
 
 @login_required
+def profile(request):
+    """
+    Displays the user's profile details and their custom data.
+    """
+    custom_meals = Meal.objects.filter(created_by=request.user).order_by('-id')
+
+    context = {
+        'custom_meals': custom_meals,
+    }
+    return render(request, 'accounts/profile.html', context)
+
+
+@login_required
 def dashboard(request):
     """
     The main internal hub for logged-in users.
