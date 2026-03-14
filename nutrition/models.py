@@ -21,20 +21,17 @@ class MealPlan(models.Model):
 class Meal(models.Model):
     """
     Individual food items or recipes.
-    Strict validation prevents negative nutritional values.
+    Can belong to a global MealPlan OR be created by a specific user.
     """
-    meal_plan = models.ForeignKey(
-        MealPlan, on_delete=models.CASCADE, related_name='meals')
-    name = models.CharField(max_length=200)
+    meal_plan = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name='meals', null=True, blank=True)
 
-    # Validation
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+
+    name = models.CharField(max_length=200)
     calories = models.PositiveIntegerField(validators=[MinValueValidator(1)])
-    protein_grams = models.PositiveIntegerField(
-        validators=[MinValueValidator(0)], default=0)
-    carbs_grams = models.PositiveIntegerField(
-        validators=[MinValueValidator(0)], default=0)
-    fat_grams = models.PositiveIntegerField(
-        validators=[MinValueValidator(0)], default=0)
+    protein_grams = models.PositiveIntegerField(validators=[MinValueValidator(0)], default=0)
+    carbs_grams = models.PositiveIntegerField(validators=[MinValueValidator(0)], default=0)
+    fat_grams = models.PositiveIntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
         return f"{self.name} ({self.calories} kcal)"
