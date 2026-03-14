@@ -32,4 +32,5 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('accounts/', include('accounts.urls')),
     path('workouts/', include('workouts.urls')),
+    path('nutrition/', include('nutrition.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
