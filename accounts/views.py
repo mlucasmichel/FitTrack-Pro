@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 from workouts.models import WorkoutLog, SetLog
-from nutrition.models import MealLog
+from nutrition.models import MealLog, Meal
 
 
 @login_required
