@@ -66,35 +66,36 @@ The application is built on a relational structure designed to manage premium co
 
 ***
 
-## 4. Features (User Stories)
+## 4. Features
 
-### 3.1 New User (Visitor)
-- **Story 1.1:** As a new user, I want to clearly understand the value proposition of FitTrack Pro on the homepage, so I can decide if it's the right fitness platform for me.
-- **Story 1.2:** As a new user, I want to easily navigate to a registration page, so I can create a free account.
-- **Story 1.3:** As a new user, I want to view the available subscription tiers and their prices, so I understand the benefits of becoming a premium member.
+### 4.1 Completed Features (Sprints 1 & 2)
 
-### 3.2 Registered User (Non-Subscriber)
-- **Story 2.1:** As a registered user, I want to log in and out of my account securely.
-- **Story 2.2:** As a registered user, I want to view and update my profile information (e.g., name, email, password).
-- **Story 2.3:** As a registered user, I want to be able to browse a limited selection of free workout and meal plans.
-- **Story 2.4:** As a registered user, I want to be clearly prompted to subscribe when attempting to access a premium-only feature or plan.
-- **Story 2.5:** As a registered user, I want to use a basic calorie calculator to estimate my daily needs.
+#### Authentication & User Management
+*   **Secure Registration/Login:** Powered by `django-allauth` for industry-standard security.
+*   **Custom User Profile:** Users can view their account details and current subscription status via a dedicated dashboard.
+*   **Split-Screen Auth UI:** A high-conversion, professional "SaaS-style" login and registration interface that provides a premium first impression.
 
-### 3.3 Subscriber (Premium User)
-- **Story 3.1:** As a registered user, I want to securely upgrade to a premium subscription using my credit card via Stripe.
-- **Story 3.2:** As a subscriber, I want to have unrestricted access to all workout and meal plans.
-- **Story 3.3:** As a subscriber, I want to create my own custom workout plans by selecting from a list of available exercises.
-- **Story 3.4:** As a subscriber, I want to log my completed workouts and see my progress visualized in an interactive chart (e.g., weight lifted over time).
-- **Story 3.5:** As a subscriber, I want to be able to manage my subscription (e.g., view next billing date, cancel).
+#### Workout Tracking & Exercise Library
+*   **API-Driven Exercise Library:** The application automatically fetches and categorizes over 100+ professional exercises from the RapidAPI
+ExerciseDB, complete with instructional text and animated GIFs.
+*   **Search & Filter:** Users can rapidly find exercises by searching by name or filtering by target muscle group.
+*   **Interactive Workout Logger:** A dynamic, JavaScript-powered interface allowing users to build custom workout sessions and log multiple sets,
+weights, and reps in real-time.
+*   **Visual Progress Analytics (Chart.js):** A dynamic dashboard on every exercise page that aggregates the user's `SetLog` data to display their
+Volume History, Heaviest Weight, and Estimated 1RM over time.
 
-### 3.4 Site Administrator
-- **Story 4.1:** As an admin, I want to access a Django Admin dashboard to manage all site data.
-- **Story 4.2:** As an admin, I want to be able to create, edit, delete, and flag workout/meal plans as "premium".
-- **Story 4.3:** As an admin, I want to be able to view a list of all registered users and their subscription status.
+#### Nutrition & Calorie Calculator
+*   **Custom Meal Logging:** Users can log individual meals and specify portion sizes (servings).
+*   **Real-time Calorie Calculator:** A JavaScript engine fetches the user's daily `MealLog` data to dynamically render a "Calories Remaining" ring
+chart and macro progress bars (Protein, Carbs, Fats) against daily goals.
+
+### 4.2 Future Features (Sprint 3 - Monetization)
+*   **Stripe Checkout:** Secure payment gateway allowing users to upgrade from a Free to a Premium account.
+*   **Premium Content Gating:** Specialized workout and meal plans that are locked behind the active Stripe subscription.
 
 ***
 
-## 4. Technologies Used
+## 5. Technologies Used
 * **Backend:** Python / Django
 * **Frontend:** HTML, CSS, JavaScript (Vanilla JS)
 * **Database:** Relational (PostgreSQL/MySQL)
