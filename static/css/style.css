@@ -2,16 +2,16 @@
 
 :root {
   /* Colour Palette */
-  --primary-100: #eb9c64;
-  --primary-200: #ff8789;
-  --primary-300: #554e4f;
-  --accent-100: #8fbf9f;
-  --accent-200: #346145;
-  --text-100: #353535;
-  --text-200: #000000;
-  --bg-100: #f5ecd7;
-  --bg-200: #ebe2cd;
-  --bg-300: #c2baa6;
+  --primary-100: #FF5722;
+  --primary-200: #ff8a50;
+  --primary-300: #fff3b0;
+  --accent-100: #2196F3;
+  --accent-200: #003f8f;
+  --text-100: #333333;
+  --text-200: #5c5c5c;
+  --bg-100: #F4F4F4;
+  --bg-200: #eaeaea;
+  --bg-300: #c1c1c1;
 
   /* Shadows */
   --float-shadow:

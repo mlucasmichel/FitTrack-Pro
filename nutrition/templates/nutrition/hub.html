@@ -162,11 +162,12 @@
 
                             <label class="form-label small fw-bold text-muted">Nutritional Info (per serving)</label>
                             {{ custom_form.calories }}
-                            <div class="row g-2">
-                                <div class="col-4">{{ custom_form.protein_grams }}</div>
-                                <div class="col-4">{{ custom_form.carbs_grams }}</div>
-                                <div class="col-4">{{ custom_form.fat_grams }}</div>
-                            </div>
+                            <label for="protein-grams" class="form-label small fw-bold text-muted">Protein (g)</label>
+                            {{ custom_form.protein_grams }}
+                            <label for="carb-grams" class="form-label small fw-bold text-muted">Carbs (g)</label>
+                            {{ custom_form.carbs_grams }}
+                            <label for="fat-grams" class="form-label small fw-bold text-muted">Fats (g)</label>
+                            {{ custom_form.fat_grams }}
 
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-success rounded-pill py-2 shadow-sm">Create & Log Meal</button>
