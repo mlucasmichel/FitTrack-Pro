@@ -1,4 +1,6 @@
-from django.db.models import Q
+import json
+from django.db.models import Q, Sum, F
+from django.db.models.functions import TruncDate
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Exercise, WorkoutLog, SetLog, WorkoutPlan
 from django.contrib.auth.decorators import login_required
@@ -41,12 +43,27 @@ def exercise_detail(request, exercise_id):
     """
     exercise = get_object_or_404(Exercise, id=exercise_id)
 
-    # User's progress data needed here later for Chart.js
-    # progress_data = SetLog.objects.filter(user=request.user, exercise=exercise).order_by('workout_log__logged_at')
+    chart_labels = []
+    chart_data = []
+
+    if request.user.is_authenticated:
+        progress = SetLog.objects.filter(
+            user=request.user,
+            exercise=exercise
+        ).annotate(
+            date=TruncDate('workout_log__logged_at')
+        ).values('date').annotate(
+            total_volume=Sum(F('weight_kg') * F('reps_completed'))
+        ).order_by('date')
+
+    for entry in progress:
+        chart_labels.append(entry['date'].strftime('%b %d'))
+        chart_data.append(float(entry['total_volume']))
 
     context = {
         'exercise': exercise,
-        # 'progress_data': progress_data,
+        'chart_labels': json.dumps(chart_labels),
+        'chart_data': json.dumps(chart_data),
     }
     return render(request, 'workouts/exercise_detail.html', context)
 
