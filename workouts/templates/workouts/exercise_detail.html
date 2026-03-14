@@ -45,18 +45,26 @@
     <div class="col-lg-6">
         <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4" style="min-height: 400px;">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold mb-0"><i class="fas fa-chart-line text-success me-2"></i> Volume History</h4>
+                <h4 class="fw-bold mb-0" id="chartTitle"><i class="fas fa-chart-line text-success me-2"></i> Heaviest Weight</h4>
             </div>
 
             {% if user.is_authenticated %}
-                <!-- The Canvas element where Chart.js will draw -->
-                <div style="position: relative; height: 300px; width: 100%;">
+                <!-- Canvas -->
+                <div style="position: relative; height: 280px; width: 100%; mb-4">
                     <canvas id="progressChart"></canvas>
                 </div>
 
-                <!-- Securely pass data to the external JS -->
-                {{ chart_labels|json_script:"labels-data" }}
-                {{ chart_data|json_script:"volume-data" }}
+                <!-- Metric Buttons -->
+                <div class="d-flex flex-wrap gap-2 mt-4 justify-content-center">
+                    <button class="btn btn-sm btn-primary rounded-pill chart-toggle" data-metric="heaviest_weight">Heaviest Weight</button>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="estimated_1rm">1RM</button>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="best_set_volume">Best Set Vol.</button>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="session_volume">Session Vol.</button>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="total_reps">Total Reps</button>
+                </div>
+
+                <!-- Inject the dictionary -->
+                {{ chart_data_dict|json_script:"chart-data" }}
 
             {% else %}
                 <!-- Logged out state -->

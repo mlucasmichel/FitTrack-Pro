@@ -6,76 +6,115 @@
  */
 document.addEventListener('DOMContentLoaded', function() {
     const canvasElement = document.getElementById('progressChart');
-    const labelsElement = document.getElementById('labels-data');
-    const dataElement = document.getElementById('volume-data');
+    const dataElement = document.getElementById('chart-data');
+    let currentChart = null;
 
-    if (canvasElement && labelsElement && dataElement) {
+    if (canvasElement && dataElement) {
         try {
-            // Parse JSON data
-            const labels = JSON.parse(labelsElement.textContent);
-            const data = JSON.parse(dataElement.textContent);
+            const chartDataDict = JSON.parse(dataElement.textContent);
+            const labels = chartDataDict.labels;
 
-            // Get colors from CSS variables
             const style = getComputedStyle(document.body);
             const primaryColor = style.getPropertyValue('--primary-100').trim() || '#eb9c64';
             const primaryColorTrans = primaryColor + '40';
 
             const ctx = canvasElement.getContext('2d');
 
-            if (data.length > 0) {
-                // Render Chart
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Total Volume (kg)',
-                            data: data,
-                            borderColor: primaryColor,
-                            backgroundColor: primaryColorTrans,
-                            borderWidth: 3,
-                            pointBackgroundColor: primaryColor,
-                            pointRadius: 4,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                backgroundColor: 'rgba(53, 53, 53, 0.9)',
-                                titleFont: { family: "'Lexend', sans-serif", size: 14 },
-                                bodyFont: { family: "'Roboto Flex', sans-serif", size: 14 },
-                                padding: 10,
-                                cornerRadius: 8,
-                            }
+            // Function to render the chart
+            function renderChart(metricKey, labelName) {
+                const data = chartDataDict[metricKey];
+
+                // Destroy existing chart if it exists
+                if (currentChart) {
+                    currentChart.destroy();
+                }
+
+                if (labels.length > 0) {
+                    currentChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: labelName,
+                                data: data,
+                                borderColor: primaryColor,
+                                backgroundColor: primaryColorTrans,
+                                borderWidth: 3,
+                                pointBackgroundColor: primaryColor,
+                                pointRadius: 4,
+                                fill: true,
+                                tension: 0.4
+                            }]
                         },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: { color: 'rgba(0,0,0,0.05)' },
-                                ticks: { font: { family: "'Roboto Flex', sans-serif" } }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: 'rgba(53, 53, 53, 0.9)',
+                                    titleFont: { family: "'Lexend', sans-serif", size: 14 },
+                                    bodyFont: { family: "'Roboto Flex', sans-serif", size: 14 },
+                                    padding: 10,
+                                    cornerRadius: 8,
+                                }
                             },
-                            x: {
-                                grid: { display: false },
-                                ticks: { font: { family: "'Roboto Flex', sans-serif" } }
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(0,0,0,0.05)' }
+                                },
+                                x: {
+                                    grid: { display: false }
+                                }
                             }
                         }
-                    }
-                });
-            } else {
-                // Show empty state inside the canvas container
-                const canvasContainer = canvasElement.parentElement;
-                canvasContainer.innerHTML = `
-                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
-                        <i class="fas fa-clipboard-list fa-3x mb-3 opacity-25"></i>
-                        <p class="mb-0">No data yet. Complete a workout to see your progress!</p>
-                    </div>
-                `;
+                    });
+                } else {
+                    canvasElement.parentElement.innerHTML = `
+                        <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                            <i class="fas fa-clipboard-list fa-3x mb-3 opacity-25"></i>
+                            <p class="mb-0">No data yet. Complete a workout to see your progress!</p>
+                        </div>
+                    `;
+                    document.querySelector('.chart-toggle').parentElement.style.display = 'none';
+                }
             }
+
+            // Initialize with the first metric
+            if (labels.length > 0) {
+                renderChart('heaviest_weight', 'Heaviest Weight (kg)');
+            } else {
+                renderChart('heaviest_weight', '');
+            }
+
+            // Add Event Listeners to Buttons
+            const buttons = document.querySelectorAll('.chart-toggle');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update Button Styles
+                    buttons.forEach(b => {
+                        b.classList.remove('btn-primary');
+                        b.classList.add('btn-outline-primary');
+                    });
+                    this.classList.remove('btn-outline-primary');
+                    this.classList.add('btn-primary');
+
+                    // Update Title
+                    document.getElementById('chartTitle').innerHTML = `<i class="fas fa-chart-line text-success me-2"></i> ${this.innerText}`;
+
+                    // Render new chart
+                    const metricMap = {
+                        'heaviest_weight': 'Heaviest Weight (kg)',
+                        'estimated_1rm': 'Estimated 1RM (kg)',
+                        'best_set_volume': 'Best Set Volume (kg)',
+                        'session_volume': 'Session Volume (kg)',
+                        'total_reps': 'Total Reps'
+                    };
+                    renderChart(this.dataset.metric, metricMap[this.dataset.metric]);
+                });
+            });
+
         } catch (error) {
             console.error("Error initializing Chart.js:", error);
         }

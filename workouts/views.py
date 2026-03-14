@@ -1,4 +1,4 @@
-from django.db.models import Q, Sum, F
+from django.db.models import Q, Sum, F, Max, ExpressionWrapper, DecimalField
 from django.db.models.functions import TruncDate
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Exercise, WorkoutLog, SetLog, WorkoutPlan
@@ -42,30 +42,47 @@ def exercise_detail(request, exercise_id):
     """
     exercise = get_object_or_404(Exercise, id=exercise_id)
 
-    chart_labels = []
-    chart_data = []
+    chart_data = {
+        'labels': [],
+        'heaviest_weight': [],
+        'estimated_1rm': [],
+        'best_set_volume': [],
+        'session_volume': [],
+        'total_reps': []
+    }
 
     if request.user.is_authenticated:
-        progress = SetLog.objects.filter(
+        daily_stats = SetLog.objects.filter(
             workout_log__user=request.user,
             exercise=exercise
         ).annotate(
             date=TruncDate('workout_log__logged_at')
         ).values('date').annotate(
-            total_volume=Sum(F('weight_kg') * F('reps_completed'))
+            max_weight=Max('weight_kg'),
+            tot_reps=Sum('reps_completed'),
+            # Session Volume
+            sess_vol=Sum(F('weight_kg') * F('reps_completed')),
+            # Best Set Volume
+            best_set=Max(F('weight_kg') * F('reps_completed'))
         ).order_by('date')
 
-        # Format data for Chart.js
-        for entry in progress:
-            # Check if there is data before appending
-            if entry['total_volume'] is not None:
-                chart_labels.append(entry['date'].strftime('%b %d'))
-                chart_data.append(round(float(entry['total_volume']), 1))
+        for stat in daily_stats:
+            chart_data['labels'].append(stat['date'].strftime('%b %d'))
+
+            w = float(stat['max_weight']) if stat['max_weight'] else 0
+            r = int(stat['tot_reps']) if stat['tot_reps'] else 0
+
+            chart_data['heaviest_weight'].append(round(w, 1))
+            chart_data['total_reps'].append(r)
+            chart_data['session_volume'].append(round(float(stat['sess_vol'] or 0), 1))
+            chart_data['best_set_volume'].append(round(float(stat['best_set'] or 0), 1))
+
+            estimated_1rm = w * (1 + (r / 30.0)) if w > 0 else 0
+            chart_data['estimated_1rm'].append(round(estimated_1rm, 1))
 
     context = {
         'exercise': exercise,
-        'chart_labels': chart_labels,
-        'chart_data': chart_data,
+        'chart_data_dict': chart_data,
     }
     return render(request, 'workouts/exercise_detail.html', context)
 
