@@ -125,17 +125,20 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/fa41a0a3f2.js" crossorigin="anonymous"></script>
 
-    <!-- Initialize Toasts -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-            var toastList = toastElList.map(function (toastEl) {
-                var toast = new bootstrap.Toast(toastEl)
-                toast.show()
-                return toast
-            })
-        });
-    </script>
+    {% block extra_js %}
+        <!-- Initialize Toasts -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+                var toastList = toastElList.map(function (toastEl) {
+                    var toast = new bootstrap.Toast(toastEl)
+                    toast.show()
+                    return toast
+                })
+            });
+        </script>
+    {% endblock %}
+
 </body>
 
 </html>

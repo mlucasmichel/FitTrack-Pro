@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Log Workout{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-8">
+        <h1 class="h2 fw-bold">Track Your Session</h1>
+        <p class="text-muted">Log your sets and reps. Bodyweight exercises will auto-fill with 0kg.</p>
+    </div>
+</div>
+
+<form method="POST" id="workout-log-form">
+    {% csrf_token %}
+
+    <div id="exercise-cards">
+        <!-- Dynamic exercise cards will be injected here -->
+    </div>
+
+    <!-- Add Exercise Button -->
+    <div class="d-grid gap-2 d-md-block mb-5">
+        <button type="button" class="btn btn-outline-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addExerciseModal">
+            <i class="fas fa-plus me-2"></i> Add Exercise
+        </button>
+    </div>
+
+    <div class="d-grid gap-2 border-top pt-5">
+        <button type="submit" class="btn btn-success btn-lg rounded-pill py-3 fw-bold shadow">
+            Finish & Save Workout
+        </button>
+    </div>
+</form>
+
+<!-- Add Exercise Modal -->
+<div class="modal fade" id="addExerciseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-0 p-4">
+                <h5 class="modal-title fw-bold">Choose Exercise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 pt-0">
+                <input type="text" id="exercise-search" class="form-control mb-3" placeholder="Search...">
+                <div class="list-group" id="exercise-list" style="max-height: 300px; overflow-y: auto;">
+                    {% for exercise in exercises %}
+                        <button type="button" class="list-group-item list-group-item-action border-0"
+                                data-id="{{ exercise.id }}"
+                                data-name="{{ exercise.name|title }}"
+                                data-is-bw="{% if exercise.equipment == 'body weight' %}true{% else %}false{% endif %}">
+                            {{ exercise.name|title }}
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const exerciseCards = document.getElementById('exercise-cards');
+
+        // --- Add Exercise Card from Modal ---
+        document.getElementById('exercise-list').addEventListener('click', function(e) {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+
+            const id = btn.dataset.id;
+            const name = btn.dataset.name;
+            const isBw = btn.dataset.isBw === 'true';
+
+            // Create Exercise Card
+            const card = document.createElement('div');
+            card.className = "card border-0 shadow-sm rounded-4 p-4 mb-4 exercise-card";
+            card.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0 text-primary">${name}</h5>
+                    <button type="button" class="btn btn-sm btn-outline-danger border-0 remove-exercise"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="sets-container" id="sets-for-${id}">
+                    <!-- Set rows go here -->
+                </div>
+                <button type="button" class="btn btn-sm btn-link text-decoration-none mt-2 add-set" data-id="${id}" data-is-bw="${isBw}">
+                    <i class="fas fa-plus-circle me-1"></i> Add Set
+                </button>
+            `;
+            exerciseCards.appendChild(card);
+
+            // Add initial set
+            addSetRow(id, isBw);
+
+            bootstrap.Modal.getInstance(document.getElementById('addExerciseModal')).hide();
+        });
+
+        // --- add Set Row ---
+        function addSetRow(exerciseId, isBw) {
+            const container = document.getElementById(`sets-for-${exerciseId}`);
+            const setCount = container.children.length + 1;
+            const weightValue = isBw ? '0' : '';
+            const weightDisabled = isBw ? 'readonly' : '';
+
+            const row = `
+                <div class="row g-2 mb-2 set-row align-items-center">
+                    <div class="col-1 text-muted small fw-bold">#${setCount}</div>
+                    <div class="col-5">
+                        <input type="number" name="weight_${exerciseId}[]" class="form-control form-control-sm border-0 bg-light rounded-pill px-3"
+                            value="${weightValue}" ${weightDisabled} placeholder="Weight" step="0.5" required>
+                    </div>
+                    <div class="col-4">
+                        <input type="number" name="reps_${exerciseId}[]" class="form-control form-control-sm border-0 bg-light rounded-pill px-3"
+                            placeholder="Reps" min="1" required>
+                    </div>
+                    <div class="col-2 text-end">
+                        <button type="button" class="btn btn-sm text-danger remove-set"><i class="fas fa-minus-circle"></i></button>
+                    </div>
+                    <input type="hidden" name="exercise_id_order[]" value="${exerciseId}">
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', row);
+        }
+
+        // --- Handle Clicks in Exercise Card ---
+        exerciseCards.addEventListener('click', function(e) {
+            // Add Set
+            if (e.target.closest('.add-set')) {
+                const btn = e.target.closest('.add-set');
+                addSetRow(btn.dataset.id, btn.dataset.isBw === 'true');
+            }
+            // Remove Set
+            if (e.target.closest('.remove-set')) {
+                e.target.closest('.set-row').remove();
+            }
+            // Remove Exercise Card
+            if (e.target.closest('.remove-exercise')) {
+                e.target.closest('.exercise-card').remove();
+            }
+        });
+    });
+</script>
+{% endblock %}

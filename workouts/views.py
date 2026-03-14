@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Exercise
 from django.db.models import Q
+from django.shortcuts import redirect, render, get_object_or_404
+from .models import Exercise, WorkoutLog, SetLog, WorkoutPlan
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 def exercise_list(request):
@@ -21,7 +23,8 @@ def exercise_list(request):
         exercises = exercises.filter(body_part__iexact=body_part)
 
     # get body parts for filter dropdown
-    body_parts = Exercise.objects.values_list('body_part', flat=True).distinct().order_by('body_part')
+    body_parts = Exercise.objects.values_list(
+        'body_part', flat=True).distinct().order_by('body_part')
 
     context = {
         'exercises': exercises,
@@ -46,3 +49,44 @@ def exercise_detail(request, exercise_id):
         # 'progress_data': progress_data,
     }
     return render(request, 'workouts/exercise_detail.html', context)
+
+
+@login_required
+def log_workout(request, plan_id=None):
+    """
+    Allows the user to log a workout session.
+    If a plan_id is provided, it pre-fills the session with the plan's exercises.
+    """
+    workout_plan = None
+    if plan_id:
+        workout_plan = get_object_or_404(WorkoutPlan, id=plan_id)
+
+    # Get all exercises for logging or to add to a plan
+    exercises = Exercise.objects.all().order_by('name')
+
+    if request.method == 'POST':
+        workout_log = WorkoutLog.objects.create(user=request.user)
+
+        exercise_ids = request.POST.getlist('exercise_id_order[]')
+        unique_ids = set(exercise_ids)
+
+        for e_id in unique_ids:
+            weights = request.POST.getlist(f'weight_{e_id}[]')
+            reps = request.POST.getlist(f'reps_{e_id}[]')
+            exercise = get_object_or_404(Exercise, id=e_id)
+
+            for i in range(len(weights)):
+                SetLog.objects.create(
+                    workout_log=workout_log,
+                    exercise=exercise,
+                    weight_kg=weights[i],
+                    reps_completed=reps[i]
+                )
+
+        return redirect('dashboard')
+
+    context = {
+        'workout_plan': workout_plan,
+        'exercises': exercises,
+    }
+    return render(request, 'workouts/log_workout.html', context)
