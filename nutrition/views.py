@@ -87,3 +87,20 @@ def edit_custom_meal(request, meal_id):
         'meal': meal
     }
     return render(request, 'nutrition/edit_meal.html', context)
+
+
+@login_required
+def delete_custom_meal(request, meal_id):
+    """
+    Allows a user to safely delete a custom meal they created.
+    Must be a POST request for security.
+    """
+    meal = get_object_or_404(Meal, id=meal_id, created_by=request.user)
+
+    if request.method == 'POST':
+        meal_name = meal.name
+        meal.delete()
+        messages.success(request, f"'{meal_name}' has been deleted.")
+        return redirect('profile')
+
+    return redirect('profile')
