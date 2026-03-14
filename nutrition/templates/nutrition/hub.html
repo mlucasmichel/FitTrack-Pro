@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Nutrition Hub{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-8">
+        <h1 class="h2 fw-bold">Daily Nutrition</h1>
+        <p class="text-muted">Track your macros and stay on top of your goals.</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <!-- Main Calorie Ring / Summary -->
+    <div class="col-md-5">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 text-center d-flex flex-column justify-content-center">
+            <h5 class="fw-bold mb-4">Calories Remaining</h5>
+
+            <div class="position-relative d-inline-block mx-auto mb-3" style="width: 200px; height: 200px;">
+                <div id="calorie-ring" class="rounded-circle w-100 h-100" style="background: conic-gradient(var(--bg-200) 100%, var(--bg-200)0);"></div>
+                <div class="position-absolute top-50 start-50 translate-middle bg-white rounded-circle d-flex flex-column justify-content-center"style="width: 170px; height: 170px;">
+                    <h2 class="fw-bold mb-0 text-primary" id="cal-remaining">--</h2>
+                    <span class="small text-muted">kcal</span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between px-4 mt-3">
+                <div>
+                    <span class="small text-muted d-block">Consumed</span>
+                    <span class="fw-bold" id="cal-consumed">--</span>
+                </div>
+                <div>
+                    <span class="small text-muted d-block">Goal</span>
+                    <span class="fw-bold" id="cal-goal">--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Macro Progress Bars -->
+    <div class="col-md-7">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="fw-bold mb-4">Macronutrients</h5>
+
+            <!-- Protein -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold small">Protein</span>
+                    <span class="small text-muted" id="prot-text">-- / -- g</span>
+                </div>
+                <div class="progress" style="height: 10px;">
+                    <div id="prot-bar" class="progress-bar bg-primary" role="progressbar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <!-- Carbs -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold small">Carbs</span>
+                    <span class="small text-muted" id="carb-text">-- / -- g</span>
+                </div>
+                <div class="progress" style="height: 10px;">
+                    <div id="carb-bar" class="progress-bar bg-warning" role="progressbar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <!-- Fats -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold small">Fats</span>
+                    <span class="small text-muted" id="fat-text">-- / -- g</span>
+                </div>
+                <div class="progress" style="height: 10px;">
+                    <div id="fat-bar" class="progress-bar bg-danger" role="progressbar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-4 text-end">
+                <button class="btn btn-outline-primary rounded-pill px-4" disabled>+ Log Meal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ nutrition_data|json_script:"nutrition-data" }}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/calculator.js' %}"></script>
+{% endblock %}
