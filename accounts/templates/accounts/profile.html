@@ -58,11 +58,11 @@
 
         <!-- Meals Management Card -->
         <div class="card border-0 shadow-sm p-4 mt-4">
-            <h5 class="fw-bold mb-4">My Custom Foods</h5>
+            <h5 class="fw-bold mb-4">My Meals</h5>
    
             <div class="list-group list-group-flush">
                 {% for meal in custom_meals %}
-                    <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom border-light">
+                    <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom border-light bg-transparent p-3">
                         <div>
                             <h6 class="mb-0 fw-bold">{{ meal.name }}</h6>
                             <span class="small text-muted">{{ meal.calories }} kcal</span>
