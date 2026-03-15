@@ -35,7 +35,7 @@ RAPIDAPI_HOST = os.environ.get('RAPIDAPI_HOST')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'fittrack-pro.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
