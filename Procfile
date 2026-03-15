@@ -1,1 +1,1 @@
-web: gunicorn fittrack_pro.wsgi
+web: gunicorn fittrack_pro.wsgi:application
