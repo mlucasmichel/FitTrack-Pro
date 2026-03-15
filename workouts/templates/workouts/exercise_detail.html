@@ -21,69 +21,113 @@
 </div>
 
 <div class="row g-5">
-    <!-- Instructions and GIF column -->
-    <div class="col-lg-6">
+    <!-- GIF and Pro Tip -->
+    <div class="col-lg-5">
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
             {% if exercise.local_gif %}
-                <img src="{{ exercise.local_gif.url }}" class="img-fluid p-4 bg-white" alt="{{ exercise.name }}">
+                <img src="{{ exercise.local_gif.url }}" class="img-fluid w-100 p-4 bg-white" alt="{{ exercise.name }}">
             {% endif %}
         </div>
 
-        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
-            <h4 class="fw-bold mb-4"><i class="fas fa-list-ol text-primary me-2"></i> How to Perform</h4>
-            <ol class="list-group list-group-flush list-group-numbered">
-                {% for step in exercise.instructions %}
-                    <li class="list-group-item border-0 px-0 py-3 text-muted fs-5">
-                        {{ step }}
-                    </li>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-
-    <!-- Stats and Charts column -->
-    <div class="col-lg-6">
-        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4" style="min-height: 400px;">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold mb-0" id="chartTitle"><i class="fas fa-chart-line text-success me-2"></i> Heaviest Weight</h4>
-            </div>
-
-            {% if user.is_authenticated %}
-                <!-- Canvas -->
-                <div style="position: relative; height: 280px; width: 100%; mb-4">
-                    <canvas id="progressChart"></canvas>
-                </div>
-
-                <!-- Metric Buttons -->
-                <div class="d-flex flex-wrap gap-2 mt-4 justify-content-center">
-                    <button class="btn btn-sm btn-primary rounded-pill chart-toggle" data-metric="heaviest_weight">Heaviest Weight</button>
-                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="estimated_1rm">1RM</button>
-                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="best_set_volume">Best Set Vol.</button>
-                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="session_volume">Session Vol.</button>
-                    <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="total_reps">Total Reps</button>
-                </div>
-
-                <!-- Inject the dictionary -->
-                {{ chart_data_dict|json_script:"chart-data" }}
-
-            {% else %}
-                <!-- Logged out state -->
-                <div class="text-center py-5">
-                    <i class="fas fa-lock fa-3x text-light mb-3"></i>
-                    <p class="text-muted">Log in to track your progress and view interactive history charts.</p>
-                    <a href="{% url 'account_login' %}" class="btn btn-outline-primary rounded-pill px-4 mt-2">Log In</a>
-                </div>
-            {% endif %}
-        </div>
-
-        <!-- Info Card -->
-        <div class="card border-0 shadow-sm rounded-4 p-4 bg-primary bg-opacity-10">
+        <!-- Pro Tip Card -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-primary bg-opacity-10 d-none d-lg-block">
             <h6 class="fw-bold text-primary text-uppercase small mb-3">Pro Tip</h6>
             <p class="mb-0 text-dark opacity-75">
                 Consistency is key! Focus on proper form as described in the instructions before increasing weight.
             </p>
         </div>
     </div>
+
+    <!-- Stats and How-To -->
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4" style="min-height: 500px;">
+
+            <!-- Nav Tabs -->
+            <ul class="nav nav-pills mb-4 bg-light p-2 rounded-pill d-inline-flex" id="exerciseTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active rounded-pill fw-bold px-4" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats-pane" type="button" role="tab" aria-controls="stats-pane" aria-selected="true">
+                        <i class="fas fa-chart-line me-2"></i> Statistics
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill fw-bold px-4" id="howto-tab" data-bs-toggle="tab" data-bs-target="#howto-pane" type="button" role="tab" aria-controls="howto-pane" aria-selected="false">
+                        <i class="fas fa-list-ol me-2"></i> How To
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="exerciseTabContent">
+
+                <!-- Statistics Pane -->
+                <div class="tab-pane fade show active" id="stats-pane" role="tabpanel" aria-labelledby="stats-tab" tabindex="0">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fw-bold mb-0" id="chartTitle"><i class="fas fa-chart-line text-success me-2"></i> Heaviest Weight</h4>
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <!-- Canvas -->
+                        <div style="position: relative; height: 280px; width: 100%; margin-bottom: 1.5rem;">
+                            <canvas id="progressChart"></canvas>
+                        </div>
+
+                        <!-- Metric Buttons -->
+                        <div class="d-flex flex-wrap gap-2 mt-4 justify-content-center border-top pt-4">
+                            <button class="btn btn-sm btn-primary rounded-pill chart-toggle" data-metric="heaviest_weight">
+                                Heaviest Weight
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="estimated_1rm">
+                                1RM
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="best_set_volume">
+                                Best Set Vol.
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="session_volume">
+                                Session Vol.
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="total_reps">
+                                Total Reps
+                            </button>
+                        </div>
+
+                        {{ chart_data_dict|json_script:"chart-data" }}
+
+                    {% else %}
+                        <!-- Logged out state -->
+                        <div class="text-center py-5 mt-4">
+                            <i class="fas fa-lock fa-3x text-light mb-3"></i>
+                            <p class="text-muted">Log in to track your progress and view interactive history charts.</p>
+                            <a href="{% url 'account_login' %}" class="btn btn-outline-primary rounded-pill px-4 mt-2">Log In</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- How To Pane -->
+                <div class="tab-pane fade" id="howto-pane" role="tabpanel" aria-labelledby="howto-tab" tabindex="0">
+                    <h4 class="fw-bold mb-4"><i class="fas fa-info-circle text-primary me-2"></i> Execution Steps</h4>
+                    <ol class="list-group list-group-flush list-group-numbered">
+                        {% for step in exercise.instructions %}
+                            <li class="list-group-item border-0 px-0 py-3 text-muted fs-5">
+                                {{ step }}
+                                <hr class="text-muted">
+                            </li>
+                        {% endfor %}
+                    </ol>
+
+                    <!-- Pro Tip Card (Visible on mobile inside the tab) -->
+                    <div class="card border-0 shadow-sm rounded-4 p-4 mt-4 bg-primary bg-opacity-10 d-block d-lg-none">
+                        <h6 class="fw-bold text-primary text-uppercase small mb-2">Pro Tip</h6>
+                        <p class="mb-0 text-dark opacity-75 small">
+                            Consistency is key! Focus on proper form as described in the instructions before increasing weight.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End Tab Content -->
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}

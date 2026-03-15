@@ -211,7 +211,7 @@ form.signup input:focus {
   outline: 0;
   box-shadow: 0 0 0 4px rgba(235, 156, 100, 0.15);
 }
-/* Checkbox specific styling (for "Remember Me") */
+/* Checkbox styling (for "Remember Me") */
 form.login input[type="checkbox"] {
   width: auto;
   display: inline-block;
@@ -295,6 +295,31 @@ form.signup label {
 
 .extra-small {
     font-size: 0.75rem;
+}
+
+/* Custom Nav Pills */
+.nav-pills .nav-link {
+    color: var(--text-200) !important;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-pills .nav-link:hover {
+    color: var(--primary-100) !important;
+    background-color: var(--bg-200);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    color: #ffffff !important;
+    background-color: var(--primary-100) !important;
+    box-shadow: var(--float-shadow);
+}
+
+/* List Group Item Styling */
+.card .list-group-item {
+    background-color: transparent !important;
+    color: var(--text-100);
 }
 
 /* --- Media queries --- */
