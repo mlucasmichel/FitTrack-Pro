@@ -33,4 +33,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('workouts/', include('workouts.urls')),
     path('nutrition/', include('nutrition.urls')),
+    # Subscription management
+    path('membership/', include('subscriptions.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

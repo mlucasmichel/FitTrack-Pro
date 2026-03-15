@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Membership Plans{% endblock %}
+
+{% block content %}
+<div class="row text-center mb-5 mt-4">
+    <div class="col-md-8 mx-auto">
+        <h1 class="display-4 fw-bold">Ready to level up?</h1>
+        <p class="fs-5 text-muted">Join the elite FitTrack Pro community and unlock professional tools to master your body.</p>
+    </div>
+</div>
+
+<div class="row justify-content-center g-4">
+    {% for plan in plans %}
+        <div class="col-md-5 col-lg-4">
+            <!-- Professional Pricing Card -->
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100 {% if plan.price > 0 %}border-top border-primary border-5{% endif %}">
+                <div class="card-body p-5 d-flex flex-column">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3 text-uppercase fw-bold small">
+                            {{ plan.name }}
+                        </span>
+                        <h2 class="display-5 fw-bold mb-0">
+                            {% if plan.price == 0 %}Free{% else %}€{{ plan.price }}{% endif %}
+                        </h2>
+                        <p class="text-muted">{% if plan.price > 0 %}per month{% else %}forever{% endif %}</p>
+                    </div>
+
+                    <!-- Features List -->
+                    <ul class="list-unstyled mb-5 fs-6">
+                        <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> Comprehensive Exercise Library</li>
+                        <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> Real-time Workout Tracking</li>
+
+                        {% if plan.price > 0 %}
+                            <!-- Premium Features -->
+                            <li class="mb-3">
+                                <i class="fas fa-check-circle text-success me-2"></i> <strong>Exclusive Pro Routines</strong>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check-circle text-success me-2"></i> <strong>Premium Meal Plans</strong>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check-circle text-success me-2"></i> Detailed Progress Analytics
+                            </li>
+                        {% else %}
+                            <!-- Free limitations -->
+                            <li class="mb-3 text-muted opacity-50"><i class="fas fa-times-circle me-2"></i> Exclusive Pro Routines</li>
+                            <li class="mb-3 text-muted opacity-50"><i class="fas fa-times-circle me-2"></i> Premium Meal Plans</li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="mt-auto">
+                        {% if user.is_authenticated and user.subscription.plan_tier == plan %}
+                            <button class="btn btn-secondary btn-lg w-100 rounded-pill py-3 disabled" disabled>Your Current Plan</button>
+                        {% elif plan.price == 0 %}
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-dark btn-lg w-100 rounded-pill py-3">Get Started</a>
+                        {% else %}
+                            <a href="#" class="btn btn-primary btn-lg w-100 rounded-pill py-3 shadow-sm fw-bold">
+                                Upgrade to Pro
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-5 pt-5 border-top">
+    <div class="col-12 text-center">
+        <p class="small text-muted">All payments are securely handled via Stripe. Cancel anytime.</p>
+        <div class="d-flex justify-content-center gap-4 fs-3 text-muted opacity-25 mt-3">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-stripe"></i>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,8 +4,12 @@ from .models import PlanTier, Subscription
 
 @admin.register(PlanTier)
 class PlanTierAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'stripe_price_id', 'is_active')
+    list_display = ('name', 'formatted_price', 'stripe_price_id', 'is_active')
     list_filter = ('is_active',)
+
+    def formatted_price(self, obj):
+        return f"€{obj.price}"
+    formatted_price.short_description = 'Price'
 
 
 @admin.register(Subscription)
