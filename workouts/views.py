@@ -1,4 +1,6 @@
-from django.db.models import Q, Sum, F, Max, ExpressionWrapper, DecimalField
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from django.db.models import Q, Sum, F, Max
 from django.db.models.functions import TruncDate
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Exercise, WorkoutLog, SetLog, WorkoutPlan
@@ -84,6 +86,11 @@ def exercise_detail(request, exercise_id):
         'exercise': exercise,
         'chart_data_dict': chart_data,
     }
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        html = render_to_string('workouts/partials/_exercise_detail_content.html', context, request=request)
+        return HttpResponse(html)
+
     return render(request, 'workouts/exercise_detail.html', context)
 
 

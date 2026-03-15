@@ -23,7 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
         "card border-0 shadow-sm rounded-4 p-4 mb-4 exercise-card";
       card.innerHTML = `
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold mb-0 text-primary">${name}</h5>
+                    <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-primary text-decoration-none view-exercise-detail" data-id="${id}" data-name="${name}">
+                        ${name} <i class="fas fa-external-link-alt small opacity-50 ms-1"></i>
+                    </a>
                     <button type="button" class="btn btn-sm btn-outline-danger border-0 remove-exercise"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="sets-container" id="sets-for-${id}">
@@ -116,6 +118,45 @@ document.addEventListener("DOMContentLoaded", function () {
       // Remove Exercise Card
       if (e.target.closest(".remove-exercise")) {
         e.target.closest(".exercise-card").remove();
+      }
+
+      // --- View Exercise Detail Modal ---
+      if (e.target.closest(".view-exercise-detail")) {
+        e.preventDefault();
+        const link = e.target.closest(".view-exercise-detail");
+        const exId = link.dataset.id;
+        const exName = link.dataset.name;
+        const modalElement = document.getElementById("exerciseDetailModal");
+        if (modalElement) {
+          // Check if modal instance already exists to avoid creating multiple
+          let modal = bootstrap.Modal.getInstance(modalElement);
+          if (!modal) {
+            modal = new bootstrap.Modal(modalElement);
+          }
+          document.getElementById("detailModalTitle").textContent = exName;
+          const body = document.getElementById("detailModalBody");
+          // Show spinner
+          body.innerHTML =
+            '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+          modal.show();
+          // Fetch the partial view
+          fetch(`/workouts/exercises/${exId}/`, {
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+          })
+            .then((response) => response.text())
+            .then((html) => {
+              body.innerHTML = html;
+              // Initialize the chart
+              if (typeof window.initExerciseChart === "function") {
+                window.initExerciseChart(exId);
+              }
+            })
+            .catch((error) => {
+              body.innerHTML =
+                '<div class="alert alert-danger">Error loading exercise details.</div>';
+              console.error("Error fetching exercise details:", error);
+            });
+        }
       }
     });
   }

@@ -57,8 +57,30 @@
         </div>
     </div>
 </div>
+
+<!-- Detail View Modal Shell -->
+<div class="modal fade" id="exerciseDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg bg-light">
+            <div class="modal-header border-0 pb-0">
+                <h3 class="modal-title fw-bold ms-3 mt-3" id="detailModalTitle">Exercise</h3>
+                <button type="button" class="btn-close me-3 mt-3" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4" id="detailModalBody">
+                <!-- AJAX Content Injected Here -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/workout_log.js' %}"></script>
+<script src="{% static 'js/charts.js' %}"></script>
 {% endblock %}
