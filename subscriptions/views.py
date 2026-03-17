@@ -1,4 +1,6 @@
 import stripe
+import datetime
+from django.utils import timezone
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import redirect, get_object_or_404
@@ -88,22 +90,43 @@ def stripe_webhook(request):
         stripe_subscription_id = session.get('subscription')
 
         # Get the User and update/create their Subscription record
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+
+        user_id = session.get('client_reference_id')
+        stripe_customer_id = session.get('customer')
+        stripe_subscription_id = session.get('subscription')
+
         try:
+            print(f"--- Processing Real Checkout for User ID: {user_id} ---")
             user = User.objects.get(id=user_id)
-            # Fetch the subscription from Stripe to get the period end date
+
             stripe_sub = stripe.Subscription.retrieve(stripe_subscription_id)
+
+            line_items = stripe.checkout.Session.list_line_items(session.id, limit=1)
+            price_id = line_items.data[0].price.id
+            print(f"Verified Price ID: {price_id}")
+
+            plan_tier = PlanTier.objects.filter(stripe_price_id=price_id).first()
+
+            raw_end = getattr(stripe_sub, 'current_period_end', None)
+            if raw_end:
+                period_end = timezone.make_aware(datetime.datetime.fromtimestamp(raw_end))
+            else:
+                period_end = timezone.now() + datetime.timedelta(days=30)
 
             subscription, created = Subscription.objects.update_or_create(
                 user=user,
                 defaults={
+                    'plan_tier': plan_tier,
                     'stripe_customer_id': stripe_customer_id,
                     'stripe_subscription_id': stripe_subscription_id,
                     'status': 'active',
-                    'current_period_end': timezone.datetime.fromtimestamp(stripe_sub.current_period_end, tz=timezone.utc),
+                    'current_period_end': period_end,
                 }
             )
-            print(f"✅ Subscription for user {user.username} activated!")
-        except User.DoesNotExist:
-            print("❌ User not found during webhook processing")
+            print(f"✅ SUCCESS: {user.username} is now Premium!")
+        except Exception as e:
+            print(f"Error processing webhook: {e}")
 
     return HttpResponse(status=200)
