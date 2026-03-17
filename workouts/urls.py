@@ -7,4 +7,5 @@ urlpatterns = [
     path('log/', views.log_workout, name='log_workout'),
     path('log/<int:plan_id>/', views.log_workout, name='log_workout_plan'),
     path('routines/', views.routines_list, name='routines'),
+    path('routines/create/', views.create_routine, name='create_routine'),
 ]
