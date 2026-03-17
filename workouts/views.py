@@ -87,7 +87,7 @@ def exercise_detail(request, exercise_id):
 
     context = {
         'exercise': exercise,
-        'chart_data_dict': chart_data,
+        'chart_data_dict': json.dumps(chart_data),
     }
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':

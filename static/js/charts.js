@@ -75,16 +75,24 @@ window.initExerciseChart = function (exerciseId) {
       const buttons = document.querySelectorAll(
         `.chart-toggle[data-eid="${exerciseId}"]`,
       );
+
       buttons.forEach((btn) => {
-        // Remove old listeners to prevent duplicates
+        // Remove old listeners to prevent duplicates by cloning
         const newBtn = btn.cloneNode(true);
         btn.parentNode.replaceChild(newBtn, btn);
 
         newBtn.addEventListener("click", function () {
-          buttons.forEach((b) => {
-            b.classList.replace("btn-primary", "btn-outline-primary");
+          const currentButtons = document.querySelectorAll(
+            `.chart-toggle[data-eid="${exerciseId}"]`,
+          );
+
+          currentButtons.forEach((b) => {
+            b.classList.remove("btn-primary");
+            b.classList.add("btn-outline-primary");
           });
-          this.classList.replace("btn-outline-primary", "btn-primary");
+
+          this.classList.remove("btn-outline-primary");
+          this.classList.add("btn-primary");
 
           document.getElementById(`chartTitle-${exerciseId}`).innerHTML =
             `<i class="fas fa-chart-line text-success me-2"></i> ${this.innerText}`;
