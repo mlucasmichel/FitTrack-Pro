@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.db.models import Q, Sum, F, Max
 from django.db.models.functions import TruncDate
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Exercise, WorkoutLog, SetLog, WorkoutPlan
+from .models import Exercise, WorkoutLog, SetLog, WorkoutPlan, PlanItem
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
