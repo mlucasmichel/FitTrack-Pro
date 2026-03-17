@@ -10,3 +10,6 @@ __pycache__/
 .github/
 cloudinary_python.txt
 db.sqlite3
+media/
+media/*
+!media/.keep
