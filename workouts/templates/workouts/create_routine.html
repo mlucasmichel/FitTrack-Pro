@@ -8,26 +8,29 @@
     {% csrf_token %}
     <input type="hidden" name="routine_data" id="routine-data-input">
 
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-        <h1 class="h3 fw-bold mb-0">Create Routine</h1>
-        <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" id="save-routine-btn">
-            <i class="fas fa-save me-2"></i> Save Routine
-        </button>
-    </div>
-
-    <!-- Title and Description Input -->
-    <div class="row mb-5">
-        <div class="col-md-8">
-            <input type="text" name="title" class="form-control form-control-lg border-0 shadow-sm rounded-pill px-4 mb-3" placeholder="Routine Title (e.g., Pull Day)" required>
-            <textarea name="description" class="form-control border-0 shadow-sm rounded-4 px-4 py-3" rows="2" placeholder="Brief description (optional)..."></textarea>
-        </div>
-    </div>
-
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center">
         <!-- Routine Creator -->
-        <div class="col-lg-8">
-            <h5 class="fw-bold mb-3"><i class="fas fa-hammer me-2 text-primary"></i> Your Routine</h5>
+        <div class="col-lg-5">
+
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                <h1 class="h3 fw-bold mb-0">Create Routine</h1>
+                <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" id="save-routine-btn">
+                    <i class="fas fa-save me-2"></i> Save Routine
+                </button>
+            </div>
+
+            <!-- Title and Description Input -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <label class="fw-bold mb-3 h5" for="title">Routine Title</label>
+                    <input type="text" name="title" class="form-control form-control-lg border-0 shadow-sm rounded-4 px-4 mb-3" placeholder="e.g., Pull Day" required>
+                    <label class="fw-bold mb-3 h5" for="description">Description</label>
+                    <textarea name="description" class="form-control border-0 shadow-sm rounded-4 px-4 py-3" rows="2" placeholder="Brief description (optional)..."></textarea>
+                </div>
+            </div>
+
+            <h5 class="fw-bold mb-3">Your Routine</h5>
 
             <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 p-4 min-vh-50 bg-white">
                 <div class="text-center text-muted py-5" id="empty-builder-state">
@@ -38,11 +41,11 @@
         </div>
 
         <!-- Library and Summary -->
-        <div class="col-lg-4">
+        <div class="col-lg-3">
 
             <!-- Summary Card -->
-            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-primary bg-opacity-10">
-                <h6 class="fw-bold text-primary mb-3">Summary</h6>
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                <h6 class="fw-bold mb-3">Summary</h6>
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Total Exercises:</span>
                     <span class="fw-bold" id="summary-exercises">0</span>
@@ -54,13 +57,13 @@
             </div>
 
             <!-- Exercise Library -->
-            <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
                 <h6 class="fw-bold mb-3">Exercise Library</h6>
                 <input type="text" id="library-search" class="form-control form-control-sm border-0 bg-light rounded-pill px-3 mb-3" placeholder="Search...">
 
                 <div id="exercise-library-zone" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
                     {% for ex in exercises %}
-                        <div class="card border border-light shadow-sm rounded-3 p-2 mb-2 draggable-exercise"
+                        <div class="card border-0 shadow-none rounded-3 p-2 mb-2 draggable-exercise bg-white cursor-pointer view-exercise-detail"
                             data-id="{{ ex.id }}" data-name="{{ ex.name|title }}" data-img="{% if ex.local_gif %}{{ ex.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}">
                             <div class="d-flex align-items-center">
                                 <div class="bg-light rounded-circle p-1 me-3" style="width: 40px; height: 40px;">
@@ -74,6 +77,7 @@
                                 <i class="fas fa-grip-vertical text-muted cursor-grab ms-2 ps-2 border-start"></i>
                             </div>
                         </div>
+                        <hr class="text-muted opacity-25 my-1">
                     {% endfor %}
                 </div>
             </div>
@@ -81,7 +85,7 @@
     </div>
 </form>
 
-{% include 'workouts/partials/_exercise_detail_modal.html' %}
+{% include 'workouts/partials/_modal_shell.html' %}
 
 {% endblock %}
 
