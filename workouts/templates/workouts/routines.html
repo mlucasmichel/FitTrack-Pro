@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Workout Routines{% endblock %}
+
+{% block content %}
+<div class="row mb-5 align-items-end">
+    <div class="col-md-8">
+        <h1 class="h2 fw-bold">Workout Routines</h1>
+        <p class="text-muted mb-0">Manage your custom routines or explore professional plans.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <!-- Intelligent Create Button -->
+        {% if can_create_new %}
+            <a href="#" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                <i class="fas fa-plus me-2"></i> Create Routine
+            </a>
+        {% else %}
+            <!-- Locked State for Free Users at Limit -->
+            <button class="btn btn-secondary rounded-pill px-4 shadow-sm" disabled title="Free tier limit reached">
+                <i class="fas fa-lock me-2"></i> Create Routine (Limit Reached)
+            </button>
+            <div class="mt-2 small">
+                <a href="{% url 'pricing' %}" class="text-warning fw-bold text-decoration-none">
+                    <i class="fas fa-crown"></i> Go Pro for Unlimited
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- SECTION 1: User's Custom Routines -->
+<h4 class="fw-bold mb-4">
+    My Custom Routines 
+    <span class="badge bg-light text-dark border ms-2 fs-6">
+        {{ user_routines.count }}{% if not is_premium %} / {{ routine_limit }}{% endif %}
+    </span>
+</h4>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+    {% for routine in user_routines %}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h5 class="fw-bold">{{ routine.title }}</h5>
+                    <p class="text-muted small mb-4">{{ routine.description|truncatewords:12|default:"Custom workout routine." }}</p>
+
+                    <div class="mt-auto d-flex justify-content-between align-items-center border-top pt-3">
+                        <span class="small text-muted"><i class="fas fa-dumbbell me-1"></i> {{ routine.exercises.count }} Exercises</span>
+                        <div>
+                            <!-- We will wire this up to the logger in the next step -->
+                            <a href="{% url 'log_workout_plan' routine.id %}" class="btn btn-sm btn-outline-primary rounded-pill">
+                                Start
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4 bg-light text-center py-5">
+                <i class="fas fa-clipboard-list fa-3x text-muted opacity-25 mb-3"></i>
+                <p class="text-muted mb-0">You haven't created any custom routines yet.</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- SECTION 2: System Provided Routines -->
+<h4 class="fw-bold mb-4">Professional Plans</h4>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for routine in system_routines %}
+        <div class="col">
+            <!-- Dim the card if it's premium and the user isn't -->
+            <div class="card h-100 border-0 shadow-sm rounded-4 {% if routine.is_premium and not is_premium %}opacity-75 bg-light{% endif %}">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h5 class="fw-bold">
+                        {{ routine.title }}
+                        {% if routine.is_premium %}
+                            <span class="badge bg-warning text-dark ms-1" style="font-size: 0.65rem;">
+                                <i class="fas fa-crown"></i>PRO
+                            </span>
+                        {% endif %}
+                    </h5>
+
+                    {% if routine.is_premium and not is_premium %}
+                        <!-- LOCKED STATE -->
+                        <p class="text-muted small mb-4">Unlock this professional routine and more by upgrading your account.</p>
+                        <div class="mt-auto text-center border-top pt-3">
+                            <a href="{% url 'pricing' %}" class="btn btn-sm btn-warning rounded-pill w-100 shadow-sm fw-bold">
+                                Upgrade to Access
+                            </a>
+                        </div>
+                    {% else %}
+                        <!-- UNLOCKED STATE -->
+                        <p class="text-muted small mb-4">{{ routine.description|truncatewords:15 }}</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center border-top pt-3">
+                            <span class="small text-muted">
+                                <i class="fas fa-dumbbell me-1"></i> {{ routine.exercises.count }} Exercises
+                            </span>
+                            <a href="{% url 'log_workout_plan' routine.id %}" class="btn btn-sm btn-primary rounded-pill">Start</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <p class="text-muted">No professional plans available at the moment.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
