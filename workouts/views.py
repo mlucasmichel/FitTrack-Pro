@@ -1,3 +1,4 @@
+import json
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.db.models import Q, Sum, F, Max
@@ -189,3 +190,40 @@ def routines_list(request):
         'routine_limit': 3,
     }
     return render(request, 'workouts/routines.html', context)
+
+
+@login_required
+def create_routine(request):
+    """
+    Drag-and-drop builder for custom workout routines.
+    """
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description', '')
+
+        routine_data_str = request.POST.get('routine_data')
+
+        if title and routine_data_str:
+            routine_data = json.loads(routine_data_str)
+
+            plan = WorkoutPlan.objects.create(
+                title=title,
+                description=description,
+                created_by=request.user
+            )
+
+            for index, item in enumerate(routine_data):
+                exercise = get_object_or_404(Exercise, id=item['exercise_id'])
+                PlanItem.objects.create(
+                    workout_plan=plan,
+                    exercise=exercise,
+                    target_sets=item['sets'],
+                    target_reps=item['reps'],
+                    order=index
+                )
+
+            messages.success(request, "Routine saved successfully!")
+            return redirect('routines')
+
+    exercises = Exercise.objects.all().order_by('name')
+    return render(request, 'workouts/create_routine.html', {'exercises': exercises})

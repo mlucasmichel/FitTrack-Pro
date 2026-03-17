@@ -16,7 +16,48 @@
     {% csrf_token %}
 
     <div id="exercise-cards">
-        <!-- Dynamic exercise cards are injected here -->
+        <!-- Pre-load exercises if a workout plan was selected -->
+        {% if workout_plan %}
+            {% for item in workout_plan.planitem_set.all %}
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 exercise-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-primary text-decoration-none view-exercise-detail" data-id="{{ item.exercise.id }}" data-name="{{ item.exercise.name|title }}">
+                            {{ item.exercise.name|title }} <i class="fas fa-external-link-alt small opacity-50 ms-1"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-outline-danger border-0 remove-exercise"><i class="fas fa-times"></i></button>
+                    </div>
+
+                    <div class="sets-container" id="sets-for-{{ item.exercise.id }}">
+                        {% with ''|center:item.target_sets as range %}
+                        {% for _ in range %}
+                            <div class="row g-2 mb-2 set-row align-items-center">
+                                <div class="col-1 text-muted small fw-bold set-number-label">#{{ forloop.counter }}</div>
+                                <div class="col-5">
+                                    <input type="number" name="weight_{{ item.exercise.id }}[]" class="form-control form-control-sm border-0 bg-light rounded-pill px-3"
+                                        {% if item.exercise.equipment == 'body weight' %}value="0" readonly{% endif %}
+                                        placeholder="Weight" step="0.5" min="0" required>
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" name="reps_{{ item.exercise.id }}[]" class="form-control form-control-sm border-0 bg-light rounded-pill px-3"
+                                        placeholder="Target: {{ item.target_reps }}" min="1" required>
+                                </div>
+                                <div class="col-2 text-end">
+                                    <button type="button" class="btn btn-sm text-danger remove-set"><i class="fas fa-minus-circle"></i></button>
+                                </div>
+                                <input type="hidden" name="exercise_id_order[]" value="{{ item.exercise.id }}">
+                            </div>
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-link text-decoration-none mt-2 add-set"
+                            data-id="{{ item.exercise.id }}"
+                            data-is-bw="{% if item.exercise.equipment == 'body weight' %}true{% else %}false{% endif %}">
+                        <i class="fas fa-plus-circle me-1"></i> Add Set
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
     <!-- Add Exercise Button -->
