@@ -76,8 +76,10 @@ def exercise_detail(request, exercise_id):
 
             chart_data['heaviest_weight'].append(round(w, 1))
             chart_data['total_reps'].append(r)
-            chart_data['session_volume'].append(round(float(stat['sess_vol'] or 0), 1))
-            chart_data['best_set_volume'].append(round(float(stat['best_set'] or 0), 1))
+            chart_data['session_volume'].append(
+                round(float(stat['sess_vol'] or 0), 1))
+            chart_data['best_set_volume'].append(
+                round(float(stat['best_set'] or 0), 1))
 
             estimated_1rm = w * (1 + (r / 30.0)) if w > 0 else 0
             chart_data['estimated_1rm'].append(round(estimated_1rm, 1))
@@ -88,7 +90,8 @@ def exercise_detail(request, exercise_id):
     }
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        html = render_to_string('workouts/partials/_exercise_detail_content.html', context, request=request)
+        html = render_to_string(
+            'workouts/partials/_exercise_detail_content.html', context, request=request)
         return HttpResponse(html)
 
     return render(request, 'workouts/exercise_detail.html', context)
@@ -133,3 +136,56 @@ def log_workout(request, plan_id=None):
         'exercises': exercises,
     }
     return render(request, 'workouts/log_workout.html', context)
+
+
+def workout_plan_list(request):
+    """
+    Displays all workout plans. Premium plans are marked.
+    """
+    plans = WorkoutPlan.objects.all().order_by('-created_at')
+
+    # Check if user has active premium status
+    is_premium_user = False
+    if request.user.is_authenticated:
+        is_premium_user = getattr(
+            request.user.subscription, 'status', '') == 'active'
+
+    context = {
+        'plans': plans,
+        'is_premium_user': is_premium_user,
+    }
+    return render(request, 'workouts/workout_plan_list.html', context)
+
+
+@login_required
+def routines_list(request):
+    """
+    Displays the Routines page. Handles gating logic for Free vs Premium users.
+    """
+    user = request.user
+
+    # Check Premium Status
+    is_premium = False
+    if hasattr(user, 'subscription'):
+        is_premium = user.subscription.status == 'active'
+
+    # Fetch User's Custom Routines
+    user_routines = WorkoutPlan.objects.filter(created_by=user).order_by('-created_at')
+    user_routine_count = user_routines.count()
+
+    # Gating Logic for Creating New Routines
+    can_create_new = True
+    if not is_premium and user_routine_count >= 3:
+        can_create_new = False
+
+    # Fetch System Routines
+    system_routines = WorkoutPlan.objects.filter(created_by__isnull=True).order_by('title')
+
+    context = {
+        'is_premium': is_premium,
+        'user_routines': user_routines,
+        'system_routines': system_routines,
+        'can_create_new': can_create_new,
+        'routine_limit': 3,
+    }
+    return render(request, 'workouts/routines.html', context)

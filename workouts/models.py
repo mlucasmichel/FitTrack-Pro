@@ -26,6 +26,7 @@ class WorkoutPlan(models.Model):
     """
     User-created or system-provided workout routines (templates).
     """
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     is_premium = models.BooleanField(default=False)
