@@ -10,7 +10,7 @@
 
     <div class="row g-4 justify-content-center">
         <!-- Routine Creator -->
-        <div class="col-lg-5">
+        <div class="col-lg-7 col-xl-5">
 
             <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
@@ -32,55 +32,61 @@
 
             <h5 class="fw-bold mb-3">Your Routine</h5>
 
-             <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 min-vh-50 bg-white {% if is_editing and routine.planitem_set.exists %}p-0 bg-transparent shadow-none{% else %}p-4{% endif %}">
-
-                 <!-- Empty State -->
-                 <div class="text-center text-muted py-5" id="empty-builder-state" style="{% if is_editing and routine.planitem_set.exists %}display: none;{% endif %}">
-                     <i class="fas fa-hand-pointer fa-2x mb-3 opacity-50"></i>
-                     <p>Drag exercises from the library here to build your routine.</p>
-                 </div>
+            <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 min-vh-50 bg-white {% if is_editing and routine.planitem_set.exists %}p-0 bg-transparent shadow-none{% else %}p-4{% endif %}">
+                <!-- Empty State -->
+                <div class="text-center text-muted py-5" id="empty-builder-state" style="{% if is_editing and routine.planitem_set.exists %}display: none;{% endif %}">
+                    <i class="fas fa-hand-pointer fa-2x mb-3 opacity-50"></i>
+                    <p>Drag exercises from the library here to build your routine.</p>
+                </div>
+            
+                <!-- Built Exercises (For Edit Mode) -->
+                {% if is_editing %}
+                    {% for item in routine.planitem_set.all %}
+                        <div class="card border border-primary shadow-sm rounded-4 p-3 mb-3 bg-white built-exercise" data-id="{{ item.exercise.id }}">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-grip-vertical text-muted drag-handle me-3 pe-auto" style="cursor: grab; font-size: 1.2rem;"></i>
+                                <div class="bg-light rounded-circle p-1 me-3" style="width: 45px; height: 45px;">
+                                    <img src="{% if item.exercise.local_gif %}{{ item.exercise.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fw-bold mb-0 text-dark">{{ item.exercise.name|title }}</h5>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-light text-danger rounded-circle remove-builder-exercise" title="Remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        
+                            <div class="row g-2 px-4 ms-2">
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold text-muted mb-1">Target Sets</label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text border-0 bg-light rounded-start-pill"><i class="fas fa-layer-group text-muted"></i></span>
+                                        <input type="number" class="form-control border-0 bg-light rounded-end-pill target-sets-input" value="{{ item.target_sets }}" min="1" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold text-muted mb-1">Target Reps</label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text border-0 bg-light rounded-start-pill"><i class="fas fa-redo text-muted"></i></span>
+                                        <input type="number" class="form-control border-0 bg-light rounded-end-pill target-reps-input" value="{{ item.target_reps }}" min="1" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
              
-                 <!-- Built Exercises (For Edit Mode) -->
-                 {% if is_editing %}
-                     {% for item in routine.planitem_set.all %}
-                         <div class="card border border-primary shadow-sm rounded-4 p-3 mb-3 bg-white built-exercise" data-id="{{ item.exercise.id }}">
-                             <div class="d-flex align-items-center mb-3">
-                                 <i class="fas fa-grip-vertical text-muted drag-handle me-3 pe-auto" style="cursor: grab; font-size: 1.2rem;"></i>
-                                 <div class="bg-light rounded-circle p-1 me-3" style="width: 45px; height: 45px;">
-                                     <img src="{% if item.exercise.local_gif %}{{ item.exercise.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle">
-                                 </div>
-                                 <div class="flex-grow-1">
-                                     <h5 class="fw-bold mb-0 text-dark">{{ item.exercise.name|title }}</h5>
-                                 </div>
-                                 <button type="button" class="btn btn-sm btn-light text-danger rounded-circle remove-builder-exercise" title="Remove">
-                                     <i class="fas fa-times"></i>
-                                 </button>
-                             </div>
-                         
-                             <div class="row g-2 px-4 ms-2">
-                                 <div class="col-6">
-                                     <label class="form-label small fw-bold text-muted mb-1">Target Sets</label>
-                                     <div class="input-group input-group-sm">
-                                         <span class="input-group-text border-0 bg-light rounded-start-pill"><i class="fas fa-layer-group text-muted"></i></span>
-                                         <input type="number" class="form-control border-0 bg-light rounded-end-pill target-sets-input" value="{{ item.target_sets }}" min="1" required>
-                                     </div>
-                                 </div>
-                                 <div class="col-6">
-                                     <label class="form-label small fw-bold text-muted mb-1">Target Reps</label>
-                                     <div class="input-group input-group-sm">
-                                         <span class="input-group-text border-0 bg-light rounded-start-pill"><i class="fas fa-redo text-muted"></i></span>
-                                         <input type="number" class="form-control border-0 bg-light rounded-end-pill target-reps-input" value="{{ item.target_reps }}" min="1" required>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     {% endfor %}
-                 {% endif %}
-             </div>
+            <!-- Add Exercise Button (Mobile) -->
+            <div class="d-grid gap-2 mt-4 d-lg-none">
+                <button type="button" class="btn btn-outline-primary border-2 py-3 rounded-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addExerciseToRoutineModal">
+                    <i class="fas fa-plus-circle me-2"></i> Add Exercise
+                </button>
+            </div>
         </div>
 
         <!-- Library and Summary -->
-        <div class="col-lg-3">
+        <div class="col-lg-5 col-xl-3 d-none d-lg-block">
 
             <!-- Summary Card -->
             <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
@@ -123,6 +129,38 @@
         </div>
     </div>
 </form>
+
+<!-- Add Exercise to Routine Modal (Mobile) -->
+<div class="modal fade" id="addExerciseToRoutineModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h5 class="modal-title fw-bold">Select Exercise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <input type="text" id="modal-library-search" class="form-control border-0 bg-light rounded-pill px-4 mb-4" placeholder="Search exercises...">
+
+                <div id="modal-exercise-list" style="max-height: 450px; overflow-y: auto;">
+                    {% for ex in exercises %}
+                        <div class="card border border-light shadow-sm rounded-3 p-2 mb-2 bg-white modal-draggable-item"
+                            data-id="{{ ex.id }}" data-name="{{ ex.name|title }}" data-img="{% if ex.local_gif %}{{ ex.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-light rounded-circle p-1 me-3" style="width: 40px; height: 40px;">
+                                    <img src="{% if ex.local_gif %}{{ ex.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold text-dark mb-0">{{ ex.name|title }}</h6>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 add-to-routine-btn">Add</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'workouts/partials/_modal_shell.html' %}
 
