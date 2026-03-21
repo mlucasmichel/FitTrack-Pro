@@ -193,4 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
+
+  // Initial summary update (Edit Mode)
+  updateSummary();
 });

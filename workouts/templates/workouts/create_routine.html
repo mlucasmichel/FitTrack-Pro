@@ -32,12 +32,51 @@
 
             <h5 class="fw-bold mb-3">Your Routine</h5>
 
-            <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 p-4 min-vh-50 bg-white">
-                <div class="text-center text-muted py-5" id="empty-builder-state">
-                    <i class="fas fa-hand-pointer fa-2x mb-3 opacity-50"></i>
-                    <p>Drag exercises from the library here to build your routine.</p>
-                </div>
-            </div>
+             <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 min-vh-50 bg-white {% if is_editing and routine.planitem_set.exists %}p-0 bg-transparent shadow-none{% else %}p-4{% endif %}">
+
+                 <!-- Empty State -->
+                 <div class="text-center text-muted py-5" id="empty-builder-state" style="{% if is_editing and routine.planitem_set.exists %}display: none;{% endif %}">
+                     <i class="fas fa-hand-pointer fa-2x mb-3 opacity-50"></i>
+                     <p>Drag exercises from the library here to build your routine.</p>
+                 </div>
+             
+                 <!-- Built Exercises (For Edit Mode) -->
+                 {% if is_editing %}
+                     {% for item in routine.planitem_set.all %}
+                         <div class="card border border-primary shadow-sm rounded-4 p-3 mb-3 bg-white built-exercise" data-id="{{ item.exercise.id }}">
+                             <div class="d-flex align-items-center mb-3">
+                                 <i class="fas fa-grip-vertical text-muted drag-handle me-3 pe-auto" style="cursor: grab; font-size: 1.2rem;"></i>
+                                 <div class="bg-light rounded-circle p-1 me-3" style="width: 45px; height: 45px;">
+                                     <img src="{% if item.exercise.local_gif %}{{ item.exercise.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle">
+                                 </div>
+                                 <div class="flex-grow-1">
+                                     <h5 class="fw-bold mb-0 text-dark">{{ item.exercise.name|title }}</h5>
+                                 </div>
+                                 <button type="button" class="btn btn-sm btn-light text-danger rounded-circle remove-builder-exercise" title="Remove">
+                                     <i class="fas fa-times"></i>
+                                 </button>
+                             </div>
+                         
+                             <div class="row g-2 px-4 ms-2">
+                                 <div class="col-6">
+                                     <label class="form-label small fw-bold text-muted mb-1">Target Sets</label>
+                                     <div class="input-group input-group-sm">
+                                         <span class="input-group-text border-0 bg-light rounded-start-pill"><i class="fas fa-layer-group text-muted"></i></span>
+                                         <input type="number" class="form-control border-0 bg-light rounded-end-pill target-sets-input" value="{{ item.target_sets }}" min="1" required>
+                                     </div>
+                                 </div>
+                                 <div class="col-6">
+                                     <label class="form-label small fw-bold text-muted mb-1">Target Reps</label>
+                                     <div class="input-group input-group-sm">
+                                         <span class="input-group-text border-0 bg-light rounded-start-pill"><i class="fas fa-redo text-muted"></i></span>
+                                         <input type="number" class="form-control border-0 bg-light rounded-end-pill target-reps-input" value="{{ item.target_reps }}" min="1" required>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     {% endfor %}
+                 {% endif %}
+             </div>
         </div>
 
         <!-- Library and Summary -->
