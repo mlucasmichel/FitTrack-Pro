@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Create Routine{% endblock %}
+{% block title %}{% if is_editing %}Edit Routine{% else %}Create Routine{% endif %}{% endblock %}
 
 {% block content %}
 <form method="POST" id="routine-form">
@@ -14,7 +14,7 @@
 
             <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                <h1 class="h3 fw-bold mb-0">Create Routine</h1>
+                <h1 class="h3 fw-bold mb-0">{% if is_editing %}Edit Routine{% else %}Create Routine{% endif %}</h1>
                 <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" id="save-routine-btn">
                     <i class="fas fa-save me-2"></i> Save Routine
                 </button>
@@ -24,7 +24,7 @@
             <div class="row mb-5">
                 <div class="col-12">
                     <label class="fw-bold mb-3 h5" for="title">Routine Title</label>
-                    <input type="text" name="title" class="form-control form-control-lg border-0 shadow-sm rounded-4 px-4 mb-3" placeholder="e.g., Pull Day" required>
+                    <input type="text" name="title" value="{% if is_editing %}{{ routine.title }}{% else %}{% endif %}" class="form-control form-control-lg border-0 shadow-sm rounded-4 px-4 mb-3" placeholder="e.g., Pull Day" required>
                     <label class="fw-bold mb-3 h5" for="description">Description</label>
                     <textarea name="description" class="form-control border-0 shadow-sm rounded-4 px-4 py-3" rows="2" placeholder="Brief description (optional)..."></textarea>
                 </div>

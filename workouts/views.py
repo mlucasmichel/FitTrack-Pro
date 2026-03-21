@@ -227,3 +227,62 @@ def create_routine(request):
 
     exercises = Exercise.objects.all().order_by('name')
     return render(request, 'workouts/create_routine.html', {'exercises': exercises})
+
+
+@login_required
+def delete_routine(request, routine_id):
+    """
+    Safely deletes a user's custom routine.
+    """
+    routine = get_object_or_404(WorkoutPlan, id=routine_id, created_by=request.user)
+
+    if request.method == 'POST':
+        title = routine.title
+        routine.delete()
+        messages.success(request, f"Routine '{title}' deleted.")
+        return redirect('routines')
+
+    return redirect('routines')
+
+
+@login_required
+def edit_routine(request, routine_id):
+    """
+    Loads the Routine Builder with existing data for editing.
+    """
+    routine = get_object_or_404(WorkoutPlan, id=routine_id, created_by=request.user)
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description', '')
+        routine_data_str = request.POST.get('routine_data')
+
+        if title and routine_data_str:
+            routine_data = json.loads(routine_data_str)
+
+            routine.title = title
+            routine.description = description
+            routine.save()
+
+            routine.planitem_set.all().delete()
+
+            for index, item in enumerate(routine_data):
+                exercise = get_object_or_404(Exercise, id=item['exercise_id'])
+                PlanItem.objects.create(
+                    workout_plan=routine,
+                    exercise=exercise,
+                    target_sets=item['sets'],
+                    target_reps=item['reps'],
+                    order=index
+                )
+
+            messages.success(request, "Routine updated successfully!")
+            return redirect('routines')
+
+    exercises = Exercise.objects.all().order_by('name')
+    context = {
+        'exercises': exercises,
+        'routine': routine,
+        'is_editing': True
+    }
+    return render(request, 'workouts/create_routine.html', context)
