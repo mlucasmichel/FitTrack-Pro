@@ -1,0 +1,25 @@
+<div class="card border-0 shadow-none rounded-3 p-2 mb-1 {% if is_modal %}modal-draggable-item{% else %}draggable-exercise{% endif %} bg-white cursor-pointer"
+    data-id="{{ ex.id }}"
+    data-name="{{ ex.name|title }}"
+    data-bodypart="{{ ex.body_part }}"
+    data-img="{% if ex.local_gif %}{{ ex.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center flex-grow-1 view-exercise-detail" data-id="{{ ex.id }}" data-name="{{ ex.name|title }}" style="cursor: pointer;">
+            <div class="bg-light rounded-circle p-1 me-3" style="min-width: 40px; width: 40px; height: 40px;">
+                <img src="{% if ex.local_gif %}{{ ex.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle">
+            </div>
+            <div class="flex-grow-1">
+                <h6 class="fw-bold text-dark mb-0" style="font-size: 0.85rem;">{{ ex.name|title }}</h6>
+                <span class="text-muted extra-small">{{ ex.body_part|title }}</span>
+            </div>
+        </div>
+
+        {% if is_modal %}
+            <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 add-to-routine-btn ms-2">Add</button>
+        {% else %}
+            <i class="fas fa-grip-vertical text-muted drag-handle ms-2 ps-2 border-start" style="cursor: grab;"></i>
+        {% endif %}
+    </div>
+</div>
+<hr class="text-muted opacity-25 my-1">

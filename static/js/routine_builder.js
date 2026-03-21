@@ -16,26 +16,49 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalExerciseList = document.getElementById("modal-exercise-list");
 
   // --- Search Functionality (Desktop and Modal) ---
-  function initSearch(input, selector) {
-    if (input) {
-      input.addEventListener("input", function (e) {
-        const query = e.target.value.toLowerCase();
-        document.querySelectorAll(selector).forEach((item) => {
-          const name = item.dataset.name.toLowerCase();
-          item.style.display = name.includes(query) ? "block" : "none";
-        });
+  function initFilter(searchInput, filterDropdown, selector) {
+    function applyFilter() {
+      const query = searchInput ? searchInput.value.toLowerCase() : "";
+      const bodyPart = filterDropdown ? filterDropdown.value.toLowerCase() : "";
+
+      document.querySelectorAll(selector).forEach((item) => {
+        const name = item.dataset.name.toLowerCase();
+        const part = item.dataset.bodypart.toLowerCase();
+
+        const matchesSearch = name.includes(query);
+        const matchesFilter = bodyPart === "" || part === bodyPart;
+
+        item.style.display = (matchesSearch && matchesFilter) ? "block" : "none";
+
+        if (item.nextElementSibling && item.nextElementSibling.tagName === 'HR') {
+            item.nextElementSibling.style.display = (matchesSearch && matchesFilter) ? "block" : "none";
+        }
       });
     }
-  }
-  initSearch(searchInput, ".draggable-exercise");
-  initSearch(modalSearch, ".modal-draggable-item");
 
-  // --- Initialize SortableJS ---
+    if (searchInput) searchInput.addEventListener("input", applyFilter);
+    if (filterDropdown) filterDropdown.addEventListener("change", applyFilter);
+  }
+
+  initFilter(
+    document.getElementById("library-search"),
+    document.getElementById("library-filter"),
+    ".draggable-exercise"
+  );
+  initFilter(
+    document.getElementById("modal-library-search"),
+    document.getElementById("modal-library-filter"),
+    ".modal-draggable-item"
+  );
+
+  // --- 2. Initialize SortableJS ---
   if (libraryZone) {
     new Sortable(libraryZone, {
       group: { name: "shared", pull: "clone", put: false },
       animation: 150,
       sort: false,
+      draggable: ".draggable-exercise",
+      handle: ".drag-handle",
     });
   }
 
@@ -43,13 +66,14 @@ document.addEventListener("DOMContentLoaded", function () {
     new Sortable(builderZone, {
       group: "shared",
       animation: 150,
+      draggable: ".built-exercise",
       handle: ".drag-handle",
       onAdd: function (evt) {
         const itemEl = evt.item;
         const exId = itemEl.dataset.id;
         const exName = itemEl.dataset.name;
         const exImg = itemEl.dataset.img;
-        itemEl.remove(); // Remove clone and re-create properly
+        itemEl.remove();
         addExerciseToBuilder(exId, exName, exImg);
       },
       onSort: updateSummary,

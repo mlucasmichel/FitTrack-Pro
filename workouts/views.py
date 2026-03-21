@@ -225,8 +225,14 @@ def create_routine(request):
             messages.success(request, "Routine saved successfully!")
             return redirect('routines')
 
+    body_parts = Exercise.objects.values_list('body_part', flat=True).distinct().order_by('body_part')
     exercises = Exercise.objects.all().order_by('name')
-    return render(request, 'workouts/create_routine.html', {'exercises': exercises})
+    
+    context = {
+        'exercises': exercises,
+        'body_parts': body_parts,
+    }
+    return render(request, 'workouts/create_routine.html', context)
 
 
 @login_required
