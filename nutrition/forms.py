@@ -13,10 +13,17 @@ class MealLogForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
+        is_premium_user = kwargs.pop('is_premium_user', False)
         super().__init__(*args, **kwargs)
+
         if user:
-            self.fields['meal'].queryset = Meal.objects.filter(
-                created_by__isnull=True) | Meal.objects.filter(created_by=user)
+            queryset = Meal.objects.filter(created_by__isnull=True, meal_plan__is_premium=False) | Meal.objects.filter(created_by=user)
+
+            if is_premium_user:
+                premium_meals = Meal.objects.filter(created_by__isnull=True, meal_plan__is_premium=True)
+                queryset = queryset | premium_meals
+
+            self.fields['meal'].queryset = queryset.order_by('name')
 
 
 class CustomMealForm(forms.ModelForm):

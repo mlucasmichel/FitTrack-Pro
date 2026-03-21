@@ -9,38 +9,39 @@ from .forms import MealLogForm, CustomMealForm
 @login_required
 def nutrition_hub(request):
     today = timezone.now().date()
+    user = request.user
 
     is_premium = False
-    if hasattr(request.user, 'subscription'):
-        is_premium = request.user.subscription.status == 'active'
+    if hasattr(user, 'subscription'):
+        is_premium = user.subscription.status == 'active'
 
-    meal_plans = MealPlan.objects.all().order_by('title')
+    todays_logs_count = MealLog.objects.filter(user=user, logged_at__date=today).count()
+    custom_meals_count = Meal.objects.filter(created_by=user).count()
 
-    # Handle Form Submissions
+    can_log_more = is_premium or (todays_logs_count < 3)
+    can_create_more = is_premium or (custom_meals_count < 5)
+
     if request.method == 'POST':
-        if 'log_meal' in request.POST:
-            log_form = MealLogForm(request.POST, user=request.user)
+        if 'log_meal' in request.POST and can_log_more:
+            log_form = MealLogForm(request.POST, user=user, is_premium_user=is_premium)
             if log_form.is_valid():
                 meal_log = log_form.save(commit=False)
-                meal_log.user = request.user
+                meal_log.user = user
                 meal_log.save()
                 messages.success(request, "Meal logged successfully!")
                 return redirect('nutrition_hub')
 
-        elif 'create_meal' in request.POST:
+        elif 'create_meal' in request.POST and can_create_more:
             custom_form = CustomMealForm(request.POST)
             if custom_form.is_valid():
                 new_meal = custom_form.save(commit=False)
-                new_meal.created_by = request.user
+                new_meal.created_by = user
                 new_meal.save()
-
-                MealLog.objects.create(
-                    user=request.user, meal=new_meal, servings=1)
-                messages.success(
-                    request, f"{new_meal.name} created and logged!")
+                MealLog.objects.create(user=user, meal=new_meal, servings=1)
+                messages.success(request, f"{new_meal.name} created and logged!")
                 return redirect('nutrition_hub')
 
-    log_form = MealLogForm(user=request.user)
+    log_form = MealLogForm(user=user, is_premium_user=is_premium)
     custom_form = CustomMealForm()
 
     # Get all logs for today
@@ -68,8 +69,12 @@ def nutrition_hub(request):
         'nutrition_data': nutrition_data,
         'log_form': log_form,
         'custom_form': custom_form,
-        'meal_plans': meal_plans,
-        'is_premium': is_premium
+        'is_premium': is_premium,
+        'meal_plans': MealPlan.objects.all().order_by('title'),
+        'can_log_more': can_log_more,
+        'can_create_more': can_create_more,
+        'todays_logs_count': todays_logs_count,
+        'custom_meals_count': custom_meals_count,
     }
     return render(request, 'nutrition/hub.html', context)
 

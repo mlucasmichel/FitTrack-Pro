@@ -164,59 +164,79 @@
                 <h5 class="modal-title fw-bold">Log a Meal</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <!-- Nav Tabs -->
                 <ul class="nav nav-pills nav-fill mb-4" id="mealTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active rounded-pill" id="log-tab" data-bs-toggle="tab" data-bs-target="#log-pane" type="button"role="tab">
-                            Choose Existing
-                        </button>
+                        <button class="nav-link active rounded-pill fw-bold" id="log-tab" data-bs-toggle="tab" data-bs-target="#log-pane" type="button" role="tab">Choose Existing</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link rounded-pill" id="create-tab" data-bs-toggle="tab" data-bs-target="#create-pane" type="button"role="tab">
-                            Create Custom
-                        </button>
+                        <button class="nav-link rounded-pill fw-bold" id="create-tab" data-bs-toggle="tab" data-bs-target="#create-pane" type="button" role="tab">Create Custom</button>
                     </li>
                 </ul>
 
                 <div class="tab-content" id="mealTabContent">
                     <!-- Choose Existing Pane -->
                     <div class="tab-pane fade show active" id="log-pane" role="tabpanel">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="log_meal" value="1">
-                            <label class="form-label small fw-bold text-muted">Select Meal</label>
-                            {{ log_form.meal }}
-                            <label class="form-label small fw-bold text-muted">Servings</label>
-                            {{ log_form.servings }}
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-primary rounded-pill py-2 shadow-sm">Save Log</button>
+                        {% if can_log_more %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="log_meal" value="1">
+                                <label class="form-label small fw-bold text-muted">Select Meal</label>
+                                {{ log_form.meal }}
+                                <label class="form-label small fw-bold text-muted">Servings</label>
+                                {{ log_form.servings }}
+                                <div class="d-grid mt-4">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 shadow-sm">Save Log</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-lock fa-3x text-muted opacity-25 mb-3"></i>
+                                <h5>Daily Limit Reached</h5>
+                                <p class="text-muted small">Free users can only log 3 meals per day (Currently at {{ todays_logs_count }}). Upgrade to Pro for unlimited logging.</p>
+                                <a href="{% url 'pricing' %}" class="btn btn-warning rounded-pill px-4 mt-2 shadow-sm fw-bold">Upgrade to Pro</a>
                             </div>
-                        </form>
+                        {% endif %}
                     </div>
 
                     <!-- Create Custom Pane -->
                     <div class="tab-pane fade" id="create-pane" role="tabpanel">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="create_meal" value="1">
+                        {% if can_create_more and can_log_more %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="create_meal" value="1">
 
-                            <label class="form-label small fw-bold text-muted">Meal Name</label>
-                            {{ custom_form.name }}
+                                <label class="form-label small fw-bold text-muted">Meal Name</label>
+                                {{ custom_form.name }}
 
-                            <label class="form-label small fw-bold text-muted">Nutritional Info (per serving)</label>
-                            {{ custom_form.calories }}
-                            <label for="protein-grams" class="form-label small fw-bold text-muted">Protein (g)</label>
-                            {{ custom_form.protein_grams }}
-                            <label for="carb-grams" class="form-label small fw-bold text-muted">Carbs (g)</label>
-                            {{ custom_form.carbs_grams }}
-                            <label for="fat-grams" class="form-label small fw-bold text-muted">Fats (g)</label>
-                            {{ custom_form.fat_grams }}
+                                <label class="form-label small fw-bold text-muted">Nutritional Info (per serving)</label>
+                                {{ custom_form.calories }}
+                                <div class="row g-2">
+                                    <div class="col-4">{{ custom_form.protein_grams }}</div>
+                                    <div class="col-4">{{ custom_form.carbs_grams }}</div>
+                                    <div class="col-4">{{ custom_form.fat_grams }}</div>
+                                </div>
 
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-success rounded-pill py-2 shadow-sm">Create & Log Meal</button>
+                                <div class="d-grid mt-4">
+                                    <button type="submit" class="btn btn-success rounded-pill py-2 shadow-sm">Create & Log Meal</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-lock fa-3x text-muted opacity-25 mb-3"></i>
+                                <h5>Limit Reached</h5>
+                                <p class="text-muted small">
+                                    {% if not can_log_more %}
+                                        You have reached your daily logging limit (3/3).
+                                    {% else %}
+                                        Free users can only create 5 custom meals. You have reached your limit.
+                                    {% endif %}
+                                    Upgrade to Pro for unlimited access.
+                                </p>
+                                <a href="{% url 'pricing' %}" class="btn btn-warning rounded-pill px-4 mt-2 shadow-sm fw-bold">Upgrade to Pro</a>
                             </div>
-                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
