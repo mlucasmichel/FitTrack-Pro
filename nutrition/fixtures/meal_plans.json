@@ -1,0 +1,296 @@
+[
+    {
+        "model": "nutrition.mealplan",
+        "pk": 1,
+        "fields": {
+            "title": "Lean Shred (Free Tier)",
+            "description": "A high-protein, calorie-controlled plan designed for steady fat loss while maintaining muscle mass.",
+            "is_premium": false,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "nutrition.mealplan",
+        "pk": 2,
+        "fields": {
+            "title": "Pro Mass Builder",
+            "description": "A high-calorie, carbohydrate-heavy plan specifically engineered for rapid muscle hypertrophy.",
+            "is_premium": true,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "nutrition.mealplan",
+        "pk": 3,
+        "fields": {
+            "title": "Keto Performance Protocol",
+            "description": "An elite high-fat, ultra-low carbohydrate plan designed to keep your body in a state of ketosis.",
+            "is_premium": true,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "nutrition.mealplan",
+        "pk": 4,
+        "fields": {
+            "title": "Plant-Based Power (Free Tier)",
+            "description": "A 100% vegan meal plan focused on complete amino acid profiles and sustainable energy.",
+            "is_premium": false,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "nutrition.mealplan",
+        "pk": 5,
+        "fields": {
+            "title": "Intermittent Fasting (16:8)",
+            "description": "Two nutrient-dense, large meals designed to break your fast and keep you satiated for 16 hours.",
+            "is_premium": true,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "nutrition.mealplan",
+        "pk": 6,
+        "fields": {
+            "title": "Endurance Athlete Protocol",
+            "description": "High-carb, moderate-protein plan for runners and cyclists needing sustained glycogen stores.",
+            "is_premium": true,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 1,
+        "fields": {
+            "meal_plan": 1,
+            "created_by": null,
+            "name": "Grilled Chicken & Asparagus",
+            "calories": 350,
+            "protein_grams": 45,
+            "carbs_grams": 10,
+            "fat_grams": 15
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 2,
+        "fields": {
+            "meal_plan": 1,
+            "created_by": null,
+            "name": "Turkey Lean Mince Salad",
+            "calories": 400,
+            "protein_grams": 50,
+            "carbs_grams": 15,
+            "fat_grams": 18
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 3,
+        "fields": {
+            "meal_plan": 1,
+            "created_by": null,
+            "name": "Whey Protein Oats",
+            "calories": 320,
+            "protein_grams": 30,
+            "carbs_grams": 40,
+            "fat_grams": 5
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 4,
+        "fields": {
+            "meal_plan": 2,
+            "created_by": null,
+            "name": "Steak, Sweet Potato & Rice",
+            "calories": 850,
+            "protein_grams": 65,
+            "carbs_grams": 100,
+            "fat_grams": 25
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 5,
+        "fields": {
+            "meal_plan": 2,
+            "created_by": null,
+            "name": "Mass Gainer Shake (Peanut Butter & Banana)",
+            "calories": 900,
+            "protein_grams": 55,
+            "carbs_grams": 110,
+            "fat_grams": 35
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 6,
+        "fields": {
+            "meal_plan": 2,
+            "created_by": null,
+            "name": "Salmon & Quinoa Bowl",
+            "calories": 750,
+            "protein_grams": 45,
+            "carbs_grams": 80,
+            "fat_grams": 30
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 7,
+        "fields": {
+            "meal_plan": 3,
+            "created_by": null,
+            "name": "Avocado & Bacon Scramble",
+            "calories": 600,
+            "protein_grams": 25,
+            "carbs_grams": 5,
+            "fat_grams": 50
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 8,
+        "fields": {
+            "meal_plan": 3,
+            "created_by": null,
+            "name": "Macadamia Nut Fat Bomb",
+            "calories": 400,
+            "protein_grams": 5,
+            "carbs_grams": 4,
+            "fat_grams": 42
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 9,
+        "fields": {
+            "meal_plan": 3,
+            "created_by": null,
+            "name": "Ribeye Steak with Garlic Butter",
+            "calories": 780,
+            "protein_grams": 50,
+            "carbs_grams": 0,
+            "fat_grams": 65
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 10,
+        "fields": {
+            "meal_plan": 4,
+            "created_by": null,
+            "name": "Lentil & Chickpea Stew",
+            "calories": 450,
+            "protein_grams": 28,
+            "carbs_grams": 65,
+            "fat_grams": 8
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 11,
+        "fields": {
+            "meal_plan": 4,
+            "created_by": null,
+            "name": "Tofu Scramble with Spinach",
+            "calories": 380,
+            "protein_grams": 25,
+            "carbs_grams": 15,
+            "fat_grams": 22
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 12,
+        "fields": {
+            "meal_plan": 4,
+            "created_by": null,
+            "name": "Pea Protein Smoothie",
+            "calories": 300,
+            "protein_grams": 30,
+            "carbs_grams": 35,
+            "fat_grams": 5
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 13,
+        "fields": {
+            "meal_plan": 5,
+            "created_by": null,
+            "name": "Fast-Breaker: Large Mediterranean Salad with Feta",
+            "calories": 850,
+            "protein_grams": 35,
+            "carbs_grams": 30,
+            "fat_grams": 65
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 14,
+        "fields": {
+            "meal_plan": 5,
+            "created_by": null,
+            "name": "Pre-Fast: Double Chicken Burrito Bowl",
+            "calories": 1100,
+            "protein_grams": 85,
+            "carbs_grams": 120,
+            "fat_grams": 35
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 15,
+        "fields": {
+            "meal_plan": 5,
+            "created_by": null,
+            "name": "Black Coffee (Fasting Window)",
+            "calories": 2,
+            "protein_grams": 0,
+            "carbs_grams": 0,
+            "fat_grams": 0
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 16,
+        "fields": {
+            "meal_plan": 6,
+            "created_by": null,
+            "name": "Oatmeal with Honey & Berries",
+            "calories": 550,
+            "protein_grams": 15,
+            "carbs_grams": 110,
+            "fat_grams": 8
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 17,
+        "fields": {
+            "meal_plan": 6,
+            "created_by": null,
+            "name": "Pasta with Lean Turkey Meatballs",
+            "calories": 700,
+            "protein_grams": 45,
+            "carbs_grams": 95,
+            "fat_grams": 18
+        }
+    },
+    {
+        "model": "nutrition.meal",
+        "pk": 18,
+        "fields": {
+            "meal_plan": 6,
+            "created_by": null,
+            "name": "Isotonic Intra-Workout Gel",
+            "calories": 150,
+            "protein_grams": 0,
+            "carbs_grams": 38,
+            "fat_grams": 0
+        }
+    }
+]
