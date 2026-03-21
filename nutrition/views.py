@@ -112,3 +112,35 @@ def delete_custom_meal(request, meal_id):
         return redirect('profile')
 
     return redirect('profile')
+
+
+@login_required
+def meal_plan_detail(request, plan_id):
+    """
+    Displays the details of a specific meal plan and its meals.
+    Enforces premium content gating.
+    """
+    plan = get_object_or_404(MealPlan, id=plan_id)
+
+    is_premium_user = False
+    if hasattr(request.user, 'subscription'):
+        is_premium_user = request.user.subscription.status == 'active'
+
+    if plan.is_premium and not is_premium_user:
+        messages.warning(request, "This nutrition protocol is exclusive to Pro members.")
+        return redirect('pricing')
+
+    meals = plan.meals.all()
+    plan_totals = {
+        'calories': sum(m.calories for m in meals),
+        'protein': sum(m.protein_grams for m in meals),
+        'carbs': sum(m.carbs_grams for m in meals),
+        'fats': sum(m.fat_grams for m in meals),
+    }
+
+    context = {
+        'plan': plan,
+        'meals': meals,
+        'plan_totals': plan_totals
+    }
+    return render(request, 'nutrition/meal_plan_detail.html', context)
