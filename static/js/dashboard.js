@@ -12,12 +12,22 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const labels = JSON.parse(labelsElement.textContent);
       const data = JSON.parse(dataElement.textContent);
+      const hasData = data.some(val => val > 0);
+
+      if (!hasData) {
+          const container = canvasElement.parentElement;
+          container.innerHTML = `
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                <i class="fas fa-calendar-check fa-3x mb-3 opacity-25"></i>
+                <p class="mb-0">No activity this week. Time to hit the gym!</p>
+            </div>
+          `;
+          return;
+      }
 
       const style = getComputedStyle(document.body);
-      const primaryColor =
-        style.getPropertyValue("--primary-100").trim() || "#eb9c64";
-      const primaryColorHover =
-        style.getPropertyValue("--primary-200").trim() || "#ff8789";
+      const primaryColor = style.getPropertyValue("--primary-100").trim() || "#FF5722";
+      const primaryColorHover = style.getPropertyValue("--primary-200").trim() || "#ff8a50";
 
       const ctx = canvasElement.getContext("2d");
 

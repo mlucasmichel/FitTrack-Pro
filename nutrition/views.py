@@ -2,13 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
-from .models import MealLog, Meal
+from .models import MealLog, Meal, MealPlan
 from .forms import MealLogForm, CustomMealForm
 
 
 @login_required
 def nutrition_hub(request):
     today = timezone.now().date()
+
+    is_premium = False
+    if hasattr(request.user, 'subscription'):
+        is_premium = request.user.subscription.status == 'active'
+
+    meal_plans = MealPlan.objects.all().order_by('title')
 
     # Handle Form Submissions
     if request.method == 'POST':
@@ -62,6 +68,8 @@ def nutrition_hub(request):
         'nutrition_data': nutrition_data,
         'log_form': log_form,
         'custom_form': custom_form,
+        'meal_plans': meal_plans,
+        'is_premium': is_premium
     }
     return render(request, 'nutrition/hub.html', context)
 
