@@ -155,7 +155,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -176,4 +175,12 @@ STRIPE_CURRENCY = 'eur'
 STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET')
 
 # Cloudinary settings
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+    "staticfiles": {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    }
+
+}
