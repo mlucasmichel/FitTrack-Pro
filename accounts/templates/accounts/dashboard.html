@@ -41,15 +41,19 @@
     </div>
     <div class="col-md-4">
         <div class="card border-0 shadow-sm p-3 h-100">
-            <div class="card-body d-flex align-items-center">
-                <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
-                    <i class="fas fa-crown text-warning fa-lg"></i>
-                </div>
+            <div class="card-body d-flex align-items-center ">
+                {% if user.subscription.status == 'active' %}
+                    <div class="rounded-circle bg-primary bg-gradient bg-opacity-10 border-0 p-3 me-3">
+                        <i class="fas fa-crown fa-lg"></i>
+                    </div>
+                {% endif %}
                 <div>
                     <h6 class="text-muted mb-1 small text-uppercase fw-bold">Status</h6>
                     <h4 class="fw-bold mb-0">
                         {% if user.subscription.status == 'active' %}
-                            <span class="text-success">Pro Plan</span>
+                            <div class="card bg-primary bg-gradient bg-opacity-10 border-0 p-1 rounded-pill text-center">
+                                <span class="small bg-primary bg-gradient fw-bold">Pro</span>
+                            </div>
                         {% else %}
                             Free Plan
                         {% endif %}
