@@ -23,7 +23,7 @@ The following tests were performed manually on both the local development enviro
 | :--- | :--- | :--- | :--- | :--- |
 | **1.1** | Understand value proposition | Navigate to the root URL (`/`). | The Home page displays a clear split-screen layout highlighting features and value. | [Pass] |
 | **1.2** | Navigate to registration | Click "Get Started Now" on the Home page. | Redirects to `/accounts/signup/`. | [Pass] |
-| **1.3** | View subscription tiers | Click the locked content prompt or navigate to the pricing page. | Displays the pricing comparison table (Free vs Pro). | [Fail] |
+| **1.3** | View subscription tiers | Click the locked content prompt or navigate to the pricing page. | Displays the pricing comparison table (Free vs Pro). | [Pass] |
 
 ### 2.2 Registered User (Non-Subscriber / Free Tier)
 | ID | User Story | Action | Expected Result | Pass/Fail |
