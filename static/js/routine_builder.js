@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
     builderZone.classList.remove("card", "bg-white", "shadow-sm", "p-4");
 
     const card = document.createElement("div");
-    card.className = "card border border-primary shadow-sm rounded-4 p-3 mb-3 bg-white built-exercise";
+    card.className = "card border border-brand-primary shadow-sm rounded-4 p-3 mb-3 bg-white built-exercise";
     card.dataset.id = exId;
     card.innerHTML = `
         <div class="d-flex align-items-center mb-3">
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <img src="${exImg}" class="w-100 h-100 object-fit-cover rounded-circle">
             </div>
             <div class="flex-grow-1">
-                <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-primary text-decoration-none view-exercise-detail" data-id="${exId}" data-name="${exName}">
+                <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-brand-primary text-decoration-none view-exercise-detail" data-id="${exId}" data-name="${exName}">
                     ${exName}
                 </a>
             </div>
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let modal = bootstrap.Modal.getOrCreateInstance(modalElement);
         document.getElementById("detailModalTitle").textContent = link.dataset.name;
         const body = document.getElementById("detailModalBody");
-        body.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        body.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-brand-primary"></div></div>';
         modal.show();
         fetch(`/workouts/exercises/${exId}/`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
           .then((r) => r.text())

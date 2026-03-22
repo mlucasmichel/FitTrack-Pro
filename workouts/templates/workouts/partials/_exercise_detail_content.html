@@ -8,8 +8,8 @@
         </div>
 
         <!-- Pro Tip Card -->
-        <div class="card border-0 shadow-sm rounded-4 p-4 bg-primary bg-opacity-10 d-none d-lg-block">
-            <h6 class="fw-bold text-primary text-uppercase small mb-3">Pro Tip</h6>
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-brand-light bg-opacity-10 d-none d-lg-block">
+            <h6 class="fw-bold text-brand-primary text-uppercase small mb-3">Pro Tip</h6>
             <p class="mb-0 text-dark opacity-75">
                 Consistency is key! Focus on proper form as described in the instructions before increasing weight.
             </p>
@@ -51,11 +51,11 @@
 
                         <!-- Metric Buttons -->
                         <div class="d-flex flex-wrap gap-2 mt-4 justify-content-center border-top pt-4">
-                            <button class="btn btn-sm btn-primary rounded-pill chart-toggle" data-metric="heaviest_weight" data-eid="{{ exercise.id }}">Heaviest Weight</button>
-                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="estimated_1rm" data-eid="{{ exercise.id }}">1RM</button>
-                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="best_set_volume" data-eid="{{ exercise.id }}">Best Set Vol.</button>
-                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="session_volume" data-eid="{{ exercise.id }}">Session Vol.</button>
-                            <button class="btn btn-sm btn-outline-primary rounded-pill chart-toggle" data-metric="total_reps" data-eid="{{ exercise.id }}">Total Reps</button>
+                            <button class="btn btn-sm btn-brand-primary rounded-pill chart-toggle" data-metric="heaviest_weight" data-eid="{{ exercise.id }}">Heaviest Weight</button>
+                            <button class="btn btn-sm btn-outline-brand-primary rounded-pill chart-toggle" data-metric="estimated_1rm" data-eid="{{ exercise.id }}">1RM</button>
+                            <button class="btn btn-sm btn-outline-brand-primary rounded-pill chart-toggle" data-metric="best_set_volume" data-eid="{{ exercise.id }}">Best Set Vol.</button>
+                            <button class="btn btn-sm btn-outline-brand-primary rounded-pill chart-toggle" data-metric="session_volume" data-eid="{{ exercise.id }}">Session Vol.</button>
+                            <button class="btn btn-sm btn-outline-brand-primary rounded-pill chart-toggle" data-metric="total_reps" data-eid="{{ exercise.id }}">Total Reps</button>
                         </div>
 
                         <script type="application/json" id="chart-data-{{ exercise.id }}">
@@ -67,14 +67,14 @@
                         <div class="text-center py-5 mt-4">
                             <i class="fas fa-lock fa-3x text-light mb-3"></i>
                             <p class="text-muted">Log in to track your progress and view interactive history charts.</p>
-                            <a href="{% url 'account_login' %}" class="btn btn-outline-primary rounded-pill px-4 mt-2">Log In</a>
+                            <a href="{% url 'account_login' %}" class="btn btn-outline-brand-primary rounded-pill px-4 mt-2">Log In</a>
                         </div>
                     {% endif %}
                 </div>
 
                 <!-- How To Pane -->
                 <div class="tab-pane fade" id="howto-pane-{{ exercise.id }}" role="tabpanel" aria-labelledby="howto-tab-{{ exercise.id }}" tabindex="0">
-                    <h4 class="fw-bold mb-4"><i class="fas fa-info-circle text-primary me-2"></i> Execution Steps</h4>
+                    <h4 class="fw-bold mb-4"><i class="fas fa-info-circle text-brand-primary me-2"></i> Execution Steps</h4>
                     <ol class="list-group list-group-flush list-group-numbered">
                         {% for step in exercise.instructions %}
                             <li class="list-group-item border-0 px-0 py-3 text-muted fs-5">

@@ -87,12 +87,12 @@ window.initExerciseChart = function (exerciseId) {
           );
 
           currentButtons.forEach((b) => {
-            b.classList.remove("btn-primary");
-            b.classList.add("btn-outline-primary");
+            b.classList.remove("btn-brand-primary");
+            b.classList.add("btn-outline-brand-primary");
           });
 
-          this.classList.remove("btn-outline-primary");
-          this.classList.add("btn-primary");
+          this.classList.remove("btn-outline-brand-primary");
+          this.classList.add("btn-brand-primary");
 
           document.getElementById(`chartTitle-${exerciseId}`).innerHTML =
             `<i class="fas fa-chart-line text-success me-2"></i> ${this.innerText}`;
