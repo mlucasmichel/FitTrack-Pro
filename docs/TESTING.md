@@ -76,4 +76,17 @@ Specific tests conducted to address previous assessor feedback regarding negativ
 ---
 
 ## 5. Automated Testing
-*(Optional but recommended for Distinction: Document the results of your `tests.py` runs here).*
+
+A total of **12 automated unit tests** were implemented using Django's built-in `TestCase` framework. These tests ensure that the core business logic, data integrity, and security models are functioning correctly and will not
+regress during future updates.
+
+*   **Result:** OK
+*   **Total Tests:** 12
+*   **Execution Time:** 20.387s
+
+### 5.1 Test Coverage Areas:
+*   **Workouts:** Verified `Exercise` creation, `WorkoutLog` session recording, and strict `PlanItem` validation (ensuring negative reps/sets are rejected).
+*   **Nutrition:** Verified meal calorie/macro math correctly accounts for portion sizes (servings) and that custom meals are correctly associated with their creators.
+*   **Subscriptions:** Verified that the `is_premium` status logic correctly reflects the user's active/inactive payment state and that Euro formatting is applied to plan tiers.
+
+> **Note:** These tests can be run locally using the command `python manage.py test`.
