@@ -45,14 +45,29 @@
         <div class="card border-0 shadow-sm p-4">
             <h5 class="fw-bold mb-4">Subscription</h5>
             <div class="text-center py-4">
-                <div class="rounded-circle bg-light d-inline-block p-4 mb-3">
-                    <i class="fas fa-crown fa-2x text-warning"></i>
-                </div>
-                <h4 class="fw-bold">Free Plan</h4>
-                <p class="text-muted mb-4">Upgrade to unlock all premium workout and meal plans.</p>
-                <div class="d-grid">
-                    <a href="#" class="btn btn-warning py-2 fw-bold shadow-sm">Go Premium</a>
-                </div>
+                {% if user.subscription.status == 'active' %}
+                    <div class="rounded-circle d-inline-block bg-primary bg-gradient bg-opacity-10 border-0 p-4 mb-3">
+                        <i class="fas fa-crown fa-2x bg-primary bg-gradient fw-bold"></i>
+                    </div>
+                    <h4 class="fw-bold">Pro Plan</h4>
+                    <p class="text-muted mb-4">You have full access to all premium workout routines and meal plans.</p>
+                    <div class="d-grid">
+                        <div class="card bg-primary bg-gradient bg-opacity-10 border-0 p-1 shadow-sm rounded-pill text-center">
+                            <span class="small bg-primary bg-gradient fw-bold">Active Member</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="rounded-circle bg-light d-inline-block p-4 mb-3">
+                        <i class="fas fa-user fa-2x text-muted"></i>
+                    </div>
+                    <h4 class="fw-bold">Free Plan</h4>
+                    <p class="text-muted mb-4">Upgrade to unlock all premium workout and meal plans.</p>
+                    <div class="d-grid">
+                        <a href="{% url 'pricing' %}" class="btn btn-warning py-2 fw-bold shadow-sm rounded-pill text-dark">
+                            Upgrade to Pro
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
