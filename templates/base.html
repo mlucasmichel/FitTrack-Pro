@@ -21,7 +21,12 @@
         <button class="navbar-toggler position-absolute d-md-none collapsed border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <p class="text-white navbar-brand col-md-3 col-lg-2 my-0 mx-4 px-5 fs-6">FitTrack Pro</p>
+        <p class="text-white navbar-brand col-md-3 col-lg-2 my-0 mx-4 px-5 fs-6">
+            FitTrack Pro
+            {% if user.subscription.status == 'active' %}
+                <i class="fas fa-crown fa-sm text white"></i>
+            {% endif %}
+        </p>
     </header>
 
     <div class="container-fluid">
