@@ -56,6 +56,55 @@ h6,
   font-weight: 600;
 }
 
+/* --- Helper Classes --- */
+
+/* Backgrounds */
+.bg-brand-primary {
+    background-color: var(--primary-100) !important;
+}
+
+.bg-brand-light {
+    background-color: rgba(255, 87, 34, 0.1) !important;
+}
+
+/* Text */
+.text-brand-primary {
+    color: var(--primary-100) !important;
+}
+
+/* Buttons */
+.btn-brand-primary {
+    background-color: var(--primary-100) !important;
+    border-color: var(--primary-100) !important;
+    color: #ffffff !important;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-brand-primary:hover {
+    background-color: var(--primary-200) !important;
+    border-color: var(--primary-200) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--float-shadow);
+}
+
+.btn-outline-brand-primary {
+    color: var(--primary-100) !important;
+    border-color: var(--primary-100) !important;
+    background-color: transparent;
+}
+
+.btn-outline-brand-primary:hover {
+    background-color: var(--primary-100) !important;
+    color: #ffffff !important;
+}
+
+/* Utilities */
+.border-brand-primary {
+    border-color: var(--primary-100) !important;
+}
+
 /* --- Mobile Header --- */
 #mobile-header {
   height: var(--mobile-header-height);

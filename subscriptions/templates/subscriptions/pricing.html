@@ -12,18 +12,26 @@
 
 <div class="row justify-content-center g-4">
     {% for plan in plans %}
-        <div class="col-md-5 col-lg-4">
+        <div class="col-md-8 col-xl-4">
             <!-- Professional Pricing Card -->
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100 {% if plan.price > 0 %}border-top border-primary border-5{% endif %}">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100 {% if plan.price > 0 %}border-top border-brand-primary border-5{% endif %}">
                 <div class="card-body p-5 d-flex flex-column">
                     <div class="text-center mb-4">
-                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3 text-uppercase fw-bold small">
+                        <span class="badge bg-brand-light text-brand-primary rounded-pill px-3 py-2 mb-3 text-uppercase fw-bold small">
                             {{ plan.name }}
                         </span>
                         <h2 class="display-5 fw-bold mb-0">
                             {% if plan.price == 0 %}Free{% else %}€{{ plan.price }}{% endif %}
                         </h2>
-                        <p class="text-muted">{% if plan.price > 0 %}per month{% else %}forever{% endif %}</p>
+                        <p class="text-muted">
+                            {% if plan.price == 0 %}
+                                forever
+                            {% elif "Yearly" in plan.name %}
+                                per year
+                            {% else %}
+                                per month
+                            {% endif %}
+                        </p>
                     </div>
 
                     <!-- Features List -->
@@ -55,7 +63,7 @@
                         {% elif plan.price == 0 %}
                             <a href="{% url 'dashboard' %}" class="btn btn-outline-dark btn-lg w-100 rounded-pill py-3">Get Started</a>
                         {% else %}
-                            <a href="{% url 'create_checkout_session' plan.id %}" class="btn btn-primary btn-lg w-100 rounded-pill py-3 shadow-sm fw-bold">
+                            <a href="{% url 'create_checkout_session' plan.id %}" class="btn btn-brand-primary btn-lg w-100 rounded-pill py-3 shadow-sm fw-bold">
                                 Upgrade to Pro
                             </a>
                         {% endif %}
