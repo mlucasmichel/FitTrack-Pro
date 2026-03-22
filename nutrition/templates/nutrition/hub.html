@@ -20,7 +20,7 @@
             <div class="position-relative d-inline-block mx-auto mb-3" style="width: 200px; height: 200px;">
                 <div id="calorie-ring" class="rounded-circle w-100 h-100" style="background: conic-gradient(var(--bg-200) 100%, var(--bg-200)0);"></div>
                 <div class="position-absolute top-50 start-50 translate-middle bg-white rounded-circle d-flex flex-column justify-content-center"style="width: 170px; height: 170px;">
-                    <h2 class="fw-bold mb-0 text-primary" id="cal-remaining">--</h2>
+                    <h2 class="fw-bold mb-0 text-brand-primary" id="cal-remaining">--</h2>
                     <span class="small text-muted">kcal</span>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                     <span class="small text-muted" id="prot-text">-- / -- g</span>
                 </div>
                 <div class="progress" style="height: 10px;">
-                    <div id="prot-bar" class="progress-bar bg-primary" role="progressbar" style="width: 0%;"></div>
+                    <div id="prot-bar" class="progress-bar bg-brand-primary" role="progressbar" style="width: 0%;"></div>
                 </div>
             </div>
 
@@ -77,7 +77,7 @@
             </div>
 
             <div class="mt-auto pt-4 text-end">
-                <button type="button" class="btn btn-outline-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#logMealModal">
+                <button type="button" class="btn btn-outline-brand-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#logMealModal">
                     <i class="fas fa-plus me-2"></i> Log Meal
                 </button>
             </div>
@@ -97,7 +97,7 @@
                         <span class="small text-muted">{{ log.servings }} serving(s) &bull; {{ log.total_calories }} kcal</span>
                     </div>
                     <div class="text-end small">
-                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill me-1">{{ log.total_protein }}g P</span>
+                        <span class="badge bg-brand-light text-brand-primary rounded-pill me-1">{{ log.total_protein }}g P</span>
                         <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill me-1">{{ log.total_carbs }}g C</span>
                         <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill">{{ log.total_fat }}g F</span>
                     </div>
@@ -142,8 +142,8 @@
                         <!-- UNLOCKED STATE -->
                         <p class="text-muted small mb-4">{{ plan.description|truncatewords:15 }}</p>
                         <div class="mt-auto d-flex justify-content-between align-items-center border-top pt-3">
-                            <span class="small text-muted fw-bold"><i class="fas fa-utensils me-1 text-primary"></i> {{ plan.meals.count }} Meals</span>
-                            <a href="{% url 'meal_plan_detail' plan.id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">View Plan</a>
+                            <span class="small text-muted fw-bold"><i class="fas fa-utensils me-1 text-brand-primary"></i> {{ plan.meals.count }} Meals</span>
+                            <a href="{% url 'meal_plan_detail' plan.id %}" class="btn btn-sm btn-outline-brand-primary rounded-pill px-3">View Plan</a>
                         </div>
                     {% endif %}
                 </div>
@@ -187,7 +187,7 @@
                                 <label class="form-label small fw-bold text-muted">Servings</label>
                                 {{ log_form.servings }}
                                 <div class="d-grid mt-4">
-                                    <button type="submit" class="btn btn-primary rounded-pill py-2 shadow-sm">Save Log</button>
+                                    <button type="submit" class="btn btn-brand-primary rounded-pill py-2 shadow-sm">Save Log</button>
                                 </div>
                             </form>
                         {% else %}
@@ -219,7 +219,7 @@
                                 </div>
 
                                 <div class="d-grid mt-4">
-                                    <button type="submit" class="btn btn-success rounded-pill py-2 shadow-sm">Create & Log Meal</button>
+                                    <button type="submit" class="btn btn-brand-primary rounded-pill py-2 shadow-sm">Create & Log Meal</button>
                                 </div>
                             </form>
                         {% else %}
