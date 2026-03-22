@@ -66,13 +66,12 @@ Specific tests conducted to address previous assessor feedback regarding negativ
 ---
 
 ## 4. Lighthouse Audits
-*To be completed. Goal: 90+ across all metrics.*
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 | :--- | :--- | :--- | :--- | :--- |
 | Home | 100 | 90 | 100 | 90 |
 | Dashboard | 90 | 92 | 100 | 90 |
-| Routines | Pending | Pending | Pending | Pending |
+| Routines | 97 | 93 | 100 | 90 |
 
 ---
 
