@@ -50,7 +50,7 @@
                     </ul>
 
                     <div class="mt-auto">
-                        {% if user.is_authenticated and user.subscription.plan_tier == plan %}
+                        {% if user.is_authenticated and user.subscription.plan_tier == plan and user.subscription.status == 'active' %}
                             <button class="btn btn-secondary btn-lg w-100 rounded-pill py-3 disabled" disabled>Your Current Plan</button>
                         {% elif plan.price == 0 %}
                             <a href="{% url 'dashboard' %}" class="btn btn-outline-dark btn-lg w-100 rounded-pill py-3">Get Started</a>
