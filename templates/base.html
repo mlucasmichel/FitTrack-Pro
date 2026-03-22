@@ -67,10 +67,16 @@
                     <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
                         
                         <!-- Unlock Pro CTA -->
-                        {% if not user.is_subscriber %}
+                        {% if user.subscription.status != 'active' %}
                             <div class="px-3 mb-4">
-                                <div class="card bg-primary bg-gradient border-0 p-3 shadow-sm rounded-4">
+                                <div class="card bg-primary bg-gradient border-0 p-1 shadow-sm rounded-pill">
                                     <a href="{% url 'pricing' %}" class="btn btn-light btn-sm fw-bold rounded-pill w-100">Unlock Pro</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="px-3 mb-4">
+                                <div class="card bg-success bg-opacity-10 border-0 p-3 shadow-sm rounded-4 text-center">
+                                    <span class="small text-success fw-bold"><i class="fas fa-crown me-1"></i> Pro Member</span>
                                 </div>
                             </div>
                         {% endif %}
