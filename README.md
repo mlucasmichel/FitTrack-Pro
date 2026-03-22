@@ -1,26 +1,26 @@
-# FitTrack Pro – Premium Fitness Planner
+# FitTrack Pro – Premium Fitness Tracking Platform
 
-**FitTrack Pro** is a comprehensive full-stack web application designed for fitness enthusiasts who want a professional, data-driven approach to their workout and meal planning. 
+**FitTrack Pro** is a comprehensive full-stack web application designed for fitness enthusiasts who want a professional, data-driven approach to their workout and meal planning.
 
 ***
 
 ## Table of Contents
 1. [**Project Overview**](#1-project-overview)
-2. [**UX & Design**](#2-ux--design)
-    * [2.1 Design Process](#21-design-process)
-    * [2.2 Wireframes](#22-wireframes)
-3. [**Features (User Stories)**](#3-features-user-stories)
-    * [3.1 New User (Visitor)](#31-new-user-visitor)
-    * [3.2 Registered User (Non-Subscriber)](#32-registered-user-non-subscriber)
-    * [3.3 Subscriber (Premium User)](#33-subscriber-premium-user)
-4. [**Technologies Used**](#4-technologies-used)
+2. [**UX & Design (The 5 Planes)**](#2-ux--design-the-5-planes)
+3. [**Data Schema (Entity Relationship Diagram)**](#3-data-schema-entity-relationship-diagram)
+4. [**Features**](#4-features)
+5. [**Testing**](#5-testing)
+6. [**Technologies Used**](#6-technologies-used)
+7. [**Deployment**](#7-deployment)
+8. [**Credits**](#8-credits)
 
 ***
 
 ## 1. Project Overview
 
 ### 1.1 Goal & Value Proposition
-**FitTrack Pro** provides a premium platform for users to manage their fitness journey. By authenticating and subscribing, users unlock customized workout programs and detailed meal plans, ensuring their fitness goals are met with professional guidance.
+**FitTrack Pro** provides a premium platform for users to manage their fitness journey. By authenticating and subscribing, users unlock customized workout programs and detailed meal plans, ensuring their fitness goals are met
+with professional guidance.
 
 **The application provides value by:**
 * Offering structured workout and meal plans tailored to user goals.
@@ -29,38 +29,53 @@
 
 ***
 
-## 2. UX & Design
+## 2. UX & Design (The 5 Planes)
 
-### 2.1 Design Process
-The design follows a mobile-first approach to ensure accessibility for users who may be tracking their progress while at the gym.
+### 2.1 The Strategy Plane
+The primary objective of FitTrack Pro is to provide a "SaaS-style" fitness tool that bridges the gap between simple logging and professional coaching.
+*   **User Needs:** High-quality exercise data, clear progress visualization, and structured plans.
+*   **Business Needs:** A robust monetization model using Stripe to gate premium content.
 
-### 2.2 Wireframes
-The following wireframes were created to map out the user flow and ensure a consistent responsive experience across mobile, tablet, and desktop devices.
+### 2.2 The Scope Plane
+The scope was defined to ensure a Minimum Viable Product (MVP) that included:
+*   Full CRUD for User Routines and Meals.
+*   External API integration for a comprehensive exercise library.
+*   Secure payment processing.
+*   Interactive JavaScript components for real-time tracking.
+
+### 2.3 The Structure Plane
+The site is divided into two distinct zones:
+1.  **Public/Marketing:** High-conversion split-screen landing pages for visitors.
+2.  **Private/Dashboard:** A sidebar-driven workspace for authenticated users to manage their data.
+
+### 2.4 The Skeleton Plane (Wireframes)
+The design follows a mobile-first approach to ensure accessibility for users in the gym.
 
 | Screen | Description | Mockup Link |
 | :--- | :--- | :--- |
-| **Home Page** | Initial landing page highlighting the app's value. | [`home-page-desktop.png`](docs/wireframes/home-page-desktop.png) / [`home-page-tablet.png`](docs/wireframes/home-page-tablet.png) / [`home-page-mobile.png`](docs/wireframes/home-page-mobile.png) |
-| **Login Page** | Simple and secure user authentication. | [`login-page-desktop.png`](docs/wireframes/login-page-desktop.png) / [`login-page-mobile.png`](docs/wireframes/login-page-mobile.png) |
-| **User Profile** | Personal hub for user details and subscription status. | [`profile-page-desktop.png`](docs/wireframes/profile-page-desktop.png) / [`profile-page-mobile.png`](docs/wireframes/profile-page-mobile.png) |
-| **Workout Routines** | List of available workout plans. | [`routines-page-desktop.png`](docs/wireframes/routines-page-desktop.png) / [`routines-page-mobile.png`](docs/wireframes/routines-page-mobile.png) |
-| **Navigation** | Mobile-specific menu for easy access. | [`nav-menu-mobile.png`](docs/wireframes/nav-menu-mobile.png) |
+| **Home Page** | Landing page highlighting value. | [Link](docs/wireframes/home-page-desktop.png) |
+| **Routines** | Two-column builder & library. | [Link](docs/wireframes/routines-page-desktop.png) |
+| **Dashboard** | Data-driven user command center. | [Link](docs/wireframes/profile-page-desktop.png) |
+
+### 2.5 The Surface Plane (Design System)
+The "Premium" feel is achieved through:
+*   **Palette:** Primary Orange (`#FF5722`), Deep Grey, and Cream.
+*   **Typography:** `Lexend` for headings (Modern/Bold) and `Roboto Flex` for body (Readable).
+*   **Depth:** Use of custom floating shadows and glassmorphism.
 
 ***
 
 ## 3. Data Schema (Entity Relationship Diagram)
 
-### 3.1 Core Entities & Relationships
-The application is built on a relational structure designed to manage premium content access and track fitness/nutrition data over time.
+The application uses a complex relational structure to track user progress and manage subscription access.
 
 | Entity | Description | Key Relationships |
 | :--- | :--- | :--- |
-| **CustomUser** | Extends Django's `AbstractUser`. | 1:1 with `Subscription`, 1:N with `WorkoutLog`, `MealLog`, `UserProgress` |
-| **Subscription** | Tracks Stripe payment and status. | 1:1 with `CustomUser`, 1:N with `PlanTier` |
-| **WorkoutPlan** | A collection of exercises. | M:N with `Exercise` (via `PlanItem`) |
-| **Exercise** | Individual movement details. | M:N with `WorkoutPlan` |
-| **MealPlan** | A collection of specific meals. | 1:N with `Meal` |
-| **Meal** | Individual food items/recipes. | 1:N with `MealPlan`, 1:N with `MealLog` |
-| **UserProgress** | Metrics for interactive charts. | 1:N with `CustomUser` |
+| **CustomUser** | Extends `AbstractUser`. | 1:1 with `Subscription` |
+| **WorkoutPlan** | Routine templates. | M:N with `Exercise` (via `PlanItem`) |
+| **WorkoutLog** | A specific session. | 1:N with `SetLog` |
+| **MealPlan** | Curated nutrition guides. | 1:N with `Meal` |
+| **Subscription** | Tracks Stripe state. | 1:1 with `CustomUser` |
 
 ![ERD Schema](docs/img/ERD-Schema.png)
 
@@ -68,35 +83,64 @@ The application is built on a relational structure designed to manage premium co
 
 ## 4. Features
 
-### 4.1 Completed Features (Sprints 1 & 2)
+### 4.1 Core Features
+*   **Secure Authentication:** Powered by `django-allauth`.
+*   **Interactive Workout Logger:** Dynamic, real-time logging of sets, weights, and reps.
+*   **Routine Builder:** Drag-and-drop interface (SortableJS) for creating custom routines.
+*   **API-Powered Library:** 100+ exercises fetched from RapidAPI ExerciseDB.
+*   **Progress Visualization:** Interactive Chart.js graphs showing Volume, 1RM, and Weight history.
+*   **Nutrition Hub:** A daily calorie calculator with custom meal creation and logging.
 
-#### Authentication & User Management
-*   **Secure Registration/Login:** Powered by `django-allauth` for industry-standard security.
-*   **Custom User Profile:** Users can view their account details and current subscription status via a dedicated dashboard.
-*   **Split-Screen Auth UI:** A high-conversion, professional "SaaS-style" login and registration interface that provides a premium first impression.
-
-#### Workout Tracking & Exercise Library
-*   **API-Driven Exercise Library:** The application automatically fetches and categorizes over 100+ professional exercises from the RapidAPI
-ExerciseDB, complete with instructional text and animated GIFs.
-*   **Search & Filter:** Users can rapidly find exercises by searching by name or filtering by target muscle group.
-*   **Interactive Workout Logger:** A dynamic, JavaScript-powered interface allowing users to build custom workout sessions and log multiple sets,
-weights, and reps in real-time.
-*   **Visual Progress Analytics (Chart.js):** A dynamic dashboard on every exercise page that aggregates the user's `SetLog` data to display their
-Volume History, Heaviest Weight, and Estimated 1RM over time.
-
-#### Nutrition & Calorie Calculator
-*   **Custom Meal Logging:** Users can log individual meals and specify portion sizes (servings).
-*   **Real-time Calorie Calculator:** A JavaScript engine fetches the user's daily `MealLog` data to dynamically render a "Calories Remaining" ring
-chart and macro progress bars (Protein, Carbs, Fats) against daily goals.
-
-### 4.2 Future Features (Sprint 3 - Monetization)
-*   **Stripe Checkout:** Secure payment gateway allowing users to upgrade from a Free to a Premium account.
-*   **Premium Content Gating:** Specialized workout and meal plans that are locked behind the active Stripe subscription.
+### 4.2 Monetization & Gating
+*   **Stripe Integration:** Fully functional test-mode checkout for Monthly and Yearly Pro plans.
+*   **Webhooks:** Automated account upgrading via Stripe webhook listeners.
+*   **Tiered Access:** Free users are limited to 3 routines and 3 meal logs per day. Pro users enjoy unlimited access.
 
 ***
 
-## 5. Technologies Used
-* **Backend:** Python / Django
-* **Frontend:** HTML, CSS, JavaScript (Vanilla JS)
-* **Database:** Relational (PostgreSQL/MySQL)
-* **Payments:** Stripe API
+## 5. Testing
+
+The testing documentation, including manual test cases, automated unit test results, code validation, and Lighthouse performance audits, can be found in the dedicated testing file:
+
+[**View TESTING.md**](docs/TESTING.md)
+
+***
+
+## 6. Technologies Used
+*   **Backend:** Python / Django (v6.0)
+*   **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5.
+*   **Database:** PostgreSQL.
+*   **APIs:** Stripe API, RapidAPI (ExerciseDB).
+*   **Storage:** Cloudinary (Media), Whitenoise (Static).
+
+***
+
+## 7. Deployment
+
+### 7.1 Heroku Deployment
+The project is live here: [FitTrack-Pro](https://fittrack-pro-48af9670b2de.herokuapp.com/)
+1.  Connected GitHub repository to Heroku.
+2.  Configured Config Vars (DATABASE_URL, SECRET_KEY, STRIPE_KEYS, CLOUDINARY_URL).
+3.  Executed `python manage.py migrate` and `python manage.py collectstatic`.
+
+### 7.2 Local Development
+1.  Clone repo.
+2.  Install requirements: `pip install -r requirements.txt`.
+3.  Set variables in `env.py`.
+4.  Run `python manage.py runserver`.
+
+***
+
+## 8. Credits
+
+### 8.1 Content & Data
+*   **Exercise Library:** Data/GIFs provided by [ExerciseDB via RapidAPI](https://rapidapi.com/justin-m-pk-m-p-m-nwovszks/api/exercisedb/).
+*   **Imagery:** Photos from [Unsplash](https://unsplash.com/).
+
+### 8.2 Code & Technology
+*   **Libraries:** SortableJS, Chart.js, Canvas Confetti.
+*   **Django Packages:** django-allauth, django-cloudinary-storage, whitenoise.
+
+### 8.3 Acknowledgements
+*   **Stripe Webhooks:** Logic adapted from official [Stripe Documentation](https://stripe.com/docs/webhooks).
+*   **Code Institute:** For curriculum and technical support.
