@@ -30,7 +30,7 @@ The following tests were performed manually on both the local development enviro
 | :--- | :--- | :--- | :--- | :--- |
 | **2.1** | Log in/out securely | Log in via `/accounts/login/`, then click "Logout" in sidebar. | Success toasts appear. Sidebar state updates correctly. | [Pass] |
 | **2.2** | View/update profile | Click "Profile" in the sidebar. | Profile page loads, showing username, email, and custom meals. | [Pass] |
-| **2.3** | Browse free content | Navigate to "Routines" and "Nutrition". | Free plans are fully accessible and clickable. | [Fail (missing premium content on Routines)] |
+| **2.3** | Browse free content | Navigate to "Routines" and "Nutrition". | Free plans are fully accessible and clickable. | [Pass] |
 | **2.4** | Prompted to subscribe | Attempt to click a "Pro" routine or meal plan. | Plan appears dimmed/locked. Clicking "Upgrade to Access" redirects to Pricing page. | [Pass] |
 | **2.5** | Calorie calculator limits | Navigate to Nutrition Hub. Attempt to log 4 meals. | After 3 meals, the log modal shows a "Daily Limit Reached" lock screen. | [Pass] |
 | **2.6** | Routine limits | Navigate to Routines. Attempt to create a 4th routine. | After 3 routines, the "Create Routine" button is disabled and shows a lock icon. | [Pass] |
@@ -39,7 +39,7 @@ The following tests were performed manually on both the local development enviro
 | ID | User Story | Action | Expected Result | Pass/Fail |
 | :--- | :--- | :--- | :--- | :--- |
 | **3.1** | Secure upgrade via Stripe | Click "Upgrade to Pro", enter test card details, and submit. | Redirects to Success page. Status updates to "Active" via webhook. | [Pass] |
-| **3.2** | Unrestricted access | Navigate to Routines and Nutrition as an Active subscriber. | Previously locked "Pro" plans are now fully accessible and clickable. | [Fail (missing premium content on Routines)] |
+| **3.2** | Unrestricted access | Navigate to Routines and Nutrition as an Active subscriber. | Previously locked "Pro" plans are now fully accessible and clickable. | [Pass] |
 | **3.3** | Unlimited custom plans | Navigate to Routines and Nutrition. | The 3-routine and 3-meal/day limits are removed. Buttons remain active. | [Pass] |
 | **3.4** | Interactive charts | Log a workout, then view the Exercise Detail page. | Chart.js renders a line chart of volume history. Toggle buttons change metrics. | [Pass] |
 | **3.5** | Manage subscription | *Future implementation (e.g., Stripe Customer Portal).* | - | N/A |

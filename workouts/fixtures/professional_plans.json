@@ -1,0 +1,79 @@
+[
+    {
+        "model": "workouts.workoutplan",
+        "pk": 1,
+        "fields": {
+            "created_by": null,
+            "title": "Pro Hypertrophy: Chest & Back",
+            "description": "An advanced volume-based routine designed for maximum muscle growth. Pro membership required.",
+            "is_premium": true,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "workouts.workoutplan",
+        "pk": 2,
+        "fields": {
+            "created_by": null,
+            "title": "Endurance Elite: Full Body",
+            "description": "High-intensity bodyweight circuit focused on cardiovascular capacity and muscular endurance.",
+            "is_premium": true,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "workouts.workoutplan",
+        "pk": 3,
+        "fields": {
+            "created_by": null,
+            "title": "Powerlifter Base: Strength",
+            "description": "A classic 5x5 based routine for building raw power and compound strength.",
+            "is_premium": true,
+            "created_at": "2026-03-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "workouts.planitem",
+        "pk": 1,
+        "fields": {
+            "workout_plan": 1,
+            "exercise": 1,
+            "target_sets": 4,
+            "target_reps": 12,
+            "order": 1
+        }
+    },
+    {
+        "model": "workouts.planitem",
+        "pk": 2,
+        "fields": {
+            "workout_plan": 1,
+            "exercise": 2,
+            "target_sets": 4,
+            "target_reps": 10,
+            "order": 2
+        }
+    },
+    {
+        "model": "workouts.planitem",
+        "pk": 3,
+        "fields": {
+            "workout_plan": 2,
+            "exercise": 3,
+            "target_sets": 5,
+            "target_reps": 20,
+            "order": 1
+        }
+    },
+    {
+        "model": "workouts.planitem",
+        "pk": 4,
+        "fields": {
+            "workout_plan": 3,
+            "exercise": 4,
+            "target_sets": 5,
+            "target_reps": 5,
+            "order": 1
+        }
+    }
+]
