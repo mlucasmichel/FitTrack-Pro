@@ -18,7 +18,7 @@
                     <span class="input-group-text border-0 bg-white ps-4 pe-0 rounded-start-pill shadow-sm">
                         <i class="fas fa-search text-muted"></i>
                     </span>
-                    <input type="text" name="q" class="form-control border-0 shadow-sm rounded-end-pill pe-4" placeholder="Search exercises"value="{{ request.GET.q }}">
+                    <input type="text" name="q" class="form-control border-0 shadow-sm rounded-end-pill pe-4" placeholder="Search exercises" value="{{ request.GET.q }}">
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
                     </span>
                 </div>
                 <div class="card-body p-4">
-                    <h5 class="card-title fw-bold mb-1">{{ exercise.name|title }}</h5>
+                    <div class="h5 card-title fw-bold mb-1">{{ exercise.name|title }}</div>
                     <p class="small text-muted mb-0">Equipment: {{ exercise.equipment|title }}</p>
                 </div>
                 <div class="card-footer bg-transparent border-0 p-4 pt-0 text-end">

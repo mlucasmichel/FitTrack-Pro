@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <h5 class="fw-bold mb-3">Your Routine</h5>
+            <div class="fw-bold mb-3 h5">Your Routine</div>
 
             <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 min-vh-50 bg-white {% if is_editing and routine.planitem_set.exists %}p-0 bg-transparent shadow-none{% else %}p-4{% endif %}">
                 <!-- Empty State -->
@@ -49,7 +49,7 @@
                                     <img src="{% if item.exercise.local_gif %}{{ item.exercise.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle">
                                 </div>
                                 <div class="flex-grow-1">
-                                    <h5 class="fw-bold mb-0 text-dark">{{ item.exercise.name|title }}</h5>
+                                    <h1 class="fw-bold mb-0 text-dark h5">{{ item.exercise.name|title }}</h1>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-light text-danger rounded-circle remove-builder-exercise" title="Remove">
                                     <i class="fas fa-times"></i>
@@ -90,7 +90,7 @@
 
             <!-- Summary Card -->
             <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
-                <h6 class="fw-bold mb-3">Summary</h6>
+                <h2 class="fw-bold mb-3 h6">Summary</h2>
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Total Exercises:</span>
                     <span class="fw-bold" id="summary-exercises">0</span>
@@ -103,7 +103,7 @@
 
             <!-- Exercise Library -->
              <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-                 <h6 class="fw-bold mb-3">Exercise Library</h6>
+                 <h2 class="fw-bold mb-3 h6">Exercise Library</h2>
             
                  <!-- Desktop Filters -->
                  <div class="row g-2 mb-3">
@@ -135,7 +135,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 rounded-4 shadow-lg">
             <div class="modal-header border-0 p-4 pb-0">
-                <h5 class="modal-title fw-bold">Select Exercise</h5>
+                <div class="modal-title fw-bold h5">Select Exercise</div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4">
