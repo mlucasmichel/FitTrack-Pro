@@ -48,7 +48,7 @@
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h5 class="fw-bold text-brand-primary">{{ routine.title }}</h5>
                                 <div class="dropdown">
-                                    <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown" aria-label="Open Routine Menu">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end border-0 shadow rounded-3">
@@ -61,7 +61,7 @@
                                         <li>
                                             <form method="POST" action="{% url 'delete_routine' routine.id %}" onsubmit="return confirm('Are you sure you want to delete this routine?');">
                                                 {% csrf_token %}
-                                                <button type="submit" class="dropdown-item py-2 text-danger">
+                                                <button type="submit" class="dropdown-item py-2 text-danger" aria-label="Delete {{ routine.title }}">
                                                     <i class="fas fa-trash-alt me-2"></i> Delete
                                                 </button>
                                             </form>
@@ -85,7 +85,7 @@
                                     <i class="fas fa-dumbbell me-1 text-brand-primary"></i> {{ routine.exercises.count }} Exercises
                                 </span>
                                 <div>
-                                    <a href="{% url 'log_workout_plan' routine.id %}" class="btn btn-sm btn-outline-brand-primary rounded-pill px-3">Start</a>
+                                    <a href="{% url 'log_workout_plan' routine.id %}" class="btn btn-sm btn-outline-brand-primary rounded-pill px-3" aria-label="Start {{ routine.title }}">Start</a>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                         <i class="fas fa-clipboard-list fa-3x text-muted opacity-25 mb-3"></i>
                         <p class="text-muted mb-0">You haven't created any custom routines yet.</p>
                         {% if can_create_new %}
-                            <a href="{% url 'create_routine' %}" class="btn btn-sm btn-brand-primary rounded-pill px-4 mt-3">Create First Routine</a>
+                            <a href="{% url 'create_routine' %}" class="btn btn-sm btn-brand-primary rounded-pill px-4 mt-3" aria-label="Create First Routine">Create First Routine</a>
                         {% endif %}
                     </div>
                 </div>
@@ -125,14 +125,14 @@
                                 <!-- LOCKED STATE -->
                                 <p class="text-muted" style="font-size: 0.8rem;">Pro-level routine.</p>
                                 <div class="mt-auto text-center border-top pt-3">
-                                    <a href="{% url 'pricing' %}" class="btn btn-sm btn-warning rounded-pill w-100 shadow-sm fw-bold">Upgrade to Access</a>
+                                    <a href="{% url 'pricing' %}" class="btn btn-sm btn-warning rounded-pill w-100 shadow-sm fw-bold" aria-label="Upgrade to Access">Upgrade to Access</a>
                                 </div>
                             {% else %}
                                 <!-- UNLOCKED STATE -->
                                 <p class="text-muted mb-3" style="font-size: 0.8rem;">{{ routine.description|truncatewords:10 }}</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center border-top pt-3">
                                     <span class="text-muted" style="font-size: 0.75rem;"><i class="fas fa-dumbbell me-1"></i> {{ routine.exercises.count }}</span>
-                                    <a href="{% url 'log_workout_plan' routine.id %}" class="btn btn-sm btn-brand-primary rounded-pill px-3">Start</a>
+                                    <a href="{% url 'log_workout_plan' routine.id %}" class="btn btn-sm btn-brand-primary rounded-pill px-3" aria-label="Start {{ routine.title }}">Start</a>
                                 </div>
                             {% endif %}
                         </div>

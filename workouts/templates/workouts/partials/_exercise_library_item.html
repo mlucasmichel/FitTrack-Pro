@@ -7,7 +7,8 @@
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center flex-grow-1 view-exercise-detail" data-id="{{ ex.id }}" data-name="{{ ex.name|title }}" style="cursor: pointer;">
             <div class="bg-light rounded-circle p-1 me-3" style="min-width: 40px; width: 40px; height: 40px;">
-                <img src="{% if ex.local_gif %}{{ ex.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle">
+                <img src="{% if ex.local_gif %}{{ ex.local_gif.url }}{% else %}/static/img/placeholder.png{% endif %}" class="w-100 h-100 object-fit-cover rounded-circle"
+                    alt="{{ ex.name|title }} GIF" loading="lazy">
             </div>
             <div class="flex-grow-1">
                 <h6 class="fw-bold text-dark mb-0" style="font-size: 0.85rem;">{{ ex.name|title }}</h6>
