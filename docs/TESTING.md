@@ -70,8 +70,8 @@ Specific tests conducted to address previous assessor feedback regarding negativ
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 | :--- | :--- | :--- | :--- | :--- |
-| Home | Pending | Pending | Pending | Pending |
-| Dashboard | Pending | Pending | Pending | Pending |
+| Home | 100 | 90 | 100 | 90 |
+| Dashboard | 90 | 92 | 100 | 90 |
 | Routines | Pending | Pending | Pending | Pending |
 
 ---
