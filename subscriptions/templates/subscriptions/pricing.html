@@ -66,7 +66,63 @@
     {% endfor %}
 </div>
 
-<div class="row mt-5 pt-5 border-top">
+<!-- Plans Comparison Table -->
+<div class="row mt-5 pt-5 justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle text-center">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="text-start p-4 fs-5 fw-bold">Features Comparison</th>
+                            <th class="p-4 fs-5 fw-bold text-muted">Free</th>
+                            <th class="p-4 fs-5 fw-bold" style="color: var(--primary-100);">Pro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-start p-4 fw-bold">Exercise Library</td>
+                            <td><i class="fas fa-check text-success"></i></td>
+                            <td><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="text-start p-4 fw-bold">Workout Logging</td>
+                            <td><i class="fas fa-check text-success"></i></td>
+                            <td><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="text-start p-4 fw-bold">Daily Logging Limit</td>
+                            <td class="text-muted">3 Meals / Day</td>
+                            <td class="fw-bold text-success">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start p-4 fw-bold">Custom Routines Limit</td>
+                            <td class="text-muted">3 Routines</td>
+                            <td class="fw-bold text-success">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start p-4 fw-bold">Professional Routines</td>
+                            <td><i class="fas fa-times text-danger"></i></td>
+                            <td><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="text-start p-4 fw-bold">Premium Meal Plans</td>
+                            <td><i class="fas fa-times text-danger"></i></td>
+                            <td><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="text-start p-4 fw-bold">Progress Analytics</td>
+                            <td><i class="fas fa-times text-danger"></i></td>
+                            <td><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5 pb-5">
     <div class="col-12 text-center">
         <p class="small text-muted">All payments are securely handled via Stripe. Cancel anytime.</p>
         <div class="d-flex justify-content-center gap-4 fs-3 text-muted opacity-25 mt-3">
