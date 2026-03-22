@@ -7,10 +7,10 @@ This document details the testing procedures and results for the FitTrack Pro ap
 ## 1. Code Validation
 All code was passed through the relevant validators to ensure syntax correctness and best practices.
 
-*   **HTML:** W3C Markup Validator - [Result: Pending]
-*   **CSS:** W3C CSS Validator (Jigsaw) - [Result: Pending]
-*   **JavaScript:** JSHint - [Result: Pending]
-*   **Python:** PEP8 (CI Python Linter) - [Result: Pending]
+*   **HTML:** W3C Markup Validator - [Result: Pass]
+*   **CSS:** W3C CSS Validator (Jigsaw) - [Result: Pass]
+*   **JavaScript:** JSHint - [Result: Pass]
+*   **Python:** PEP8 (CI Python Linter) - [Result: Pass]
 
 ---
 
