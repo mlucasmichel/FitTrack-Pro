@@ -38,7 +38,7 @@ The following tests were performed manually on both the local development enviro
 ### 2.3 Subscriber (Premium User)
 | ID | User Story | Action | Expected Result | Pass/Fail |
 | :--- | :--- | :--- | :--- | :--- |
-| **3.1** | Secure upgrade via Stripe | Click "Upgrade to Pro", enter test card details, and submit. | Redirects to Success page. Status updates to "Active" via webhook. | [Fail (Clicking Upgrade button does not redirect to stripe checkout)] |
+| **3.1** | Secure upgrade via Stripe | Click "Upgrade to Pro", enter test card details, and submit. | Redirects to Success page. Status updates to "Active" via webhook. | [Pass] |
 | **3.2** | Unrestricted access | Navigate to Routines and Nutrition as an Active subscriber. | Previously locked "Pro" plans are now fully accessible and clickable. | [Fail (missing premium content on Routines)] |
 | **3.3** | Unlimited custom plans | Navigate to Routines and Nutrition. | The 3-routine and 3-meal/day limits are removed. Buttons remain active. | [Pass] |
 | **3.4** | Interactive charts | Log a workout, then view the Exercise Detail page. | Chart.js renders a line chart of volume history. Toggle buttons change metrics. | [Pass] |

@@ -47,7 +47,13 @@
                 </div>
                 <div>
                     <h6 class="text-muted mb-1 small text-uppercase fw-bold">Status</h6>
-                    <h4 class="fw-bold mb-0">Free Plan</h4> <!-- Hardcoded until Sprint 3 -->
+                    <h4 class="fw-bold mb-0">
+                        {% if user.subscription.status == 'active' %}
+                            <span class="text-success">Pro Plan</span>
+                        {% else %}
+                            Free Plan
+                        {% endif %}
+                    </h4>
                 </div>
             </div>
         </div>
