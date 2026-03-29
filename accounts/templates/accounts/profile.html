@@ -51,10 +51,13 @@
                     </div>
                     <div class="fw-bold h4">Pro Plan</div>
                     <p class="text-muted mb-4">You have full access to all premium workout routines and meal plans.</p>
-                    <div class="d-grid">
-                        <div class="card bg-primary bg-gradient bg-opacity-10 border-0 p-1 shadow-sm rounded-pill text-center">
-                            <span class="small bg-primary bg-gradient fw-bold">Active Member</span>
-                        </div>
+                    <div class="d-grid gap-2">
+                        <span class="badge rounded-pill py-2 fw-bold" style="background-color: rgba(255, 87, 34, 0.1); color: var(--primary-100);">
+                            Active Member
+                        </span>
+                        <a href="{% url 'manage_subscription' %}" class="btn btn-sm btn-outline-secondary rounded-pill mt-2">
+                            <i class="fas fa-credit-card me-2"></i> Manage Subscription
+                        </a>
                     </div>
                 {% else %}
                     <div class="rounded-circle bg-light d-inline-block p-4 mb-3">
