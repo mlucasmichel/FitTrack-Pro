@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1 class="h2 fw-bold">Settings</h1>
+        <p class="text-muted">Manage your account, subscription, and fitness targets.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Tabs Navigation -->
+    <div class="col-lg-3">
+        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+            <ul class="nav nav-pills flex-column" id="settingsTabs" role="tablist">
+                <li class="nav-item mb-2">
+                    <button class="nav-link active rounded-pill text-start w-100 fw-bold px-4" id="account-tab" data-bs-toggle="tab" data-bs-target="#account-pane" type="button">
+                        <i class="fas fa-user-circle me-2"></i> Account
+                    </button>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="nav-link rounded-pill text-start w-100 fw-bold px-4" id="goals-tab" data-bs-toggle="tab" data-bs-target="#goals-pane" type="button">
+                        <i class="fas fa-bullseye me-2"></i> Fitness Goals
+                    </button>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="nav-link rounded-pill text-start w-100 fw-bold px-4" id="billing-tab" data-bs-toggle="tab" data-bs-target="#billing-pane" type="button">
+                        <i class="fas fa-credit-card me-2"></i> Billing
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill text-start w-100 fw-bold px-4" id="security-tab" data-bs-toggle="tab" data-bs-target="#security-pane" type="button">
+                        <i class="fas fa-shield-alt me-2"></i> Security
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tabs Content -->
+    <div class="col-lg-9">
+        <div class="tab-content" id="settingsTabsContent">
+
+            <!-- Account Info -->
+            <div class="tab-pane fade show active" id="account-pane" role="tabpanel">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                    <h4 class="fw-bold mb-4">Account Information</h4>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Username</label>
+                            <input type="text" class="form-control border-0 bg-light rounded-pill px-4" value="{{ user.username }}" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Email Address</label>
+                            <input type="text" class="form-control border-0 bg-light rounded-pill px-4" value="{{ user.email }}" disabled>
+                        </div>
+                    </div>
+                    <p class="mt-4 small text-muted">To change your email or username, please contact support.</p>
+                </div>
+            </div>
+
+            <!-- Fitness Goals -->
+            <div class="tab-pane fade" id="goals-pane" role="tabpanel">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                    <h4 class="fw-bold mb-4">Daily Targets</h4>
+                    <p class="text-muted mb-4">These targets will update your rings and progress bars in the Nutrition Hub.</p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="update_goals" value="1">
+                        <div class="row g-4">
+                            {% for field in form %}
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted text-uppercase">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-brand-primary rounded-pill px-5 fw-bold shadow-sm">Save Goals</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Billing and Subscription -->
+            <div class="tab-pane fade" id="billing-pane" role="tabpanel">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                    <h4 class="fw-bold mb-4">Subscription Management</h4>
+                    {% if user.subscription.status == 'active' %}
+                        <div class="alert bg-brand-light border-0 text-brand-primary rounded-4 p-4 mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-crown fa-2x me-3"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-0">Active Pro Member</h6>
+                                    <p class="small mb-0">You are currently on the <strong>{{ user.subscription.plan_tier.name }}</strong> plan.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-muted">Manage your payment methods, view invoices, or cancel your subscription via the secure Stripe portal.</p>
+                        <a href="{% url 'manage_subscription' %}" class="btn btn-outline-secondary rounded-pill px-4 mt-3">Open Stripe Portal</a>
+                    {% else %}
+                        <p class="text-muted">You are currently on the Free plan. Upgrade to unlock all premium features.</p>
+                        <a href="{% url 'pricing' %}" class="btn btn-brand-primary rounded-pill px-4">View Pricing Plans</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="tab-pane fade" id="security-pane" role="tabpanel">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                    <h4 class="fw-bold mb-4">Security Settings</h4>
+                    <p class="text-muted mb-4">Change your password or manage account security.</p>
+                    <a href="{% url 'account_change_password' %}" class="btn btn-outline-brand-primary rounded-pill px-4">
+                        <i class="fas fa-key me-2"></i> Change Password
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
