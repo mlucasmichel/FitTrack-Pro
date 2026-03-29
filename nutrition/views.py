@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
+from urllib3 import request
 from .models import MealLog, Meal, MealPlan
 from .forms import MealLogForm, CustomMealForm
 
@@ -54,7 +55,12 @@ def nutrition_hub(request):
     total_carbs = sum(log.total_carbs for log in todays_logs)
     total_fats = sum(log.total_fat for log in todays_logs)
 
-    goals = {'calories': 2500, 'protein': 150, 'carbs': 300, 'fats': 80}
+    goals = {
+        'calories': request.user.calorie_goal,
+        'protein': request.user.protein_goal,
+        'carbs': request.user.carbs_goal,
+        'fats': request.user.fat_goal
+    }
 
     nutrition_data = {
         'consumed': {
