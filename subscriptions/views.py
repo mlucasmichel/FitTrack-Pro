@@ -135,19 +135,25 @@ def stripe_webhook(request):
 @login_required
 def create_portal_session(request):
     """
-    Creates a Stripe Customer Portal session for the user to manage their subscription.
+    Creates a Stripe Customer Portal session and redirects the user.
+    This allows them to manage their subscription, payment methods, and billing history.
     """
-    if not request.user.subscription.stripe_customer_id:
-        messages.error(request, "No active subscription found.")
+    try:
+        customer_id = request.user.subscription.stripe_customer_id
+    except Exception:
+        customer_id = None
+
+    if not customer_id:
+        messages.error(request, "You do not have an active subscription to manage.")
         return redirect('profile')
-    
+
     try:
         session = stripe.billing_portal.Session.create(
-            customer=request.user.subscription.stripe_customer_id,
+            customer=customer_id,
             return_url=request.build_absolute_uri(reverse('profile')),
         )
         return redirect(session.url, code=303)
     except Exception as e:
         print(f"Stripe Portal Error: {e}")
-        messages.error(request, "Unable to access billing portal. Please try again later.")
+        messages.error(request, "Unable to access the billing portal at this time.")
         return redirect('profile')
