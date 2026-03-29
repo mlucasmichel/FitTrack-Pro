@@ -244,7 +244,9 @@ main {
 }
 
 form.login input,
-form.signup input {
+form.signup input,
+form.password_change input,
+form.password_set input {
   display: block;
   width: 100%;
   padding: 0.8rem 1.2rem;
@@ -258,7 +260,9 @@ form.signup input {
   transition: all 0.2s ease-in-out;
 }
 form.login input:focus,
-form.signup input:focus {
+form.signup input:focus,
+form.password_change input:focus,
+form.password_set input:focus {
   background-color: #ffffff;
   border-color: var(--primary-100);
   outline: 0;
@@ -272,7 +276,9 @@ form.login input[type="checkbox"] {
 }
 /* Label styling */
 form.login label,
-form.signup label {
+form.signup label,
+form.password_change label,
+form.password_set label {
   font-family: var(--font-primary);
   font-weight: 600;
   color: var(--text-100);
