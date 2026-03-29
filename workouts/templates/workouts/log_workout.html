@@ -6,9 +6,9 @@
 
 {% block content %}
 <div class="row mb-5">
-    <div class="col-md-8">
-        <h1 class="h2 fw-bold">Track Your Session</h1>
-        <p class="text-muted">Log your sets and reps.</p>
+    <div class="col-md-8 mx-auto">
+        <h1 class="h2 fw-bold text-dark">Track Your Session</h1>
+        <p class="text-muted">Log your sets and reps. Bodyweight exercises will auto-fill with 0kg.</p>
     </div>
 </div>
 
@@ -21,7 +21,7 @@
             {% for item in workout_plan.planitem_set.all %}
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 exercise-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-primary text-decoration-none view-exercise-detail" data-id="{{ item.exercise.id }}" data-name="{{ item.exercise.name|title }}">
+                        <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-brand-primary text-decoration-none view-exercise-detail" data-id="{{ item.exercise.id }}" data-name="{{ item.exercise.name|title }}">
                             {{ item.exercise.name|title }} <i class="fas fa-external-link-alt small opacity-50 ms-1"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-outline-danger border-0 remove-exercise"><i class="fas fa-times"></i></button>
@@ -50,7 +50,7 @@
                         {% endwith %}
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-link text-decoration-none mt-2 add-set"
+                    <button type="button" class="btn btn-sm btn-link text-brand-primary text-decoration-none mt-2 add-set"
                             data-id="{{ item.exercise.id }}"
                             data-is-bw="{% if item.exercise.equipment == 'body weight' %}true{% else %}false{% endif %}">
                         <i class="fas fa-plus-circle me-1"></i> Add Set
@@ -62,19 +62,19 @@
 
     <!-- Add Exercise Button -->
     <div class="d-grid gap-2 d-md-block mb-5">
-        <button type="button" class="btn btn-outline-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addExerciseModal">
+        <button type="button" class="btn btn-outline-brand-primary rounded-pill px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#addExerciseModal">
             <i class="fas fa-plus me-2"></i> Add Exercise
         </button>
     </div>
 
     <div class="d-grid gap-2 border-top pt-5">
-        <button type="submit" class="btn btn-success btn-lg rounded-pill py-3 fw-bold shadow">
+        <button type="submit" class="btn btn-brand-primary btn-lg rounded-pill py-3 fw-bold shadow">
             Finish & Save Workout
         </button>
     </div>
 </form>
 
-<!-- Add Exercise Modal -->
+<!-- Choose Exercise Modal -->
 <div class="modal fade" id="addExerciseModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow-lg">
@@ -83,14 +83,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4 pt-0">
-                <input type="text" id="exercise-search" class="form-control mb-3" placeholder="Search...">
-                <div class="list-group" id="exercise-list" style="max-height: 300px; overflow-y: auto;">
+                <input type="text" id="exercise-search" class="form-control mb-3 border-0 bg-light rounded-pill px-3" placeholder="Search exercises...">
+                <div class="list-group list-group-flush" id="exercise-list" style="max-height: 300px; overflow-y: auto;">
                     {% for exercise in exercises %}
-                        <button type="button" class="list-group-item list-group-item-action border-0"
+                        <button type="button" class="list-group-item list-group-item-action border-0 py-3 d-flex justify-content-between align-items-center"
                                 data-id="{{ exercise.id }}"
                                 data-name="{{ exercise.name|title }}"
                                 data-is-bw="{% if exercise.equipment == 'body weight' %}true{% else %}false{% endif %}">
-                            {{ exercise.name|title }}
+                            <span class="fw-bold">{{ exercise.name|title }}</span>
+                            <i class="fas fa-plus-circle text-brand-primary opacity-50"></i>
                         </button>
                     {% endfor %}
                 </div>
@@ -99,7 +100,7 @@
     </div>
 </div>
 
-<!-- Detail View Modal Shell -->
+<!-- Exercise Detail Modal Shell -->
 <div class="modal fade" id="exerciseDetailModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow-lg bg-light position-relative">
@@ -109,12 +110,11 @@
                     aria-label="Close"
                     style="z-index: 1060;"></button>
             <div class="modal-header border-0 pb-0">
-                <h3 class="modal-title fw-bold ms-3 mt-3 w-100" id="detailModalTitle">Exercise</h3>
+                <h3 class="modal-title fw-bold ms-3 mt-3 w-100" id="detailModalTitle">Exercise Details</h3>
             </div>
             <div class="modal-body p-4" id="detailModalBody">
-                <!-- AJAX Content Injected Here -->
                 <div class="text-center py-5">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-brand-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
@@ -122,7 +122,6 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_js %}

@@ -1,8 +1,7 @@
 /**
- * This JavaScript file handles the dynamic functionality of the workout logging page, allowing users to add exercises and sets on the fly without needing to reload the page.
- * It listens for clicks on the exercise selection modal to add new exercise cards, and also manages adding/removing sets within each exercise card.
- * The code ensures that bodyweight exercises have their weight input pre-filled and disabled, while allowing users to freely input weights for other exercises.
- */
+* Handles dynamic functionality for the workout logging page.
+* Manages adding/removing exercises and sets, and AJAX loading for exercise details.
+*/
 document.addEventListener("DOMContentLoaded", function () {
   const exerciseCards = document.getElementById("exercise-cards");
 
@@ -19,11 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Create Exercise Card
       const card = document.createElement("div");
-      card.className =
-        "card border-0 shadow-sm rounded-4 p-4 mb-4 exercise-card";
+      card.className = "card border-0 shadow-sm rounded-4 p-4 mb-4 exercise-card";
       card.innerHTML = `
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-primary text-decoration-none view-exercise-detail" data-id="${id}" data-name="${name}">
+                    <a href="javascript:void(0);" class="h5 fw-bold mb-0 text-brand-primary text-decoration-none view-exercise-detail" data-id="${id}" data-name="${name}">
                         ${name} <i class="fas fa-external-link-alt small opacity-50 ms-1"></i>
                     </a>
                     <button type="button" class="btn btn-sm btn-outline-danger border-0 remove-exercise"><i class="fas fa-times"></i></button>
@@ -31,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="sets-container" id="sets-for-${id}">
                     <!-- Set rows go here -->
                 </div>
-                <button type="button" class="btn btn-sm btn-link text-decoration-none mt-2 add-set" data-id="${id}" data-is-bw="${isBw}">
+                <button type="button" class="btn btn-sm btn-link text-brand-primary text-decoration-none mt-2 add-set" data-id="${id}" data-is-bw="${isBw}">
                     <i class="fas fa-plus-circle me-1"></i> Add Set
                 </button>
             `;
@@ -42,16 +40,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const modalElement = document.getElementById("addExerciseModal");
       if (modalElement) {
-        bootstrap.Modal.getInstance(modalElement).hide();
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) modal.hide();
       }
     });
   }
 
   // --- Helper: Update Set Numbers ---
   function updateSetNumbers(container) {
-    // Find all set rows within this specific exercise container
     const setRows = container.querySelectorAll(".set-row");
-    // Loop through them and update their text label based on their new index
     setRows.forEach((row, index) => {
       const label = row.querySelector(".set-number-label");
       if (label) {
@@ -60,14 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // --- add Set Row ---
+  // --- Add Set Row ---
   function addSetRow(exerciseId, isBw) {
     const container = document.getElementById(`sets-for-${exerciseId}`);
+    if (!container) return;
+
     const setCount = container.children.length + 1;
     const weightValue = isBw ? "0" : "";
     const weightDisabled = isBw ? "readonly" : "";
 
-    // Added the 'set-number-label' class to the div containing the #number so we can easily target it later
     const row = `
                 <div class="row g-2 mb-2 set-row align-items-center">
                     <div class="col-1 text-muted small fw-bold set-number-label">#${setCount}</div>
@@ -88,72 +86,62 @@ document.addEventListener("DOMContentLoaded", function () {
     container.insertAdjacentHTML("beforeend", row);
   }
 
-  // --- Handle Clicks in Exercise Card ---
+  // --- Handle Clicks in Exercise Card Area ---
   if (exerciseCards) {
     exerciseCards.addEventListener("click", function (e) {
-      // Add Set
+      // 1. Add Set
       if (e.target.closest(".add-set")) {
         const btn = e.target.closest(".add-set");
         addSetRow(btn.dataset.id, btn.dataset.isBw === "true");
       }
 
-      // Remove Set
+      // 2. Remove Set
       if (e.target.closest(".remove-set")) {
         const setRow = e.target.closest(".set-row");
         const container = setRow.closest(".sets-container");
-
-        // Check how many sets are left before removing
         const remainingSets = container.querySelectorAll(".set-row").length;
 
         if (remainingSets > 1) {
           setRow.remove();
           updateSetNumbers(container);
         } else {
-          alert(
-            "An exercise must have at least one set. If you didn't do this exercise, remove the entire card using the 'X' button at the top.",
-          );
+          alert("An exercise must have at least one set.");
         }
       }
 
-      // Remove Exercise Card
+      // 3. Remove Exercise Card
       if (e.target.closest(".remove-exercise")) {
         e.target.closest(".exercise-card").remove();
       }
 
-      // --- View Exercise Detail Modal ---
+      // 4. View Exercise Detail Modal (AJAX)
       if (e.target.closest(".view-exercise-detail")) {
         e.preventDefault();
         const link = e.target.closest(".view-exercise-detail");
         const exId = link.dataset.id;
         const exName = link.dataset.name;
+
         const modalElement = document.getElementById("exerciseDetailModal");
         if (modalElement) {
-          // Check if modal instance already exists to avoid creating multiple
-          let modal = bootstrap.Modal.getInstance(modalElement);
-          if (!modal) {
-            modal = new bootstrap.Modal(modalElement);
-          }
+          let modal = bootstrap.Modal.getOrCreateInstance(modalElement);
           document.getElementById("detailModalTitle").textContent = exName;
           const body = document.getElementById("detailModalBody");
-          // Show spinner
-          body.innerHTML =
-            '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+
+          body.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-brand-primary"></div></div>';
           modal.show();
-          // Fetch the partial view
+
           fetch(`/workouts/exercises/${exId}/`, {
             headers: { "X-Requested-With": "XMLHttpRequest" },
           })
             .then((response) => response.text())
             .then((html) => {
               body.innerHTML = html;
-              // Initialize the chart
               if (typeof window.initExerciseChart === "function") {
                 window.initExerciseChart(exId);
               }
             })
             .catch((error) => {
-              body.innerHTML =
-                '<div class="alert alert-danger">Error loading exercise details.</div>';
+              body.innerHTML = '<div class="alert alert-danger">Error loading exercise details.</div>';
               console.error("Error fetching exercise details:", error);
             });
         }
