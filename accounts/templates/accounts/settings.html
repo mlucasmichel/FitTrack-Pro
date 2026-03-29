@@ -41,14 +41,13 @@
 
     <!-- Tabs Content -->
     <div class="col-lg-9">
-        <div class="tab-content" id="settingsTabsContent">
-
-            <!-- Account Info -->
-            <div class="tab-pane fade show active" id="account-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white h-100">
-                    <h4 class="fw-bold mb-4">Account Information</h4>
-                    <form method="POST">
-                        {% csrf_token %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="tab-content" id="settingsTabsContent">
+                <!-- Account Info -->
+                <div class="tab-pane fade show active" id="account-pane" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+                        <h4 class="fw-bold mb-4">Account Information</h4>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-muted text-uppercase">First Name</label>
@@ -58,22 +57,14 @@
                                 <label class="form-label small fw-bold text-muted text-uppercase">Last Name</label>
                                 {{ form.last_name }}
                             </div>
-                            <div class="col-12 mt-4 pt-3 border-top">
-                                <label class="form-label small fw-bold text-muted text-uppercase">Email (View Only)</label>
-                                <input type="text" class="form-control border-0 bg-light rounded-pill px-4" value="{{ user.email }}" disabled>
-                            </div>
                         </div>
-                        <button type="submit" class="btn btn-brand-primary rounded-pill px-4 fw-bold">Update Profile</button>
-                    </form>
+                        <button type="submit" class="btn btn-brand-primary rounded-pill px-4 fw-bold">Update All Settings</button>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Fitness Goals -->
-            <div class="tab-pane fade" id="goals-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white h-100">
-                    <h4 class="fw-bold mb-4">Fitness Targets</h4>
-                    <form method="POST">
-                        {% csrf_token %}
+                <!-- Fitness Goals -->
+                <div class="tab-pane fade" id="goals-pane" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 h-100">
+                        <h4 class="fw-bold mb-4">Fitness Targets</h4>
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-muted text-uppercase">Calorie Goal</label>
@@ -92,46 +83,43 @@
                                 {{ form.fat_goal }}
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-brand-primary rounded-pill px-4 mt-5 fw-bold">Save Goals</button>
-                    </form>
+                        <button type="submit" class="btn btn-brand-primary rounded-pill px-4 mt-5 fw-bold">Save All Settings</button>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Billing and Subscription -->
-            <div class="tab-pane fade" id="billing-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
-                    <h4 class="fw-bold mb-4">Subscription Management</h4>
-                    {% if user.subscription.status == 'active' %}
-                        <div class="alert bg-brand-light border-0 text-brand-primary rounded-4 p-4 mb-4">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-crown fa-2x me-3"></i>
-                                <div>
-                                    <h6 class="fw-bold mb-0">Active Pro Member</h6>
-                                    <p class="small mb-0">You are currently on the <strong>{{ user.subscription.plan_tier.name }}</strong> plan.</p>
+                <!-- Billing and Subscription -->
+                <div class="tab-pane fade" id="billing-pane" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+                        <h4 class="fw-bold mb-4">Subscription Management</h4>
+                        {% if user.subscription.status == 'active' %}
+                            <div class="alert bg-brand-light border-0 text-brand-primary rounded-4 p-4 mb-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-crown fa-2x me-3"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">Active Pro Member</h6>
+                                        <p class="small mb-0">You are currently on the <strong>{{ user.subscription.plan_tier.name }}</strong> plan.</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <p class="text-muted">Manage your payment methods, view invoices, or cancel your subscription via the secure Stripe portal.</p>
-                        <a href="{% url 'manage_subscription' %}" class="btn btn-outline-secondary rounded-pill px-4 mt-3">Open Stripe Portal</a>
-                    {% else %}
-                        <p class="text-muted">You are currently on the Free plan. Upgrade to unlock all premium features.</p>
-                        <a href="{% url 'pricing' %}" class="btn btn-brand-primary rounded-pill px-4">View Pricing Plans</a>
-                    {% endif %}
+                            <p class="text-muted">Manage your payment methods, view invoices, or cancel your subscription via the secure Stripe portal.</p>
+                            <a href="{% url 'manage_subscription' %}" class="btn btn-outline-secondary rounded-pill px-4 mt-3">Open Stripe Portal</a>
+                        {% else %}
+                            <p class="text-muted">You are currently on the Free plan. Upgrade to unlock all premium features.</p>
+                            <a href="{% url 'pricing' %}" class="btn btn-brand-primary rounded-pill px-4">View Pricing Plans</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- Security -->
+                <div class="tab-pane fade" id="security-pane" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+                        <h4 class="fw-bold mb-4">Security Settings</h4>
+                        <p class="text-muted mb-4">Change your password or manage account security.</p>
+                        <a href="{% url 'account_change_password' %}" class="btn btn-outline-brand-primary rounded-pill px-4">
+                            <i class="fas fa-key me-2"></i> Change Password
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <!-- Security -->
-            <div class="tab-pane fade" id="security-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
-                    <h4 class="fw-bold mb-4">Security Settings</h4>
-                    <p class="text-muted mb-4">Change your password or manage account security.</p>
-                    <a href="{% url 'account_change_password' %}" class="btn btn-outline-brand-primary rounded-pill px-4">
-                        <i class="fas fa-key me-2"></i> Change Password
-                    </a>
-                </div>
-            </div>
-
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}
