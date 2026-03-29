@@ -63,7 +63,7 @@
                             </a>
                         </li>
                         <li class="nav-item mt-2">
-                            <a class="nav-link text-muted small rounded-pill" href="#">
+                            <a class="nav-link text-muted small rounded-pill {% if request.resolver_match.url_name == 'settings' %}active{% endif %}" href="{% url 'settings' %}">
                                 <i class="fas fa-cog me-2"></i> Settings
                             </a>
                         </li>

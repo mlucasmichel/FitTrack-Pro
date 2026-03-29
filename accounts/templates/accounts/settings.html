@@ -13,7 +13,7 @@
 <div class="row g-4">
     <!-- Tabs Navigation -->
     <div class="col-lg-3">
-        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+        <div class="card border-0 shadow-sm rounded-4 p-3">
             <ul class="nav nav-pills flex-column" id="settingsTabs" role="tablist">
                 <li class="nav-item mb-2">
                     <button class="nav-link active rounded-pill text-start w-100 fw-bold px-4" id="account-tab" data-bs-toggle="tab" data-bs-target="#account-pane" type="button">
@@ -45,7 +45,7 @@
 
             <!-- Account Info -->
             <div class="tab-pane fade show active" id="account-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
                     <h4 class="fw-bold mb-4">Account Information</h4>
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -63,7 +63,7 @@
 
             <!-- Fitness Goals -->
             <div class="tab-pane fade" id="goals-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
                     <h4 class="fw-bold mb-4">Daily Targets</h4>
                     <p class="text-muted mb-4">These targets will update your rings and progress bars in the Nutrition Hub.</p>
 
@@ -87,7 +87,7 @@
 
             <!-- Billing and Subscription -->
             <div class="tab-pane fade" id="billing-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
                     <h4 class="fw-bold mb-4">Subscription Management</h4>
                     {% if user.subscription.status == 'active' %}
                         <div class="alert bg-brand-light border-0 text-brand-primary rounded-4 p-4 mb-4">
@@ -110,7 +110,7 @@
 
             <!-- Security -->
             <div class="tab-pane fade" id="security-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
                     <h4 class="fw-bold mb-4">Security Settings</h4>
                     <p class="text-muted mb-4">Change your password or manage account security.</p>
                     <a href="{% url 'account_change_password' %}" class="btn btn-outline-brand-primary rounded-pill px-4">

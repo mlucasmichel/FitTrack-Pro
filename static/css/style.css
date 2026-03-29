@@ -39,7 +39,7 @@
 /* --- Global Styles --- */
 body {
   font-family: var(--font-secondary);
-  background-color: var(--bg-100);
+  background-color: var(--bg-200);
   color: var(--text-100);
   margin: 0;
   padding: 0;
@@ -181,7 +181,7 @@ main {
 
 /* --- Components --- */
 .card {
-  background-color: var(--bg-200);
+  background-color: var(--bg-100);
   border: none;
   box-shadow: var(--float-shadow);
   border-radius: 12px;

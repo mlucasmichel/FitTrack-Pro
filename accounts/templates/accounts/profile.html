@@ -3,100 +3,102 @@
 {% block title %}My Profile{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12 mb-4">
+<!-- Profile Header -->
+<div class="row align-items-center mb-5">
+    <div class="col">
         <h1 class="h2 fw-bold">My Profile</h1>
-        <p class="text-muted">Manage your personal information and subscription status.</p>
+        <p class="text-muted mb-0">Overview of your account and achievements.</p>
+    </div>
+    <div class="col-auto">
+        <!-- Settings button -->
+        <a href="{% url 'settings' %}" class="btn btn-light rounded-pill border shadow-sm px-4">
+            <i class="fas fa-cog me-2"></i> Settings
+        </a>
     </div>
 </div>
 
 <div class="row g-4">
-    <!-- Profile Info Card -->
+    <!-- User Summary -->
     <div class="col-lg-8">
-        <div class="card border-0 shadow-sm p-4 h-100">
-            <div class="fw-bold mb-4 h5">Personal Details</div>
-            <div class="row g-3">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold mb-0">Account Details</h4>
+                <!-- Subscription Badge -->
+                {% if user.subscription.status == 'active' %}
+                    <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: rgba(255, 87, 34, 0.1); color: var(--primary-100);">
+                        <i class="fas fa-crown me-1"></i> PRO MEMBER
+                    </span>
+                {% else %}
+                    <span class="badge bg-light text-muted border rounded-pill px-3 py-2 fw-bold">FREE PLAN</span>
+                {% endif %}
+            </div>
+
+            <div class="row g-4">
                 <div class="col-md-6">
                     <label class="form-label small fw-bold text-muted text-uppercase">Username</label>
-                    <p class="fs-5 fw-bold">{{ user.username }}</p>
+                    <p class="fs-5 fw-bold mb-0 text-dark">{{ user.username }}</p>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label small fw-bold text-muted text-uppercase">Email Address</label>
-                    <p class="fs-5 fw-bold">{{ user.email }}</p>
+                    <p class="fs-5 fw-bold mb-0 text-dark">{{ user.email }}</p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 border-top pt-3">
                     <label class="form-label small fw-bold text-muted text-uppercase">First Name</label>
-                    <p class="fs-5 fw-bold">{{ user.first_name|default:"Not set" }}</p>
+                    <p class="fs-5 fw-bold mb-0 text-dark">{{ user.first_name|default:"Not set" }}</p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 border-top pt-3">
                     <label class="form-label small fw-bold text-muted text-uppercase">Last Name</label>
-                    <p class="fs-5 fw-bold">{{ user.last_name|default:"Not set" }}</p>
+                    <p class="fs-5 fw-bold mb-0 text-dark">{{ user.last_name|default:"Not set" }}</p>
                 </div>
             </div>
-            <div class="mt-5">
-                <a href="#" class="btn btn-primary">Edit Profile</a>
-                <a href="{% url 'account_change_password' %}" class="btn btn-outline-secondary ms-2">Change Password</a>
+
+            <div class="mt-5 pt-4 border-top">
+                <p class="small text-muted mb-0">
+                    To update your goals or change your password, visit the 
+                    <a href="{% url 'settings' %}" class="fw-bold text-primary text-decoration-none">
+                        Settings
+                    </a> 
+                    page.
+                </p>
             </div>
         </div>
     </div>
-    
-    <div class="col-lg-4">
-        <!-- Subscription Status Card -->
-        <div class="card border-0 shadow-sm p-4">
-            <div class="fw-bold mb-4 h5">Subscription</div>
-            <div class="text-center py-4">
-                {% if user.subscription.status == 'active' %}
-                    <div class="rounded-circle d-inline-block bg-primary bg-gradient bg-opacity-10 border-0 p-4 mb-3">
-                        <i class="fas fa-crown fa-2x bg-primary bg-gradient fw-bold"></i>
-                    </div>
-                    <div class="fw-bold h4">Pro Plan</div>
-                    <p class="text-muted mb-4">You have full access to all premium workout routines and meal plans.</p>
-                    <div class="d-grid gap-2">
-                        <span class="badge rounded-pill py-2 fw-bold" style="background-color: rgba(255, 87, 34, 0.1); color: var(--primary-100);">
-                            Active Member
-                        </span>
-                        <a href="{% url 'manage_subscription' %}" class="btn btn-sm btn-outline-secondary rounded-pill mt-2">
-                            <i class="fas fa-credit-card me-2"></i> Manage Subscription
-                        </a>
-                    </div>
-                {% else %}
-                    <div class="rounded-circle bg-light d-inline-block p-4 mb-3">
-                        <i class="fas fa-user fa-2x text-muted"></i>
-                    </div>
-                    <div class="fw-bold h4">Free Plan</div>
-                    <p class="text-muted mb-4">Upgrade to unlock all premium workout and meal plans.</p>
-                    <div class="d-grid">
-                        <a href="{% url 'pricing' %}" class="btn btn-warning py-2 fw-bold shadow-sm rounded-pill text-dark">
-                            Upgrade to Pro
-                        </a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
 
+    <!-- User-Created Content -->
+    <div class="col-lg-4">
         <!-- Meals Management Card -->
-        <div class="card border-0 shadow-sm p-4 mt-4">
-            <div class="fw-bold mb-4 h5">My Meals</div>
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h5 class="fw-bold mb-4">My Meals</h5>
 
             <div class="list-group list-group-flush">
                 {% for meal in custom_meals %}
                     <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom border-light bg-transparent p-3">
                         <div>
-                            <div class="mb-0 fw-bold h6">{{ meal.name }}</div>
+                            <h6 class="mb-0 fw-bold">{{ meal.name }}</h6>
                             <span class="small text-muted">{{ meal.calories }} kcal</span>
                         </div>
-                        <!-- Link to Edit View -->
-                        <a href="{% url 'edit_custom_meal' meal.id %}" class="btn btn-sm btn-light rounded-circle text-primary">
+                        <!-- Link to Edit Meal -->
+                        <a href="{% url 'edit_custom_meal' meal.id %}" class="btn btn-sm btn-light rounded-circle text-primary" title="Edit Meal">
                             <i class="fas fa-pen"></i>
                         </a>
                     </div>
                 {% empty %}
-                    <p class="text-muted small mb-0"><i class="fas fa-info-circle me-1"></i>
-                        You haven't created any custom meals yet. Create them from the Nutrition Hub!
-                    </p>
+                    <div class="text-center py-4">
+                        <i class="fas fa-utensils fa-2x mb-2 text-light"></i>
+                        <p class="text-muted small mb-0">No custom meals created yet.</p>
+                    </div>
                 {% endfor %}
             </div>
         </div>
+
+        <!-- Quick CTA Card for Free Users -->
+        {% if user.subscription.status != 'active' %}
+            <div class="card border-0 shadow-sm rounded-4 p-4 mt-4 bg-brand-primary text-white">
+                <h6 class="fw-bold mb-2">Upgrade to Pro</h6>
+                <p class="small opacity-75 mb-3">Unlock unlimited meal logging and professional routines.</p>
+                <a href="{% url 'pricing' %}" class="btn btn-light btn-sm w-100 rounded-pill fw-bold">Learn More</a>
+            </div>
+        {% endif %}
 
     </div>
 </div>
