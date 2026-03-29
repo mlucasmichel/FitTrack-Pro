@@ -112,7 +112,7 @@
         <div class="row row-cols-1 g-3">
             {% for routine in system_routines %}
                 <div class="col">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 {% if routine.is_premium and not is_premium %}bg-light opacity-75{% else %}bg-white{% endif %}">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 {% if routine.is_premium and not is_premium %}bg-light opacity-75{% endif %}">
                         <div class="card-body p-4 d-flex flex-column">
                             <h6 class="fw-bold mb-2">
                                 {{ routine.title }}

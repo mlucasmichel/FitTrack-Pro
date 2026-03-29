@@ -32,7 +32,7 @@
 
             <div class="fw-bold mb-3 h5">Your Routine</div>
 
-            <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 min-vh-50 bg-white {% if is_editing and routine.planitem_set.exists %}p-0 bg-transparent shadow-none{% else %}p-4{% endif %}">
+            <div id="routine-builder-zone" class="card border-0 shadow-sm rounded-4 min-vh-50 {% if is_editing and routine.planitem_set.exists %}p-0 bg-transparent shadow-none{% else %}p-4{% endif %}">
                 <!-- Empty State -->
                 <div class="text-center text-muted py-5" id="empty-builder-state" style="{% if is_editing and routine.planitem_set.exists %}display: none;{% endif %}">
                     <i class="fas fa-hand-pointer fa-2x mb-3 opacity-50"></i>
@@ -42,7 +42,7 @@
                 <!-- Built Exercises (For Edit Mode) -->
                 {% if is_editing %}
                     {% for item in routine.planitem_set.all %}
-                        <div class="card border border-brand-primary shadow-sm rounded-4 p-3 mb-3 bg-white built-exercise" data-id="{{ item.exercise.id }}">
+                        <div class="card border border-brand-primary shadow-sm rounded-4 p-3 mb-3 built-exercise" data-id="{{ item.exercise.id }}">
                             <div class="d-flex align-items-center mb-3">
                                 <i class="fas fa-grip-vertical text-muted drag-handle me-3 pe-auto" style="cursor: grab; font-size: 1.2rem;"></i>
                                 <div class="bg-light rounded-circle p-1 me-3" style="width: 45px; height: 45px;">
@@ -89,7 +89,7 @@
         <div class="col-lg-5 col-xl-3 d-none d-lg-block">
 
             <!-- Summary Card -->
-            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
                 <h2 class="fw-bold mb-3 h6">Summary</h2>
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Total Exercises:</span>
@@ -102,7 +102,7 @@
             </div>
 
             <!-- Exercise Library -->
-             <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+             <div class="card border-0 shadow-sm rounded-4 p-4">
                  <h2 class="fw-bold mb-3 h6">Exercise Library</h2>
             
                  <!-- Desktop Filters -->

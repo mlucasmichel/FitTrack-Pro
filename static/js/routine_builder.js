@@ -83,10 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // --- Add Function ---
   function addExerciseToBuilder(exId, exName, exImg) {
     if (emptyState) emptyState.style.display = "none";
-    builderZone.classList.remove("card", "bg-white", "shadow-sm", "p-4");
+    builderZone.classList.remove("card", "shadow-sm", "p-4");
 
     const card = document.createElement("div");
-    card.className = "card border border-brand-primary shadow-sm rounded-4 p-3 mb-3 bg-white built-exercise";
+    card.className = "card border border-brand-primary shadow-sm rounded-4 p-3 mb-3 built-exercise";
     card.dataset.id = exId;
     card.innerHTML = `
         <div class="d-flex align-items-center mb-3">
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.target.closest(".built-exercise").remove();
       if (builderZone.querySelectorAll(".built-exercise").length === 0) {
         if (emptyState) emptyState.style.display = "block";
-        builderZone.classList.add("card", "bg-white", "shadow-sm", "p-4");
+        builderZone.classList.add("card", "shadow-sm", "p-4");
       }
       updateSummary();
     }
