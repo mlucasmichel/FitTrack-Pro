@@ -1,12 +1,13 @@
 import stripe
 import datetime
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Subscription, PlanTier
 from django.contrib.auth import get_user_model
 
@@ -79,7 +80,6 @@ def stripe_webhook(request):
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
         return HttpResponse(status=400)
-
     # Handle the event
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
@@ -130,3 +130,24 @@ def stripe_webhook(request):
             print(f"Error processing webhook: {e}")
 
     return HttpResponse(status=200)
+
+
+@login_required
+def create_portal_session(request):
+    """
+    Creates a Stripe Customer Portal session for the user to manage their subscription.
+    """
+    if not request.user.subscription.stripe_customer_id:
+        messages.error(request, "No active subscription found.")
+        return redirect('profile')
+    
+    try:
+        session = stripe.billing_portal.Session.create(
+            customer=request.user.subscription.stripe_customer_id,
+            return_url=request.build_absolute_uri(reverse('profile')),
+        )
+        return redirect(session.url, code=303)
+    except Exception as e:
+        print(f"Stripe Portal Error: {e}")
+        messages.error(request, "Unable to access billing portal. Please try again later.")
+        return redirect('profile')

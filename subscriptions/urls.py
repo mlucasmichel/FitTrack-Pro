@@ -6,4 +6,5 @@ urlpatterns = [
     path('checkout/<int:plan_id>/', views.create_checkout_session, name='create_checkout_session'),
     path('success/', views.payment_success, name='payment_success'), # Temporary path
     path('webhook/', views.stripe_webhook, name='stripe_webhook'),
+    path('manage/', views.create_portal_session, name='manage_subscription'),
 ]
