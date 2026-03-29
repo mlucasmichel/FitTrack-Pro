@@ -100,8 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-muted">Manage your payment methods, view invoices, or cancel your subscription via the secure Stripe portal.</p>
-                            <a href="{% url 'manage_subscription' %}" class="btn btn-outline-secondary rounded-pill px-4 mt-3">Open Stripe Portal</a>
+                            <a href="{% url 'manage_subscription' %}" class="btn btn-outline-secondary rounded-pill px-4 mt-3">Manage Subscription</a>
                         {% else %}
                             <p class="text-muted">You are currently on the Free plan. Upgrade to unlock all premium features.</p>
                             <a href="{% url 'pricing' %}" class="btn btn-brand-primary rounded-pill px-4">View Pricing Plans</a>
