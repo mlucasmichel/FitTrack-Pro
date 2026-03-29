@@ -45,42 +45,54 @@
 
             <!-- Account Info -->
             <div class="tab-pane fade show active" id="account-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white h-100">
                     <h4 class="fw-bold mb-4">Account Information</h4>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Username</label>
-                            <input type="text" class="form-control border-0 bg-light rounded-pill px-4" value="{{ user.username }}" disabled>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted text-uppercase">First Name</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Last Name</label>
+                                {{ form.last_name }}
+                            </div>
+                            <div class="col-12 mt-4 pt-3 border-top">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Email (View Only)</label>
+                                <input type="text" class="form-control border-0 bg-light rounded-pill px-4" value="{{ user.email }}" disabled>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Email Address</label>
-                            <input type="text" class="form-control border-0 bg-light rounded-pill px-4" value="{{ user.email }}" disabled>
-                        </div>
-                    </div>
-                    <p class="mt-4 small text-muted">To change your email or username, please contact support.</p>
+                        <button type="submit" class="btn btn-brand-primary rounded-pill px-4 fw-bold">Update Profile</button>
+                    </form>
                 </div>
             </div>
 
             <!-- Fitness Goals -->
             <div class="tab-pane fade" id="goals-pane" role="tabpanel">
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
-                    <h4 class="fw-bold mb-4">Daily Targets</h4>
-                    <p class="text-muted mb-4">These targets will update your rings and progress bars in the Nutrition Hub.</p>
-
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white h-100">
+                    <h4 class="fw-bold mb-4">Fitness Targets</h4>
                     <form method="POST">
                         {% csrf_token %}
-                        <input type="hidden" name="update_goals" value="1">
                         <div class="row g-4">
-                            {% for field in form %}
-                                <div class="col-md-6">
-                                    <label class="form-label small fw-bold text-muted text-uppercase">{{ field.label }}</label>
-                                    {{ field }}
-                                </div>
-                            {% endfor %}
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Calorie Goal</label>
+                                {{ form.calorie_goal }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Protein (g)</label>
+                                {{ form.protein_goal }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Carbs (g)</label>
+                                {{ form.carbs_goal }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Fats (g)</label>
+                                {{ form.fat_goal }}
+                            </div>
                         </div>
-                        <div class="mt-5">
-                            <button type="submit" class="btn btn-brand-primary rounded-pill px-5 fw-bold shadow-sm">Save Goals</button>
-                        </div>
+                        <button type="submit" class="btn btn-brand-primary rounded-pill px-4 mt-5 fw-bold">Save Goals</button>
                     </form>
                 </div>
             </div>

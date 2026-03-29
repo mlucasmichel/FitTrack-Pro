@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 from workouts.models import WorkoutLog, SetLog
 from nutrition.models import MealLog, Meal
-from .forms import UserGoalsForm
+from .forms import UserSettingsForm
 
 
 @login_required
@@ -70,20 +70,13 @@ def settings_page(request):
     The central hub for user preferences, goals, and subscription management.
     """
     user = request.user
-
     if request.method == 'POST':
-        if 'update_goals' in request.POST:
-            form = UserGoalsForm(request.POST, instance=user)
-            if form.is_valid():
-                form.save()
-                messages.success(
-                    request, "Your fitness goals have been updated.")
-                return redirect('settings')
+        form = UserSettingsForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Settings updated successfully!")
+            return redirect('settings')
     else:
-        form = UserGoalsForm(instance=user)
+        form = UserSettingsForm(instance=user)
 
-    context = {
-        'form': form,
-        'user': user,
-    }
-    return render(request, 'accounts/settings.html', context)
+    return render(request, 'accounts/settings.html', {'form': form})
