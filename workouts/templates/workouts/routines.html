@@ -97,7 +97,11 @@
                         <i class="fas fa-clipboard-list fa-3x text-muted opacity-25 mb-3"></i>
                         <p class="text-muted mb-0">You haven't created any custom routines yet.</p>
                         {% if can_create_new %}
-                            <a href="{% url 'create_routine' %}" class="btn btn-sm btn-brand-primary rounded-pill px-4 mt-3" aria-label="Create First Routine">Create First Routine</a>
+                            <div class="mt-3">
+                                <a href="{% url 'create_routine' %}" class="btn btn-sm btn-brand-primary rounded-pill px-4 mt-3" aria-label="Create First Routine">
+                                    Create First Routine
+                                </a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
