@@ -6,46 +6,43 @@
 <div class="auth-wrapper container-fluid p-0">
     <div class="row g-0 vh-100 justify-content-center align-items-center">
         <div class="col-md-8 col-lg-6 col-xl-5 px-4">
-
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden text-center p-5 bg-white">
-
-                <!-- Celebration Icon -->
-                <div class="mb-4">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success rounded-circle" style="width: 100px; height: 100px;">
-                        <i class="fas fa-check-circle fa-4x"></i>
-                    </div>
-                </div>
-
-                <h1 class="display-5 fw-bold mb-3">Payment Successful!</h1>
-                <p class="fs-5 text-muted mb-5">
-                    Welcome to the elite tier, {{ user.first_name|default:user.username }}. Your account has been upgraded and all premium features are now unlocked.
-                </p>
-
-                <div class="row g-3 mb-5 text-start">
-                    <div class="col-sm-6">
-                        <div class="p-3 bg-light rounded-3">
-                            <i class="fas fa-unlock text-warning mb-2"></i>
-                            <h6 class="fw-bold mb-1">Pro Routines</h6>
-                            <p class="small text-muted mb-0">Access to all expert workouts.</p>
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden text-center p-5">
+                <div class="card-body">
+                    <div class="mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 100px; height: 100px; background-color: rgba(255, 87, 34, 0.1);">
+                            <i class="fas fa-check-circle fa-4x text-brand-primary"></i>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="p-3 bg-light rounded-3">
-                            <i class="fas fa-apple-alt text-danger mb-2"></i>
-                            <h6 class="fw-bold mb-1">Premium Meals</h6>
-                            <p class="small text-muted mb-0">Unlimited nutrition logging.</p>
+                
+                    <h1 class="display-5 fw-bold mb-3 text-dark">Payment Successful!</h1>
+                    <p class="fs-5 text-muted mb-5">
+                        Welcome to the elite tier, {{ user.username|title }}. Your account has been upgraded.
+                    </p>
+                
+                    <div class="row g-3 mb-5 text-start">
+                        <div class="col-sm-6">
+                            <div class="p-3 bg-brand-light rounded-3">
+                                <i class="fas fa-unlock text-brand-primary mb-2"></i>
+                                <h6 class="fw-bold mb-1 text-dark">Pro Routines</h6>
+                                <p class="small text-muted mb-0">Access to all expert workouts.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-3 bg-brand-light rounded-3">
+                                <i class="fas fa-apple-alt text-brand-primary mb-2"></i>
+                                <h6 class="fw-bold mb-1 text-dark">Premium Meals</h6>
+                                <p class="small text-muted mb-0">Unlimited nutrition logging.</p>
+                            </div>
                         </div>
                     </div>
+                
+                    <div class="d-grid">
+                        <a href="{% url 'dashboard' %}" class="btn btn-brand-primary btn-lg rounded-pill py-3 fw-bold shadow-sm">
+                            Go to My Dashboard
+                        </a>
+                    </div>
                 </div>
-
-                <div class="d-grid">
-                    <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg rounded-pill py-3 fw-bold shadow-sm">
-                        Go to My Dashboard
-                    </a>
-                </div>
-
             </div>
-
         </div>
     </div>
 </div>
