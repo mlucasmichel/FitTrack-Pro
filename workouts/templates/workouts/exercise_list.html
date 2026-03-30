@@ -58,7 +58,9 @@
                     <p class="small text-muted mb-0">Equipment: {{ exercise.equipment|title }}</p>
                 </div>
                 <div class="card-footer bg-transparent border-0 p-4 pt-0 text-end">
-                    <a href="{% url 'exercise_detail' exercise.id %}" class="btn btn-outline-brand-primary btn-sm rounded-pill px-3">View Details</a>
+                    <a href="{% url 'exercise_detail' exercise.id %}" class="btn btn-outline-brand-primary btn-sm rounded-pill px-3" data-eid="{{ exercise.id }}" data-is-bw="{% if exercise.equipment == 'body weight' %}true{% else %}false{% endif %}">
+                        View Details
+                    </a>
                 </div>
             </div>
         </div>
