@@ -213,9 +213,18 @@
                                 <label class="form-label small fw-bold text-muted">Nutritional Info (per serving)</label>
                                 {{ custom_form.calories }}
                                 <div class="row g-2">
-                                    <div class="col-4">{{ custom_form.protein_grams }}</div>
-                                    <div class="col-4">{{ custom_form.carbs_grams }}</div>
-                                    <div class="col-4">{{ custom_form.fat_grams }}</div>
+                                    <div class="col-4">
+                                        <span class="extra-small fw-bold text-muted ms-2">Prot. (g)</span>
+                                        {{ custom_form.protein_grams }}
+                                    </div>
+                                    <div class="col-4">
+                                        <span class="extra-small fw-bold text-muted ms-2">Carbs (g)</span>
+                                        {{ custom_form.carbs_grams }}
+                                    </div>
+                                    <div class="col-4">
+                                        <span class="extra-small fw-bold text-muted ms-2">Fat (g)</span>
+                                        {{ custom_form.fat_grams }}
+                                    </div>
                                 </div>
 
                                 <div class="d-grid mt-4">
