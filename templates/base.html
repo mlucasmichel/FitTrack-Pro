@@ -31,7 +31,7 @@
     <meta name="application-name" content="FitTrack Pro"/>
     <meta name="msapplication-TileColor" content="#FFFFFF" />
     <meta name="msapplication-TileImage" content="{% static 'img/favicons/mstile-144x144.png' %}" />
-    
+
 </head>
 
 <body>
@@ -116,7 +116,7 @@
                                 <form method="POST" action="{% url 'account_logout' %}" id="logout-form" class="d-none">
                                     {% csrf_token %}
                                 </form>
-                                <a class="nav-link rounded-pill opacity-75" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                                <a class="nav-link rounded-pill opacity-75" href="{% url 'account_logout' %}">
                                     <i class="fas fa-sign-out-alt me-2"></i> Logout
                                 </a>
                             </li>
