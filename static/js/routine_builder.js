@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.getElementById("library-search");
   const modalSearch = document.getElementById("modal-library-search");
   const modalExerciseList = document.getElementById("modal-exercise-list");
+  let lastFocusedElement = null;
 
   // --- Search Functionality (Desktop and Modal) ---
   function initFilter(searchInput, filterDropdown, selector) {
@@ -181,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target.closest(".view-exercise-detail")) {
       e.preventDefault();
       const link = e.target.closest(".view-exercise-detail");
+      lastFocusedElement = e.target.closest(".view-exercise-detail");
       const exId = link.dataset.id;
       const modalElement = document.getElementById("exerciseDetailModal");
       if (modalElement) {
@@ -196,6 +198,24 @@ document.addEventListener("DOMContentLoaded", function () {
             if (typeof window.initExerciseChart === "function") window.initExerciseChart(exId);
           });
       }
+    }
+  });
+
+  // --- Restore Focus After Modal Close ---
+  const modalIds = ['exerciseDetailModal', 'addExerciseToRoutineModal'];
+  modalIds.forEach(id => {
+    const modalEl = document.getElementById(id);
+    if (modalEl) {
+      modalEl.addEventListener('hide.bs.modal', function () {
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+      });
+      modalEl.addEventListener('hidden.bs.modal', function () {
+        if (lastFocusedElement) {
+          lastFocusedElement.focus();
+        }
+      });
     }
   });
 

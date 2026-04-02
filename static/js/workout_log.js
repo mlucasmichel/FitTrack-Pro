@@ -5,6 +5,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   const exerciseCards = document.getElementById("exercise-cards");
 
+  let lastFocusedElement = null;
+
   // --- Add Exercise Card from Modal ---
   const exerciseList = document.getElementById("exercise-list");
   if (exerciseList) {
@@ -114,10 +116,11 @@ document.addEventListener("DOMContentLoaded", function () {
         e.target.closest(".exercise-card").remove();
       }
 
-      // 4. View Exercise Detail Modal (AJAX)
+      // 4. View Exercise Detail Modal
       if (e.target.closest(".view-exercise-detail")) {
         e.preventDefault();
         const link = e.target.closest(".view-exercise-detail");
+        lastFocusedElement = link;
         const exId = link.dataset.id;
         const exName = link.dataset.name;
 
@@ -145,6 +148,21 @@ document.addEventListener("DOMContentLoaded", function () {
               console.error("Error fetching exercise details:", error);
             });
         }
+      }
+    });
+  }
+
+  // --- Restore Focus After Modal Close ---
+  const detailModalEl = document.getElementById('exerciseDetailModal');
+  if (detailModalEl) {
+    detailModalEl.addEventListener('hide.bs.modal', function () {
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
+    });
+    detailModalEl.addEventListener('hidden.bs.modal', function () {
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
       }
     });
   }
