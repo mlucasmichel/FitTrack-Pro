@@ -54,4 +54,21 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error("Error parsing nutrition data:", error);
         }
     }
+
+    // Return focus to trigger element when modals are closed
+    const logMealModal = document.getElementById('logMealModal');
+    let logMealTrigger = document.querySelector('[data-bs-target="#logMealModal"]');
+
+    if (logMealModal) {
+        logMealModal.addEventListener('hide.bs.modal', function () {
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+        });
+        logMealModal.addEventListener('hidden.bs.modal', function () {
+            if (logMealTrigger) {
+                logMealTrigger.focus();
+            }
+        });
+    }
 });
