@@ -42,7 +42,7 @@ The following tests were performed manually on both the local development enviro
 | **3.2** | Unrestricted access | Navigate to Routines and Nutrition as an Active subscriber. | Previously locked "Pro" plans are now fully accessible and clickable. | [Pass] |
 | **3.3** | Unlimited custom plans | Navigate to Routines and Nutrition. | The 3-routine and 3-meal/day limits are removed. Buttons remain active. | [Pass] |
 | **3.4** | Interactive charts | Log a workout, then view the Exercise Detail page. | Chart.js renders a line chart of volume history. Toggle buttons change metrics. | [Pass] |
-| **3.5** | Manage subscription | *Future implementation (e.g., Stripe Customer Portal).* | - | N/A |
+| **3.5** | Manage subscription | Click "Manage Billing" in Settings or Profile. | Successfully redirects to Stripe Customer Portal. | [Pass] |
 
 ### 2.4 Site Administrator
 | ID | User Story | Action | Expected Result | Pass/Fail |

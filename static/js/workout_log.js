@@ -1,7 +1,3 @@
-/**
-* Handles dynamic functionality for the workout logging page.
-* Manages adding/removing exercises and sets, and AJAX loading for exercise details.
-*/
 document.addEventListener("DOMContentLoaded", function () {
   const exerciseCards = document.getElementById("exercise-cards");
 

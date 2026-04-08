@@ -1,8 +1,3 @@
-/**
-* This script handles the drag-and-drop functionality for the routine builder page,
-* as well as the mobile-friendly modal selection.
-*/
-
 document.addEventListener("DOMContentLoaded", function () {
   const libraryZone = document.getElementById("exercise-library-zone");
   const builderZone = document.getElementById("routine-builder-zone");

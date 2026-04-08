@@ -1,8 +1,3 @@
-/**
- * Dashboard Chart Initialization
- * This script initializes the weekly activity bar chart on the dashboard page.
- * It retrieves the chart data and labels from hidden script tags, applies theme colors, and configures Chart.js options for a clean and responsive design.
- */
 document.addEventListener("DOMContentLoaded", function () {
   const canvasElement = document.getElementById("weeklyActivityChart");
   const labelsElement = document.getElementById("dash-labels");

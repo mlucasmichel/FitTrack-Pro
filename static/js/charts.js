@@ -1,8 +1,4 @@
-/**
-* charts.js - Initializes interactive progress charts for exercises.
-*/
 window.activeCharts = {};
-
 window.initExerciseChart = function (exerciseId) {
   const triggerEl = document.querySelector(`[data-eid="${exerciseId}"], [data-id="${exerciseId}"]`);
   const isBodyweight = triggerEl?.dataset.isBw === 'true';
