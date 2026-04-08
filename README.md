@@ -127,7 +127,7 @@ Comprehensive testing results, including manual test cases, automated unit tests
 
 ## 6. Deployment
 
-The live deployed application can be found on Heroku here: [**FitTrack Pro Live Site**](your-heroku-link-here)
+The live deployed application can be found on Heroku here: [**FitTrack Pro**](https://fittrack-pro-48af9670b2de.herokuapp.com/).
 
 ### 6.1 PostgreSQL Database Setup
 This project uses a PostgreSQL database. You must create one before deploying:
