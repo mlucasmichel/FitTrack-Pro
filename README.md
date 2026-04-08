@@ -173,6 +173,7 @@ If you wish to run this project locally, follow these steps:
 5. **Install dependencies:**
 `pip install -r requirements.txt`
 6. **Set up Environment Variables:** Create a file named `env.py` in the root directory. Add your credentials:
+```
 import os
 os.environ.setdefault("DATABASE_URL", "your_database_url")
 os.environ.setdefault("SECRET_KEY", "your_secret_key")
@@ -183,6 +184,7 @@ os.environ.setdefault("STRIPE_WH_SECRET", "your_stripe_webhook_secret")
 os.environ.setdefault("RAPIDAPI_KEY", "your_rapidapi_key")
 os.environ.setdefault("RAPIDAPI_HOST", "your_rapidapi_host")
 os.environ.setdefault("DEVELOPMENT", "True")
+```
 7. **Migrate the database:**
 `python manage.py migrate`
 8. **Load Meal Plan Fixtures:**
